@@ -1,0 +1,13 @@
+/node_modules
+/.next
+/out
+/build
+*.tsbuildinfo
+next-env.d.ts
+.env*.local
+.DS_Store
+
+# локальный конфиг Claude Code / тулинга
+.claude/
+npm-debug.log*
+.vercel

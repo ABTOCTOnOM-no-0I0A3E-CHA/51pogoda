@@ -1,0 +1,2018 @@
+[
+  {
+    "slug": "murmansk",
+    "name": "Мурманск",
+    "yrId": "2-524305",
+    "lat": 68.9678,
+    "lon": 33.0992,
+    "category": "Regionshovedstad",
+    "categoryId": "CB11"
+  },
+  {
+    "slug": "auroravillage",
+    "name": "Аврора Вилладж",
+    "yrId": "2-12541652",
+    "lat": 68.8738,
+    "lon": 34.1107,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "alakurtti",
+    "name": "Алакуртти",
+    "yrId": "2-583472",
+    "lat": 66.9672,
+    "lon": 30.349,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "apatity",
+    "name": "Апатиты",
+    "yrId": "2-581357",
+    "lat": 67.5827,
+    "lon": 33.4134,
+    "category": "Administrasjonssenter",
+    "categoryId": "CE12"
+  },
+  {
+    "slug": "aeroport-khibiny",
+    "name": "а/п «Хибины»",
+    "yrId": "2-7668517",
+    "lat": 67.4633,
+    "lon": 33.5883,
+    "category": "Lufthavn",
+    "categoryId": "KG01"
+  },
+  {
+    "slug": "afrikanda",
+    "name": "Африканда",
+    "yrId": "2-584087",
+    "lat": 67.4429,
+    "lon": 32.7828,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "beloe-more",
+    "name": "Белое море",
+    "yrId": "2-871270",
+    "lat": 67.0794,
+    "lon": 32.265,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "belokamenka",
+    "name": "Белокаменка",
+    "yrId": "2-577949",
+    "lat": 69.0812,
+    "lon": 33.1776,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "bolshoe-ozerko",
+    "name": "Большое Озерко",
+    "yrId": "2-513462",
+    "lat": 69.7344,
+    "lon": 32.1741,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "ramozero",
+    "name": "Большое Рамозеро",
+    "yrId": "2-12382335",
+    "lat": 68.2256,
+    "lon": 33.8614,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "turbaza-bolshoe-ozerko",
+    "name": "турб.\"Бухта Большое Озерко\"",
+    "yrId": "2-12358917",
+    "lat": 69.7171,
+    "lon": 32.1664,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "borisoglebsk",
+    "name": "КПП Борисоглебск",
+    "yrId": "2-572523",
+    "lat": 69.6504,
+    "lon": 30.1442,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "vajdaguba",
+    "name": "Вайда-Губа",
+    "yrId": "2-829296",
+    "lat": 69.936,
+    "lon": 31.9674,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "varzuga",
+    "name": "Варзуга",
+    "yrId": "2-476871",
+    "lat": 66.4009,
+    "lon": 36.5909,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "verkhnetulomskij",
+    "name": "Верхнетуломский",
+    "yrId": "2-475469",
+    "lat": 68.6073,
+    "lon": 31.7962,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "verkhnij-kildin",
+    "name": "Верхний Кильдин",
+    "yrId": "2-828224",
+    "lat": 69.3517,
+    "lon": 34.0286,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "vidyaevo",
+    "name": "Видяево",
+    "yrId": "2-795235",
+    "lat": 69.3191,
+    "lon": 32.8049,
+    "category": "Administrasjonssenter",
+    "categoryId": "CE12"
+  },
+  {
+    "slug": "vitino",
+    "name": "порт Витино",
+    "yrId": "2-11361391",
+    "lat": 67.0833,
+    "lon": 32.3167,
+    "category": "Havn",
+    "categoryId": "KJ11"
+  },
+  {
+    "slug": "vosmus",
+    "name": "Восмус",
+    "yrId": "2-471560",
+    "lat": 68.7053,
+    "lon": 32.1167,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "vostochnaya-litsa",
+    "name": "Восточная Лица",
+    "yrId": "2-471544",
+    "lat": 68.6292,
+    "lon": 37.7891,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "munozero",
+    "name": "Восточное Мунозеро",
+    "yrId": "2-471526",
+    "lat": 67.0215,
+    "lon": 34.7956,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "vysokij",
+    "name": "Высокий",
+    "yrId": "2-11888168",
+    "lat": 68.1358,
+    "lon": 33.4192,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "gadzhievo",
+    "name": "Гаджиево",
+    "yrId": "2-562245",
+    "lat": 69.2551,
+    "lon": 33.3362,
+    "category": "By",
+    "categoryId": "CE11"
+  },
+  {
+    "slug": "golitsino",
+    "name": "Голицино",
+    "yrId": "2-560754",
+    "lat": 69.0464,
+    "lon": 35.7719,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "prognoz-pogody-goryachie-ruchi",
+    "name": "Горячие Ручьи",
+    "yrId": "2-559318",
+    "lat": 69.1737,
+    "lon": 33.4706,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "granitnyj",
+    "name": "Гранитный",
+    "yrId": "2-559055",
+    "lat": 69.2642,
+    "lon": 33.826,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "ostrovnoj",
+    "name": "Гремиха",
+    "yrId": "2-556268",
+    "lat": 68.0545,
+    "lon": 39.5121,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "dalnie-zelentsy",
+    "name": "Дальние Зеленцы",
+    "yrId": "2-567241",
+    "lat": 69.1162,
+    "lon": 36.0642,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "enskij",
+    "name": "Ёнский",
+    "yrId": "2-831272",
+    "lat": 67.581,
+    "lon": 31.155,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "zhemchuzhnaya",
+    "name": "Жемчужная",
+    "yrId": "2-463236",
+    "lat": 66.921,
+    "lon": 32.2095,
+    "category": "Stasjon",
+    "categoryId": "KE21"
+  },
+  {
+    "slug": "zaozjorsk",
+    "name": "Заозёрск",
+    "yrId": "2-828218",
+    "lat": 69.4013,
+    "lon": 32.4484,
+    "category": "Administrasjonssenter",
+    "categoryId": "CE12"
+  },
+  {
+    "slug": "zapadnaya-litsa",
+    "name": "Западная Лица",
+    "yrId": "2-464888",
+    "lat": 69.4246,
+    "lon": 32.2763,
+    "category": "Elv",
+    "categoryId": "SP01"
+  },
+  {
+    "slug": "zapolyarnyj",
+    "name": "Заполярный",
+    "yrId": "2-464790",
+    "lat": 69.426,
+    "lon": 30.811,
+    "category": "By",
+    "categoryId": "CE11"
+  },
+  {
+    "slug": "zarechensk",
+    "name": "Зареченск",
+    "yrId": "2-464680",
+    "lat": 66.6799,
+    "lon": 31.4271,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "zasheek",
+    "name": "Зашеек",
+    "yrId": "2-464310",
+    "lat": 67.4041,
+    "lon": 32.548,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "zverosovkhoz",
+    "name": "Зверосовхоз",
+    "yrId": "2-12420889",
+    "lat": 68.8408,
+    "lon": 33.0979,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "zelenoborskij",
+    "name": "Зеленоборский",
+    "yrId": "2-463838",
+    "lat": 66.845,
+    "lon": 32.3622,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "tur-zelenyj-bereg",
+    "name": "турб. Зеленый берег",
+    "yrId": "2-12382461",
+    "lat": 68.7334,
+    "lon": 30.9042,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "zubovka",
+    "name": "Зубовка",
+    "yrId": "2-462039",
+    "lat": 69.7678,
+    "lon": 32.6164,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "imandra",
+    "name": "Имандра",
+    "yrId": "2-556885",
+    "lat": 67.8489,
+    "lon": 33.2603,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "inga",
+    "name": "Инга",
+    "yrId": "2-556362",
+    "lat": 67.1564,
+    "lon": 34.3637,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "indel",
+    "name": "Индель",
+    "yrId": "2-831418",
+    "lat": 66.9627,
+    "lon": 35.2818,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kajlara",
+    "name": "Кайлары",
+    "yrId": "2-551619",
+    "lat": 66.9239,
+    "lon": 29.5888,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kandalaksha",
+    "name": "Кандалакша",
+    "yrId": "2-553190",
+    "lat": 67.1512,
+    "lon": 32.4128,
+    "category": "By",
+    "categoryId": "CE10"
+  },
+  {
+    "slug": "kanevka",
+    "name": "Каневка",
+    "yrId": "2-553153",
+    "lat": 67.128,
+    "lon": 39.6745,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kashkarantsy",
+    "name": "Кашкаранцы",
+    "yrId": "2-551933",
+    "lat": 66.3383,
+    "lon": 36.0104,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kilp-yavr",
+    "name": "Килпъявр",
+    "yrId": "2-548680",
+    "lat": 69.09,
+    "lon": 32.4264,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kildinstroj",
+    "name": "Кильдинстрой",
+    "yrId": "2-548723",
+    "lat": 68.8039,
+    "lon": 33.0994,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kitovybereg",
+    "name": "Китовый берег",
+    "yrId": "2-12382337",
+    "lat": 69.6477,
+    "lon": 31.8209,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "kitsa",
+    "name": "Кица и Песчаный",
+    "yrId": "2-548034",
+    "lat": 68.5143,
+    "lon": 33.192,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kirovsk",
+    "name": "Кировск",
+    "yrId": "2-548391",
+    "lat": 67.6148,
+    "lon": 33.6727,
+    "category": "By",
+    "categoryId": "CE11"
+  },
+  {
+    "slug": "knyazhaya",
+    "name": "станция Княжая",
+    "yrId": "2-547110",
+    "lat": 66.8189,
+    "lon": 32.3536,
+    "category": "Stasjon",
+    "categoryId": "KE21"
+  },
+  {
+    "slug": "koashva",
+    "name": "Коашва",
+    "yrId": "2-479066",
+    "lat": 67.5794,
+    "lon": 34.1617,
+    "category": "Elv",
+    "categoryId": "SP01"
+  },
+  {
+    "slug": "koashva2",
+    "name": "карьер Коашва",
+    "yrId": "2-11888190",
+    "lat": 67.6558,
+    "lon": 34.0822,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kovda",
+    "name": "Ковда",
+    "yrId": "2-543513",
+    "lat": 66.6927,
+    "lon": 32.8713,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kovdozero",
+    "name": "Ковдозеро",
+    "yrId": "2-543502",
+    "lat": 66.7609,
+    "lon": 31.56,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kovdor",
+    "name": "Ковдор",
+    "yrId": "2-543508",
+    "lat": 67.5663,
+    "lon": 30.4777,
+    "category": "Administrasjonssenter",
+    "categoryId": "CE12"
+  },
+  {
+    "slug": "kola",
+    "name": "Кола",
+    "yrId": "2-546554",
+    "lat": 68.8814,
+    "lon": 33.0177,
+    "category": "Administrasjonssenter",
+    "categoryId": "CE12"
+  },
+  {
+    "slug": "s-kolvitsa",
+    "name": "Колвица",
+    "yrId": "2-546032",
+    "lat": 67.0834,
+    "lon": 32.9874,
+    "category": "Elv",
+    "categoryId": "SP01"
+  },
+  {
+    "slug": "kolskaya-aes",
+    "name": "Кольская АЭС",
+    "yrId": "2-11821615",
+    "lat": 67.4667,
+    "lon": 32.4667,
+    "category": "Kraftstasjon",
+    "categoryId": "ES01"
+  },
+  {
+    "slug": "teriberka-tumannyj",
+    "name": "Кольская ВЭС",
+    "yrId": "2-12639788",
+    "lat": 68.8472,
+    "lon": 34.8125,
+    "category": "Kraftstasjon",
+    "categoryId": "ES01"
+  },
+  {
+    "slug": "sverhglubokaya",
+    "name": "Кольская сверхгл. скважина",
+    "yrId": "2-13383306",
+    "lat": 69.3963,
+    "lon": 30.6095,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "kolmozerkoe",
+    "name": "Колмозерское мест.",
+    "yrId": "2-546390",
+    "lat": 67.9545,
+    "lon": 36.8345,
+    "category": "Innsjø",
+    "categoryId": "SC01"
+  },
+  {
+    "slug": "korabelnoe",
+    "name": "Корабельное, р. Поной",
+    "yrId": "2-545013",
+    "lat": 67.0024,
+    "lon": 41.2743,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "korzunovo",
+    "name": "Корзуново",
+    "yrId": "2-544322",
+    "lat": 69.4005,
+    "lon": 31.0098,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "krasnoshchele",
+    "name": "Краснощелье",
+    "yrId": "2-542217",
+    "lat": 67.351,
+    "lon": 37.0483,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kuvsalma",
+    "name": "Кувшинская Салма",
+    "yrId": "2-538100",
+    "lat": 69.3053,
+    "lon": 33.4212,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kuzomen",
+    "name": "Кузомень",
+    "yrId": "2-537604",
+    "lat": 66.289,
+    "lon": 36.8502,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kuzreka",
+    "name": "Кузрека",
+    "yrId": "2-537576",
+    "lat": 66.6069,
+    "lon": 34.8139,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "kuolayarvi",
+    "name": "Куолаярви",
+    "yrId": "2-539084",
+    "lat": 66.9699,
+    "lon": 29.2188,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kuropta",
+    "name": "Куропта",
+    "yrId": "2-831270",
+    "lat": 67.4822,
+    "lon": 30.8354,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kutskol",
+    "name": "Куцколь",
+    "yrId": "2-538200",
+    "lat": 68.2739,
+    "lon": 32.3932,
+    "category": "Innsjø",
+    "categoryId": "SC01"
+  },
+  {
+    "slug": "kuna",
+    "name": "Куна",
+    "yrId": "2-539201",
+    "lat": 68,
+    "lon": 33.4,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "lavna",
+    "name": "порт Лавна",
+    "yrId": "2-531548",
+    "lat": 69.0333,
+    "lon": 32.9667,
+    "category": "Elv",
+    "categoryId": "SP01"
+  },
+  {
+    "slug": "laplandskiy",
+    "name": "Лапландский заповедник",
+    "yrId": "2-578479",
+    "lat": 67.6526,
+    "lon": 32.6479,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "laplandvillage",
+    "name": "Лапландская деревня",
+    "yrId": "2-12541646",
+    "lat": 68.6807,
+    "lon": 33.175,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "lakhta",
+    "name": "Лахта",
+    "yrId": "2-537121",
+    "lat": 66.9921,
+    "lon": 41.2367,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "lejpi",
+    "name": "Лейпи",
+    "yrId": "2-535394",
+    "lat": 67.4523,
+    "lon": 30.7638,
+    "category": "Elv",
+    "categoryId": "SP01"
+  },
+  {
+    "slug": "lesozavodskij",
+    "name": "Лесозаводский",
+    "yrId": "2-535651",
+    "lat": 66.7299,
+    "lon": 32.8389,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "liinakhamari",
+    "name": "Лиинахамари",
+    "yrId": "2-535185",
+    "lat": 69.6398,
+    "lon": 31.3214,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "s-lovozero",
+    "name": "Ловозеро",
+    "yrId": "2-533933",
+    "lat": 68.0056,
+    "lon": 35.0187,
+    "category": "Administrasjonssenter",
+    "categoryId": "CE12"
+  },
+  {
+    "slug": "loparskaya",
+    "name": "Лопарская",
+    "yrId": "2-534240",
+    "lat": 68.6374,
+    "lon": 33.2197,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "lotta",
+    "name": "КПП Лотта",
+    "yrId": "2-640085",
+    "lat": 68.4652,
+    "lon": 28.4616,
+    "category": "Hus",
+    "categoryId": "EB13"
+  },
+  {
+    "slug": "luvenga",
+    "name": "Лувеньга",
+    "yrId": "2-533150",
+    "lat": 67.1006,
+    "lon": 32.712,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "lumbovka",
+    "name": "Лумбовка",
+    "yrId": "2-533345",
+    "lat": 67.7347,
+    "lon": 40.5253,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "luostari",
+    "name": "Луостари",
+    "yrId": "2-533254",
+    "lat": 69.422,
+    "lon": 31.0495,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "magnetity",
+    "name": "Магнетиты",
+    "yrId": "2-532293",
+    "lat": 68.6777,
+    "lon": 33.126,
+    "category": "Stasjon",
+    "categoryId": "KE21"
+  },
+  {
+    "slug": "mezhdureche",
+    "name": "Междуречье",
+    "yrId": "2-795250",
+    "lat": 69.0334,
+    "lon": 32.9461,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "mishukovo",
+    "name": "Мишуково",
+    "yrId": "2-795249",
+    "lat": 69.0452,
+    "lon": 33.0373,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kildinskoe",
+    "name": "б/о МКТИ, Кильдинское",
+    "yrId": "2-548724",
+    "lat": 68.8587,
+    "lon": 33.2406,
+    "category": "Innsjø",
+    "categoryId": "SC01"
+  },
+  {
+    "slug": "maloolene",
+    "name": "Малооленье",
+    "yrId": "2-530625",
+    "lat": 69.2364,
+    "lon": 34.681,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "mokket",
+    "name": "Моккет",
+    "yrId": "2-525768",
+    "lat": 69.1906,
+    "lon": 31.6928,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "monchegorsk",
+    "name": "Мончегорск",
+    "yrId": "2-525404",
+    "lat": 67.9397,
+    "lon": 32.8739,
+    "category": "By",
+    "categoryId": "CE10"
+  },
+  {
+    "slug": "aerodrom-monchegorsk",
+    "name": "аэродром Мончегорск",
+    "yrId": "2-11458822",
+    "lat": 67.989,
+    "lon": 33.0185,
+    "category": "Flybase",
+    "categoryId": "EV04"
+  },
+  {
+    "slug": "moseevo",
+    "name": "Мосеево",
+    "yrId": "2-12358919",
+    "lat": 66.5668,
+    "lon": 34.9827,
+    "category": "Lite sted",
+    "categoryId": "CK21"
+  },
+  {
+    "slug": "aeroport-murmansk",
+    "name": "аэропорт Мурманск",
+    "yrId": "2-6300972",
+    "lat": 68.7817,
+    "lon": 32.7508,
+    "category": "Lufthavn",
+    "categoryId": "KG01"
+  },
+  {
+    "slug": "murmashi",
+    "name": "Мурмаши",
+    "yrId": "2-524299",
+    "lat": 68.8154,
+    "lon": 32.8115,
+    "category": "By",
+    "categoryId": "CE11"
+  },
+  {
+    "slug": "nefelinovye-peski",
+    "name": "Нефелиновые Пески",
+    "yrId": "2-522952",
+    "lat": 67.762,
+    "lon": 33.1954,
+    "category": "Stasjon",
+    "categoryId": "KE21"
+  },
+  {
+    "slug": "nivskij",
+    "name": "Нивский",
+    "yrId": "2-521240",
+    "lat": 67.2981,
+    "lon": 32.4802,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "nikel",
+    "name": "Никель",
+    "yrId": "2-522260",
+    "lat": 69.4129,
+    "lon": 30.222,
+    "category": "By",
+    "categoryId": "CE11"
+  },
+  {
+    "slug": "nivankyul",
+    "name": "Ниванкюль",
+    "yrId": "2-521268",
+    "lat": 68.3532,
+    "lon": 30.7227,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "mayak-nikodimskij",
+    "name": "маяк Никодимский",
+    "yrId": "2-870705",
+    "lat": 66.1071,
+    "lon": 39.0956,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "nyamozero",
+    "name": "Нямозеро",
+    "yrId": "2-516649",
+    "lat": 66.9611,
+    "lon": 31.4507,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "oktyabrskij",
+    "name": "Октябрьский",
+    "yrId": "2-829167",
+    "lat": 67.4921,
+    "lon": 34.3135,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "olenegorsk",
+    "name": "Оленегорск",
+    "yrId": "2-515698",
+    "lat": 68.1432,
+    "lon": 33.2529,
+    "category": "By",
+    "categoryId": "CE11"
+  },
+  {
+    "slug": "olenitsa",
+    "name": "Оленица",
+    "yrId": "2-515682",
+    "lat": 66.4698,
+    "lon": 35.3212,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "pechenga",
+    "name": "Печенга",
+    "yrId": "2-511865",
+    "lat": 69.5259,
+    "lon": 31.1703,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "pinozero",
+    "name": "Пинозеро",
+    "yrId": "2-509459",
+    "lat": 67.3213,
+    "lon": 32.4945,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "pirenga",
+    "name": "Пиренга",
+    "yrId": "2-509424",
+    "lat": 67.5443,
+    "lon": 32.3277,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "pitkul",
+    "name": "Питкуль",
+    "yrId": "2-516035",
+    "lat": 67.4616,
+    "lon": 33.188,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "polyarnye-zori",
+    "name": "Полярные Зори",
+    "yrId": "2-506762",
+    "lat": 67.3661,
+    "lon": 32.4981,
+    "category": "By",
+    "categoryId": "CE11"
+  },
+  {
+    "slug": "polyarnyj",
+    "name": "Полярный",
+    "yrId": "2-506763",
+    "lat": 69.2028,
+    "lon": 33.437,
+    "category": "Administrasjonssenter",
+    "categoryId": "CE12"
+  },
+  {
+    "slug": "ponoj",
+    "name": "Поной",
+    "yrId": "2-506617",
+    "lat": 67.0744,
+    "lon": 41.1244,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "port-vladimir",
+    "name": "Порт-Владимир",
+    "yrId": "2-506182",
+    "lat": 69.4152,
+    "lon": 33.1148,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "poyakonda",
+    "name": "Пояконда",
+    "yrId": "2-505795",
+    "lat": 66.5943,
+    "lon": 32.8209,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "prirechnyj",
+    "name": "Приречный",
+    "yrId": "2-505216",
+    "lat": 69.0143,
+    "lon": 30.2907,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "protoki",
+    "name": "Протоки",
+    "yrId": "2-12382467",
+    "lat": 68.108,
+    "lon": 33.9282,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "puncha",
+    "name": "Пунча",
+    "yrId": "2-504151",
+    "lat": 67.6767,
+    "lon": 34.5776,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "pushnoj",
+    "name": "Пушной",
+    "yrId": "2-503949",
+    "lat": 68.4807,
+    "lon": 33.3228,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "pyalitsa",
+    "name": "Пялица",
+    "yrId": "2-503624",
+    "lat": 66.1911,
+    "lon": 39.5251,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "pyajve",
+    "name": "Пяйве",
+    "yrId": "2-503461",
+    "lat": 68.9516,
+    "lon": 32.437,
+    "category": "Innsjø",
+    "categoryId": "SC01"
+  },
+  {
+    "slug": "rayakoski",
+    "name": "Раякоски",
+    "yrId": "2-502572",
+    "lat": 69.0202,
+    "lon": 28.9866,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "revda",
+    "name": "Ревда",
+    "yrId": "2-502010",
+    "lat": 67.9371,
+    "lon": 34.5615,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "rsdn-20-revda",
+    "name": "РСДН-20 - Ревда",
+    "yrId": "2-7284556",
+    "lat": 68.0366,
+    "lon": 34.6789,
+    "category": "Radiostasjon",
+    "categoryId": "EG02"
+  },
+  {
+    "slug": "rizh-guba",
+    "name": "Риж-Губа",
+    "yrId": "2-501866",
+    "lat": 67.872,
+    "lon": 33.098,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "rikolatva",
+    "name": "Риколатва",
+    "yrId": "2-831269",
+    "lat": 67.4958,
+    "lon": 31.3093,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "ristikent",
+    "name": "Ристикент",
+    "yrId": "2-13535803",
+    "lat": 68.6635,
+    "lon": 31.6783,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "roslyakovo",
+    "name": "Росляково",
+    "yrId": "2-501265",
+    "lat": 69.043,
+    "lon": 33.1991,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "romanovo",
+    "name": "Романово",
+    "yrId": "2-13512921",
+    "lat": 69.6719,
+    "lon": 31.4858,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "rudnyj",
+    "name": "Рудный",
+    "yrId": "2-500647",
+    "lat": 67.95,
+    "lon": 33.3333,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "sajdaguba",
+    "name": "Сайда Губа",
+    "yrId": "2-498103",
+    "lat": 69.2419,
+    "lon": 33.2286,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kpp-salla",
+    "name": "КПП Салла",
+    "yrId": "2-12358920",
+    "lat": 66.9447,
+    "lon": 29.037,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "salmiyarvi",
+    "name": "Сальмиярви",
+    "yrId": "2-499225",
+    "lat": 69.4381,
+    "lon": 30.1189,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "safonovo",
+    "name": "Сафоново",
+    "yrId": "2-499439",
+    "lat": 69.0604,
+    "lon": 33.2952,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "sam-syjt",
+    "name": "Самь Сыйт",
+    "yrId": "2-12358921",
+    "lat": 68.1328,
+    "lon": 33.9322,
+    "category": "Lite sted",
+    "categoryId": "CK21"
+  },
+  {
+    "slug": "severomorsk",
+    "name": "Североморск",
+    "yrId": "2-496278",
+    "lat": 69.0694,
+    "lon": 33.4081,
+    "category": "Administrasjonssenter",
+    "categoryId": "CE12"
+  },
+  {
+    "slug": "severomorsk1",
+    "name": "Североморск 1 - аэродром",
+    "yrId": "2-11458783",
+    "lat": 69.0326,
+    "lon": 33.4193,
+    "category": "Flybase",
+    "categoryId": "EV04"
+  },
+  {
+    "slug": "severomorsk-3",
+    "name": "Североморск-3",
+    "yrId": "2-6696921",
+    "lat": 68.8786,
+    "lon": 33.7263,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "mys-skorbeevskij",
+    "name": "Скорбеевка (Мыс Скорбеевский)",
+    "yrId": "2-828215",
+    "lat": 69.8924,
+    "lon": 32.1568,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "snezhnogorsk",
+    "name": "Снежногорск",
+    "yrId": "2-795243",
+    "lat": 69.1933,
+    "lon": 33.2531,
+    "category": "By",
+    "categoryId": "CE11"
+  },
+  {
+    "slug": "sosnovka",
+    "name": "Сосновка",
+    "yrId": "2-490237",
+    "lat": 66.5078,
+    "lon": 40.5838,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "sputnik",
+    "name": "Спутник",
+    "yrId": "2-870473",
+    "lat": 69.5103,
+    "lon": 31.3095,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "strelna",
+    "name": "Стрельна",
+    "yrId": "2-487228",
+    "lat": 66.0691,
+    "lon": 38.6587,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "tajbola",
+    "name": "Тайбола",
+    "yrId": "2-483924",
+    "lat": 68.4372,
+    "lon": 33.3489,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "teriberka",
+    "name": "Териберка",
+    "yrId": "2-483379",
+    "lat": 69.1609,
+    "lon": 35.1453,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "staraya-titovka",
+    "name": "старая Титовка",
+    "yrId": "2-489048",
+    "lat": 69.482,
+    "lon": 31.8162,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "novaya-titovka",
+    "name": "новая Титовка",
+    "yrId": "2-482666",
+    "lat": 69.5419,
+    "lon": 32.013,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "tetrino",
+    "name": "Тетрино",
+    "yrId": "2-483158",
+    "lat": 66.0635,
+    "lon": 38.2432,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "titan",
+    "name": "Титан",
+    "yrId": "2-482702",
+    "lat": 67.5603,
+    "lon": 33.6406,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "tipanovka",
+    "name": "Типановка",
+    "yrId": "2-482776",
+    "lat": 69.2419,
+    "lon": 34.5443,
+    "category": "Elv",
+    "categoryId": "SP01"
+  },
+  {
+    "slug": "tuloma",
+    "name": "Тулома",
+    "yrId": "2-480524",
+    "lat": 68.8164,
+    "lon": 32.6872,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "tumannyj",
+    "name": "Туманный",
+    "yrId": "2-480472",
+    "lat": 68.8847,
+    "lon": 35.6944,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "tundrahouse",
+    "name": "Тундра Хаус",
+    "yrId": "2-12541651",
+    "lat": 69.6304,
+    "lon": 31.9551,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "tyuva-guba",
+    "name": "Тюва-Губа",
+    "yrId": "2-798585",
+    "lat": 69.187,
+    "lon": 33.6307,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "umba",
+    "name": "Умба",
+    "yrId": "2-479071",
+    "lat": 66.6871,
+    "lon": 34.3429,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "ura-guba",
+    "name": "Ура-Губа",
+    "yrId": "2-828219",
+    "lat": 69.2915,
+    "lon": 32.7984,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kharlovka",
+    "name": "Харловка",
+    "yrId": "2-550521",
+    "lat": 68.7787,
+    "lon": 37.3254,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "fedoseevka",
+    "name": "Федосеевка",
+    "yrId": "2-563042",
+    "lat": 67.1043,
+    "lon": 32.1906,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "tsypnavolok",
+    "name": "Цыпнаволок",
+    "yrId": "2-480726",
+    "lat": 69.7288,
+    "lon": 33.0862,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "chavanga",
+    "name": "Чаваньга",
+    "yrId": "2-569772",
+    "lat": 66.1097,
+    "lon": 37.7579,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "chan-ruchej",
+    "name": "Чан-Ручей",
+    "yrId": "2-569986",
+    "lat": 69.2747,
+    "lon": 32.8924,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "chapoma",
+    "name": "Чапома",
+    "yrId": "2-569925",
+    "lat": 66.1041,
+    "lon": 38.8696,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "shonguj",
+    "name": "Шонгуй",
+    "yrId": "2-493795",
+    "lat": 68.743,
+    "lon": 33.158,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "shchukozero",
+    "name": "Щукозеро",
+    "yrId": "2-495180",
+    "lat": 69.036,
+    "lon": 33.632,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "yurkino",
+    "name": "Юркино",
+    "yrId": "2-466366",
+    "lat": 68.7666,
+    "lon": 32.4036,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "yagelnyj-bor",
+    "name": "Ягельный Бор",
+    "yrId": "2-469776",
+    "lat": 68.0581,
+    "lon": 33.354,
+    "category": "Stasjon",
+    "categoryId": "KE21"
+  },
+  {
+    "slug": "yaniskoski",
+    "name": "Янискоски",
+    "yrId": "2-8629516",
+    "lat": 68.9689,
+    "lon": 28.7781,
+    "category": "Landsby",
+    "categoryId": "CK12"
+  },
+  {
+    "slug": "prognoz-pogody-ozero-kanentyavr",
+    "name": "Турбаза 49 км (о. Канентъявр)",
+    "yrId": "2-553157",
+    "lat": 68.8666,
+    "lon": 34.136,
+    "category": "Innsjø",
+    "categoryId": "SC01"
+  },
+  {
+    "slug": "gidrostroya",
+    "name": "турбаза Гидростроя",
+    "yrId": "2-13535794",
+    "lat": 68.4116,
+    "lon": 31.1592,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "arktic",
+    "name": "Арктик парк",
+    "yrId": "2-13535795",
+    "lat": 68.497,
+    "lon": 31.5897,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "lotta2",
+    "name": "турбаза Лотта",
+    "yrId": "2-13535796",
+    "lat": 68.695,
+    "lon": 31.3608,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "pecha",
+    "name": "турбаза Печа",
+    "yrId": "2-13535804",
+    "lat": 68.5848,
+    "lon": 31.7645,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "kanentyavr",
+    "name": "база отдыха Усадьба Канентъявр",
+    "yrId": "2-12541653",
+    "lat": 68.8774,
+    "lon": 34.126,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "semerka",
+    "name": "Семерка",
+    "yrId": "2-13354072",
+    "lat": 67.9761,
+    "lon": 35.078,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "severnie-prostory",
+    "name": "Северные просторы",
+    "yrId": "2-13354078",
+    "lat": 67.7063,
+    "lon": 35.0538,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "severnyj_ostrov",
+    "name": "Северный остров",
+    "yrId": "2-13354067",
+    "lat": 67.8355,
+    "lon": 35.1154,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "bear_corner",
+    "name": "Медвежий угол",
+    "yrId": "2-13354070",
+    "lat": 67.8492,
+    "lon": 35.2719,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "u-sejdozera",
+    "name": "У Сейдозера",
+    "yrId": "2-13354069",
+    "lat": 67.8234,
+    "lon": 35.0606,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "avrory",
+    "name": "Дом Авроры",
+    "yrId": "2-13354074",
+    "lat": 67.9326,
+    "lon": 35.1326,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "yulinskaya_salma",
+    "name": "Юлинская Салма",
+    "yrId": "2-13354066",
+    "lat": 67.8473,
+    "lon": 35.1925,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "v-berloge",
+    "name": "Клёвое Место в Берлоге",
+    "yrId": "2-13545845",
+    "lat": 67.6528,
+    "lon": 32.8935,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "ogni-imandry",
+    "name": "этнопарк Огни Имандры",
+    "yrId": "2-13545846",
+    "lat": 67.6205,
+    "lon": 33.0091,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "baza-imandra",
+    "name": "база отдыха Имандра",
+    "yrId": "2-13545847",
+    "lat": 67.5978,
+    "lon": 33.0741,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "lesnaya",
+    "name": "база отдыха Лесная",
+    "yrId": "2-12382308",
+    "lat": 67.564,
+    "lon": 33.2638,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "zalese",
+    "name": "база отдыха Залесье",
+    "yrId": "2-13545849",
+    "lat": 67.5235,
+    "lon": 33.3085,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "peschanyj",
+    "name": "турбаза Песчаный берег",
+    "yrId": "2-13545862",
+    "lat": 67.0863,
+    "lon": 33.2655,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "iova",
+    "name": "база отдыха Иова",
+    "yrId": "2-13545863",
+    "lat": 66.6596,
+    "lon": 31.3743,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "salma",
+    "name": "горнолыжный комплекс Салма",
+    "yrId": "2-12382322",
+    "lat": 67.4398,
+    "lon": 32.4549,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "kanda-viking",
+    "name": "база отдыха Канда-викинг",
+    "yrId": "2-13236440",
+    "lat": 67.0982,
+    "lon": 32.1231,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "dubldom",
+    "name": "ДубльДом в Кандалакше",
+    "yrId": "2-13236442",
+    "lat": 67.1336,
+    "lon": 32.5071,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "vilma",
+    "name": "турбаза Вильма",
+    "yrId": "2-13545870",
+    "lat": 66.8962,
+    "lon": 35.098,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "karavella",
+    "name": "турбаза Каравелла",
+    "yrId": "2-12541648",
+    "lat": 68.6119,
+    "lon": 33.2371,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "olenya",
+    "name": "турбаза Оленья",
+    "yrId": "2-13545900",
+    "lat": 68.6032,
+    "lon": 33.2141,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "turbaza-pirenga",
+    "name": "турбаза Пиренга",
+    "yrId": "2-13545864",
+    "lat": 67.5721,
+    "lon": 32.2363,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "pogost",
+    "name": "Погост (р. Умба)",
+    "yrId": "2-479065",
+    "lat": 66.7687,
+    "lon": 34.3492,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "lodochnyj-ruchej",
+    "name": "турбаза Лодочный ручей",
+    "yrId": "2-13545892",
+    "lat": 66.2929,
+    "lon": 36.4039,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "cedar-grass",
+    "name": "Cedar Grass",
+    "yrId": "2-13545888",
+    "lat": 66.656,
+    "lon": 34.34,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "yagra",
+    "name": "гост. дома Ягра (Кузрека)",
+    "yrId": "2-13545880",
+    "lat": 66.5995,
+    "lon": 34.8277,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "lesnaya1",
+    "name": "турбаза Лесная",
+    "yrId": "2-13535805",
+    "lat": 68.7384,
+    "lon": 32.2456,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "golubaya",
+    "name": "турбаза Голубая бухта",
+    "yrId": "2-13535806",
+    "lat": 68.7524,
+    "lon": 32.3063,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "sever",
+    "name": "турбаза Север",
+    "yrId": "2-13535807",
+    "lat": 68.7586,
+    "lon": 32.3218,
+    "category": "Avfolket sted",
+    "categoryId": "CZ02"
+  },
+  {
+    "slug": "arktika",
+    "name": "турбаза Арктика",
+    "yrId": "2-13535811",
+    "lat": 68.7857,
+    "lon": 32.4905,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "satka",
+    "name": "турбаза Сатка",
+    "yrId": "2-13535812",
+    "lat": 68.7858,
+    "lon": 32.483,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "siyanie",
+    "name": "турбаза Сияние",
+    "yrId": "2-13535816",
+    "lat": 68.804,
+    "lon": 32.7301,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "severnoe-siyanie",
+    "name": "резиденция Северное Сияние",
+    "yrId": "2-13535817",
+    "lat": 68.8088,
+    "lon": 32.6706,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "zdorove",
+    "name": "турбаза Здоровье",
+    "yrId": "2-13535815",
+    "lat": 68.8221,
+    "lon": 32.739,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "ryaboga",
+    "name": "рыболовный лагерь Рябога",
+    "yrId": "2-13535849",
+    "lat": 67.0144,
+    "lon": 40.2555,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "acha",
+    "name": "рыболовный лагерь Ача",
+    "yrId": "2-584314",
+    "lat": 67.1304,
+    "lon": 39.7664,
+    "category": "Elv",
+    "categoryId": "SP01"
+  },
+  {
+    "slug": "pacha",
+    "name": "рыболовный лагерь Пача",
+    "yrId": "2-513311",
+    "lat": 67.0374,
+    "lon": 39.2351,
+    "category": "Elv",
+    "categoryId": "SP01"
+  },
+  {
+    "slug": "akkurvej",
+    "name": "рыболовный лагерь Аккурвэй",
+    "yrId": "2-536464",
+    "lat": 67.0623,
+    "lon": 38.574,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "jokanga",
+    "name": "стац. лагерь Йоканьга(р. Лыльйок)",
+    "yrId": "2-13535865",
+    "lat": 67.9482,
+    "lon": 39.2908,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "kharlovka2",
+    "name": "турбаза Харловка",
+    "yrId": "2-13535904",
+    "lat": 68.7384,
+    "lon": 37.2657,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "olenka",
+    "name": "лодж-отель Олёнка",
+    "yrId": "2-13535906",
+    "lat": 68.9755,
+    "lon": 36.3424,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "belousikha",
+    "name": "турбаза река Белоусиха Воронья",
+    "yrId": "2-577863",
+    "lat": 69.0705,
+    "lon": 35.7733,
+    "category": "Hytte",
+    "categoryId": "EB14"
+  },
+  {
+    "slug": "kourlaska",
+    "name": "база Коурласка",
+    "yrId": "2-13535837",
+    "lat": 69.2862,
+    "lon": 32.7938,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "baza-ura",
+    "name": "база Ура",
+    "yrId": "2-13535838",
+    "lat": 69.2829,
+    "lon": 32.7878,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "troe-v-lodke",
+    "name": "турбаза Трое в лодке",
+    "yrId": "2-13535839",
+    "lat": 69.2936,
+    "lon": 32.8183,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "zapolyarnyj-kordon",
+    "name": "турбаза Заполярный кордон",
+    "yrId": "2-13535840",
+    "lat": 69.5477,
+    "lon": 32.0046,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "turbaza-titovka",
+    "name": "турбаза Титовка",
+    "yrId": "2-482666",
+    "lat": 69.5419,
+    "lon": 32.013,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "arktik-river",
+    "name": "Титовка Арктик Ривер Парк",
+    "yrId": "2-13535842",
+    "lat": 69.5358,
+    "lon": 31.9852,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "garmoniya-severa",
+    "name": "турбаза Гармония Севера",
+    "yrId": "2-13535841",
+    "lat": 69.5847,
+    "lon": 32.1298,
+    "category": "Befolkede steder",
+    "categoryId": "CK02"
+  },
+  {
+    "slug": "sever-rybachij",
+    "name": "база отдыха Север",
+    "yrId": "2-13535844",
+    "lat": 69.7666,
+    "lon": 32.1003,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "lisitsa",
+    "name": "глэмпинг Лисица",
+    "yrId": "2-13535843",
+    "lat": 69.7082,
+    "lon": 32.1399,
+    "category": "Befolket sted",
+    "categoryId": "CK01"
+  },
+  {
+    "slug": "nemeckij",
+    "name": "Мистер Ристи (п-ов Немецкий)",
+    "yrId": "2-829294",
+    "lat": 69.705,
+    "lon": 31.4093,
+    "category": "Halvøy",
+    "categoryId": "SL01"
+  }
+]
