@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { City } from "@/entities/city";
-import { getCityWeather, buildSummary } from "@/entities/weather";
+import { getCityWeather, getAiSummary } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { CityHero } from "@/widgets/city-hero";
 import { AiSummary } from "@/widgets/ai-summary";
@@ -15,7 +15,7 @@ import { SiteFooter } from "@/widgets/site-footer";
 export async function CityPage({ city }: { city: City }) {
   const weather = await getCityWeather(city);
   const daylight = getDaylight(city.lat, new Date());
-  const summary = buildSummary(city, weather, daylight);
+  const summary = await getAiSummary(city, weather, daylight);
 
   return (
     <div className="content-padding" style={{ maxWidth: 1060, margin: "0 auto", padding: "24px 24px 80px" }}>
@@ -27,7 +27,7 @@ export async function CityPage({ city }: { city: City }) {
         <span style={{ fontWeight: 600, color: "#5a6b7b" }}>{city.name}</span>
       </nav>
 
-      <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16 }}>
+      <div className="hero-grid full-bleed-mobile" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.4fr) minmax(0,1fr)", gap: 16, alignItems: "start" }}>
         <CityHero city={city} weather={weather} daylight={daylight} />
         <AiSummary summary={summary} />
       </div>

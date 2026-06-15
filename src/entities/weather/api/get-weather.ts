@@ -20,9 +20,24 @@ export interface CityWithWeather {
   weather: CityWeather;
 }
 
-/* Параллельный прогноз для списка городов (сетка на главной) */
+/*
+  Прогноз для списка городов (сетка на главной). Запросы идут батчами,
+  а не одним залпом: api.met.no throttит пачки параллельных запросов и
+  отвечает 403/429. Ограничение конкурентности убирает это, а серверный
+  кэш прогноза делает задержку незаметной на повторных рендерах.
+*/
+const MET_CONCURRENCY = 4;
+
 export async function getCitiesWeather(cities: readonly City[]): Promise<CityWithWeather[]> {
-  return Promise.all(
-    cities.map(async (city) => ({ city, weather: await getCityWeather(city) })),
-  );
+  const result: CityWithWeather[] = [];
+
+  for (let i = 0; i < cities.length; i += MET_CONCURRENCY) {
+    const batch = cities.slice(i, i + MET_CONCURRENCY);
+    const settled = await Promise.all(
+      batch.map(async (city) => ({ city, weather: await getCityWeather(city) })),
+    );
+    result.push(...settled);
+  }
+
+  return result;
 }

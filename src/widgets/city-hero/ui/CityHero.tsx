@@ -45,8 +45,8 @@ export function CityHero({ city, weather, daylight }: CityHeroProps) {
           <WeatherIcon condition={current.condition} size={108} />
         </div>
         <div style={{ display: "flex", alignItems: "flex-start", flex: "none" }}>
-          <span className="temp-big" style={{ fontSize: 78, fontWeight: 800, lineHeight: 0.84, letterSpacing: "-.04em" }}>{signedTemp(current.temp).replace("°", "")}</span>
-          <span style={{ fontSize: 28, fontWeight: 600, marginTop: 8, color: "#41525f" }}>°C</span>
+          <span className="temp-big" style={{ fontSize: 78, fontWeight: 700, lineHeight: 0.84, letterSpacing: "-.03em" }}>{signedTemp(current.temp).replace("°", "")}</span>
+          <span style={{ fontSize: 28, fontWeight: 600, marginTop: 8, marginLeft: 7, color: "#41525f" }}>°C</span>
         </div>
         <div className="hero-now-info" style={{ paddingTop: 6, flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 21, fontWeight: 700 }}>{current.conditionLabel}</div>

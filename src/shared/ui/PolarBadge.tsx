@@ -1,12 +1,14 @@
 interface PolarBadgeProps {
   label: string;
   padding?: string;
+  className?: string;
 }
 
 /* Янтарная «таблетка» полярного дня/ночи в углу hero-блока */
-export function PolarBadge({ label, padding = "7px 14px" }: PolarBadgeProps) {
+export function PolarBadge({ label, padding = "7px 14px", className }: PolarBadgeProps) {
   return (
     <div
+      className={className}
       style={{
         display: "flex",
         alignItems: "center",

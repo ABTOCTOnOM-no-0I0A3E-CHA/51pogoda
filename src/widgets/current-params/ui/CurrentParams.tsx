@@ -9,7 +9,7 @@ export function CurrentParams({ current }: { current: CurrentWeather }) {
   return (
     <div style={{ marginTop: 22 }}>
       <h2 style={{ margin: "0 0 12px", fontSize: 18, fontWeight: 800, letterSpacing: "-.01em" }}>Подробно сейчас</h2>
-      <div className="params-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10 }}>
+      <div className="params-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,minmax(0,1fr))", gap: 10 }}>
         {params.map((param) => (
           <ParamCard key={param.id} param={param} />
         ))}

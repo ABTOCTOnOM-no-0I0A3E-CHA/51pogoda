@@ -3,9 +3,24 @@ import type { CityWithWeather } from "@/entities/weather";
 import { WeatherIcon } from "@/entities/weather";
 import { signedTemp } from "@/shared/lib/format";
 
-export function CitiesGrid({ items }: { items: CityWithWeather[] }) {
-  /* Сначала города, затем пгт и сёла — как в исходном макете */
-  const ordered = [...items].sort((a, b) => rank(a.city.kind) - rank(b.city.kind));
+interface CitiesGridProps {
+  items: CityWithWeather[];
+  recentSlugs?: string[];
+}
+
+export function CitiesGrid({ items, recentSlugs = [] }: CitiesGridProps) {
+  const recentSet = new Set(recentSlugs);
+
+  // Недавно посещённые — в порядке визитов, затем остальные по рангу
+  const recentItems = recentSlugs
+    .map((slug) => items.find((i) => i.city.slug === slug))
+    .filter((x): x is CityWithWeather => x !== undefined);
+
+  const restItems = [...items]
+    .filter((i) => !recentSet.has(i.city.slug))
+    .sort((a, b) => rank(a.city.kind) - rank(b.city.kind));
+
+  const ordered = [...recentItems, ...restItems];
 
   return (
     <div style={{ marginTop: 38 }}>
@@ -16,9 +31,10 @@ export function CitiesGrid({ items }: { items: CityWithWeather[] }) {
         </a>
       </div>
 
-      <div className="cities-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14 }}>
+      <div className="cities-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 14 }}>
         {ordered.map(({ city, weather }) => {
           const big = city.kind === "город";
+          const isRecent = recentSet.has(city.slug);
           const { current } = weather;
 
           return (
@@ -40,21 +56,37 @@ export function CitiesGrid({ items }: { items: CityWithWeather[] }) {
               }}
             >
               <div style={{ flex: "none" }}>
-                <WeatherIcon condition={current.condition} size={big ? 58 : 34} />
+                <WeatherIcon condition={current.condition} size={big ? 40 : 30} />
               </div>
 
               <div style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
                 <div
                   style={{
-                    fontSize: big ? 19 : 15,
-                    fontWeight: big ? 800 : 700,
+                    fontSize: big ? 17 : 14,
+                    fontWeight: 700,
                     letterSpacing: "-.01em",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
                   }}
                 >
-                  {city.name}
+                  <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{city.name}</span>
+                  {isRecent && (
+                    <span style={{
+                      flexShrink: 0,
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: "#0b5cad",
+                      background: "#deeefa",
+                      borderRadius: 4,
+                      padding: "1px 5px",
+                      lineHeight: 1.6,
+                      letterSpacing: "0.01em",
+                    }}>смотрели</span>
+                  )}
                 </div>
                 <div
                   style={{
@@ -74,7 +106,7 @@ export function CitiesGrid({ items }: { items: CityWithWeather[] }) {
               <div style={{ textAlign: "right", flex: "none" }}>
                 <div
                   className={big ? "city-card-temp" : undefined}
-                  style={{ fontSize: big ? 32 : 24, fontWeight: 800, letterSpacing: "-.02em", lineHeight: 1 }}
+                  style={{ fontSize: big ? 26 : 20, fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1 }}
                 >
                   {signedTemp(current.temp)}
                 </div>

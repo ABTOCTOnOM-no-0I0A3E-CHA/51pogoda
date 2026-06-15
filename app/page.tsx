@@ -1,11 +1,21 @@
+import { cookies } from "next/headers";
 import { HomePage } from "@/views/home";
 import { JsonLd } from "@/shared/ui";
 import { SITE } from "@/shared/config/site";
+import { CAPITAL_SLUG } from "@/entities/city";
+import { getPreferredSlug, parseRecent, COOKIE_VISITS, COOKIE_RECENT } from "@/shared/lib/visit-cookie";
 
-/* Серверный кэш главной обновляется раз в полчаса (см. FORECAST_REVALIDATE) */
-export const revalidate = 1800;
+/* Страница динамическая — personalised по cookie. Погода кешируется в unstable_cache. */
+export const dynamic = "force-dynamic";
 
-export default function Page() {
+export default async function Page() {
+  const cookieStore = await cookies();
+  const visitsRaw = cookieStore.get(COOKIE_VISITS)?.value ?? "";
+  const recentRaw = cookieStore.get(COOKIE_RECENT)?.value ?? "";
+
+  const preferredSlug = getPreferredSlug(visitsRaw, CAPITAL_SLUG);
+  const recentSlugs = parseRecent(recentRaw);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -19,7 +29,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <HomePage />
+      <HomePage preferredSlug={preferredSlug} recentSlugs={recentSlugs} />
     </>
   );
 }

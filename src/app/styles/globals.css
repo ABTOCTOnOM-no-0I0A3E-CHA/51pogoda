@@ -13,6 +13,7 @@ body {
   color: #15212b;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 a {
@@ -50,9 +51,26 @@ a {
   background: #eef4fb;
 }
 
+/* ---- блоки край-в-край на мобиле (только отступы, стили блока не меняются) ---- */
+@media (max-width: 720px) {
+  .full-bleed-mobile {
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+  }
+}
+@media (max-width: 480px) {
+  .full-bleed-mobile {
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+  }
+}
+
 /* ---- адаптив главной ---- */
 @media (max-width: 720px) {
   .hdr-search {
+    display: none !important;
+  }
+  .hdr-date {
     display: none !important;
   }
   .hero-temp-row {

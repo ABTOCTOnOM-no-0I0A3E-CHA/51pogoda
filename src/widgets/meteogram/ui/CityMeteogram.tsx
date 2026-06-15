@@ -24,20 +24,19 @@ export function CityMeteogram({ city, hours }: CityMeteogramProps) {
       </div>
 
       <div
-        className="scrollx"
+        className="full-bleed-mobile"
         style={{
           border: "1px solid #d4dce5",
           boxShadow: "0 2px 12px rgba(20,33,43,.05)",
           borderRadius: 16,
           padding: "14px 16px",
           background: "#fff",
-          overflowX: "auto",
         }}
       >
         <MeteogramImage
           yrId={city.yrId}
           alt={`Метеограмма ${city.name} — yr.no`}
-          imgStyle={{ width: "100%", minWidth: 720, height: "auto" }}
+          imgStyle={{ width: "100%", height: "auto", borderRadius: 8 }}
           fallback={<MeteoFallbackChart hours={hours} variant="city" />}
         />
       </div>

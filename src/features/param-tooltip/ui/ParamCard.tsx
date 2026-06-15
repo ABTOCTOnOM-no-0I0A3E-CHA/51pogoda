@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useParamTooltip } from "../model/store";
 
 export interface ParamDef {
@@ -12,11 +13,32 @@ export interface ParamDef {
 }
 
 export function ParamCard({ param }: { param: ParamDef }) {
-  const { openId, toggle } = useParamTooltip();
+  const { openId, toggle, close } = useParamTooltip();
   const open = openId === param.id;
+  const ref = useRef<HTMLDivElement>(null);
+
+  /* Закрытие открытой подсказки кликом вне карточки и по Escape */
+  useEffect(() => {
+    if (!open) return;
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) close();
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open, close]);
 
   return (
     <div
+      ref={ref}
       style={{
         position: "relative",
         background: "#fff",
