@@ -14,6 +14,7 @@ export { conditionLabel } from "./lib/condition";
 export { uvLabel, humidityLabel, visibilityLabel } from "./lib/apparent";
 export { buildSummary, type WeatherSummary } from "./lib/summary";
 export { getAiSummary } from "./api/ai-summary";
+export { translateMeteogramSvg } from "./lib/meteogram-i18n";
 
 export {
   getCityWeather,

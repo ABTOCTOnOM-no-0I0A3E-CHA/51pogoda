@@ -8,20 +8,38 @@ const ENDPOINT = "https://api.met.no/weatherapi/locationforecast/2.0/complete";
   обязателен идентифицирующий User-Agent. Результат кэшируется на стороне
   Next с ревалидацией, чтобы не долбить чужой бесплатный API на каждый рендер.
 */
+const MAX_ATTEMPTS = 3;
+/* Статусы, при которых есть смысл повторить: троттлинг и временные сбои */
+const RETRYABLE = new Set([403, 429, 500, 502, 503, 504]);
+
 export async function fetchMetForecast(lat: number, lon: number): Promise<MetForecast> {
   const url = `${ENDPOINT}?lat=${lat.toFixed(4)}&lon=${lon.toFixed(4)}`;
+  let lastErr: Error = new Error("no attempts");
 
-  const response = await fetch(url, {
-    headers: {
-      "User-Agent": MET_USER_AGENT,
-      Accept: "application/json",
-    },
-    next: { revalidate: FORECAST_REVALIDATE },
-  });
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    if (attempt > 0) await new Promise((r) => setTimeout(r, 600 * attempt));
 
-  if (!response.ok) {
-    throw new Error(`MET Norway ответил ${response.status}`);
+    let response: Response;
+    try {
+      response = await fetch(url, {
+        headers: {
+          "User-Agent": MET_USER_AGENT,
+          Accept: "application/json",
+        },
+        next: { revalidate: FORECAST_REVALIDATE },
+      });
+    } catch (e) {
+      lastErr = e as Error;
+      continue;
+    }
+
+    if (response.ok) {
+      return (await response.json()) as MetForecast;
+    }
+
+    lastErr = new Error(`MET Norway ответил ${response.status}`);
+    if (!RETRYABLE.has(response.status)) break;
   }
 
-  return (await response.json()) as MetForecast;
+  throw lastErr;
 }

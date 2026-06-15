@@ -7,3 +7,4 @@ export {
   getRegionCities,
   getAllExceptCapital,
 } from "./model/cities";
+export { getCityByYrId } from "./lib/lookup";
