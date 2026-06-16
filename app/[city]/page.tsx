@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CITIES, getCity } from "@/entities/city";
+import { CITIES } from "@/entities/city";
+import { getCityMerged } from "@/entities/city/lib/registry";
 import { CityPage } from "@/views/city";
 import { JsonLd } from "@/shared/ui";
 import { SITE } from "@/shared/config/site";
@@ -19,7 +20,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { city: slug } = await params;
-  const city = getCity(slug);
+  const city = getCityMerged(slug);
 
   if (!city) return {};
 
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Page({ params }: PageProps) {
   const { city: slug } = await params;
-  const city = getCity(slug);
+  const city = getCityMerged(slug);
 
   if (!city) notFound();
 

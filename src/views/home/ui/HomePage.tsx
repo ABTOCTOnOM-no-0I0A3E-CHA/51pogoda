@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { CITIES, getCapital, getRegionCities, getCity } from "@/entities/city";
+import { getCapital } from "@/entities/city";
 import type { City } from "@/entities/city";
+import { getAllCities, getRegionCitiesMerged, getCityMerged } from "@/entities/city/lib/registry";
 import { getCityWeather, getCitiesWeather, getAiSummary } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { HomeHero } from "@/widgets/home-hero";
@@ -20,10 +21,10 @@ interface HomePageProps {
 
 export function HomePage({ preferredSlug, recentSlugs = [] }: HomePageProps) {
   const capital = getCapital();
-  const heroCity = (preferredSlug ? getCity(preferredSlug) : null) ?? capital;
+  const heroCity = (preferredSlug ? getCityMerged(preferredSlug) : null) ?? capital;
 
   const recentCities = recentSlugs
-    .map((s) => getCity(s))
+    .map((s) => getCityMerged(s))
     .filter((c): c is City => c != null);
 
   return (
@@ -87,7 +88,7 @@ export function HomePage({ preferredSlug, recentSlugs = [] }: HomePageProps) {
         <CitiesBlock recentSlugs={recentSlugs} />
       </Suspense>
 
-      <LocationsCatalog items={CITIES} excludeKinds={["город"]} id="vse-tochki" />
+      <LocationsCatalog items={getAllCities()} excludeKinds={["город"]} id="vse-tochki" />
       <SiteFooter />
     </div>
   );
@@ -129,6 +130,6 @@ async function MeteoBlock({ city }: { city: City }) {
 }
 
 async function CitiesBlock({ recentSlugs }: { recentSlugs: string[] }) {
-  const items = await getCitiesWeather(getRegionCities());
+  const items = await getCitiesWeather(getRegionCitiesMerged());
   return <CitiesGrid items={items} recentSlugs={recentSlugs} />;
 }

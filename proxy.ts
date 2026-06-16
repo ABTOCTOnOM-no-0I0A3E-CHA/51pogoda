@@ -9,12 +9,21 @@ import {
   serializeVisits,
   parseRecent,
 } from "@/shared/lib/visit-cookie";
+import { ADMIN_COOKIE, verifySessionToken } from "@/shared/lib/admin-session";
 
 // Match /{city-slug} — only single-segment paths that aren't system routes
 const CITY_PATH_RE = /^\/([a-z0-9][a-z0-9-]{0,60})$/;
 
-export function proxy(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  // Защита админки: всё под /admin кроме самой страницы логина
+  if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
+    const ok = await verifySessionToken(req.cookies.get(ADMIN_COOKIE)?.value);
+    if (!ok) return NextResponse.redirect(new URL("/admin/login", req.url));
+    return NextResponse.next();
+  }
+
   const match = pathname.match(CITY_PATH_RE);
   if (!match) return NextResponse.next();
 

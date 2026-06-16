@@ -12,8 +12,14 @@ const MAX_ATTEMPTS = 3;
 /* Статусы, при которых есть смысл повторить: троттлинг и временные сбои */
 const RETRYABLE = new Set([403, 429, 500, 502, 503, 504]);
 
-export async function fetchMetForecast(lat: number, lon: number): Promise<MetForecast> {
+export async function fetchMetForecast(
+  lat: number,
+  lon: number,
+  slug?: string,
+): Promise<MetForecast> {
   const url = `${ENDPOINT}?lat=${lat.toFixed(4)}&lon=${lon.toFixed(4)}`;
+  /* Теги для адресной инвалидации из админки: "weather" — все, "weather:slug" — точка */
+  const tags = slug ? ["weather", `weather:${slug}`] : ["weather"];
   let lastErr: Error = new Error("no attempts");
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
@@ -26,7 +32,7 @@ export async function fetchMetForecast(lat: number, lon: number): Promise<MetFor
           "User-Agent": MET_USER_AGENT,
           Accept: "application/json",
         },
-        next: { revalidate: FORECAST_REVALIDATE },
+        next: { revalidate: FORECAST_REVALIDATE, tags },
       });
     } catch (e) {
       lastErr = e as Error;

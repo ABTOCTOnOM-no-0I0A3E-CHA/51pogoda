@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { MET_USER_AGENT } from "@/shared/config/site";
-import { getCityByYrId } from "@/entities/city";
+import { getCityByYrIdMerged } from "@/entities/city/lib/registry";
 import { translateMeteogramSvg } from "@/entities/weather";
 
 export const revalidate = 1800;
@@ -31,7 +31,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       return new NextResponse("Not an SVG", { status: 502 });
     }
 
-    const cityName = getCityByYrId(id)?.name ?? "";
+    const cityName = getCityByYrIdMerged(id)?.name ?? "";
     const translated = translateMeteogramSvg(svg, cityName);
 
     return new NextResponse(translated, {

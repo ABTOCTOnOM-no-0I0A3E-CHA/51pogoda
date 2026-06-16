@@ -12,7 +12,7 @@ import { buildCityWeather } from "./build-weather";
   одного города → один запрос к MET).
 */
 export const getCityWeather = cache(async (city: City): Promise<CityWeather> => {
-  const raw = await fetchMetForecast(city.lat, city.lon);
+  const raw = await fetchMetForecast(city.lat, city.lon, city.slug);
   return buildCityWeather(raw);
 });
 

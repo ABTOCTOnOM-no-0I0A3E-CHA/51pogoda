@@ -1,0 +1,179 @@
+.shell {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 24px 80px;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e1e8f0;
+}
+
+.navLink {
+  padding: 7px 13px;
+  border-radius: 9px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #15212b;
+  border: 1px solid transparent;
+}
+.navLink:hover {
+  background: #eef4fb;
+  color: #0b5cad;
+}
+.navLink.active {
+  background: #eef4fb;
+  color: #0b5cad;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.h1 {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+.sub {
+  color: #5b6b78;
+  font-size: 14px;
+  margin: 0 0 24px;
+}
+
+.card {
+  border: 1px solid #e1e8f0;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+.cardTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5b6b78;
+}
+
+.input,
+.select,
+.textarea {
+  font: inherit;
+  padding: 9px 11px;
+  border: 1px solid #cdd6df;
+  border-radius: 9px;
+  background: #fff;
+  color: #15212b;
+}
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #0b5cad;
+}
+.textarea {
+  width: 100%;
+  min-height: 320px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.btn {
+  font: inherit;
+  font-weight: 700;
+  padding: 9px 16px;
+  border-radius: 9px;
+  border: 1px solid #cdd6df;
+  background: #fff;
+  color: #15212b;
+  cursor: pointer;
+}
+.btn:hover {
+  border-color: #9ec6ea;
+}
+.btnPrimary {
+  background: #0b5cad;
+  border-color: #0b5cad;
+  color: #fff;
+}
+.btnPrimary:hover {
+  background: #0a4f96;
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.msg {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.msgOk {
+  color: #1a7f4b;
+}
+.msgErr {
+  color: #c0392b;
+}
+
+.list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.listItem {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  padding: 8px 11px;
+  border: 1px solid #e1e8f0;
+  border-radius: 9px;
+}
+.muted {
+  color: #5b6b78;
+}
+
+/* ---- логин ---- */
+.loginWrap {
+  max-width: 360px;
+  margin: 80px auto;
+  padding: 0 24px;
+}
+.loginCard {
+  border: 1px solid #e1e8f0;
+  border-radius: 14px;
+  padding: 28px 24px;
+}

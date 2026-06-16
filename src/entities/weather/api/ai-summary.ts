@@ -3,6 +3,7 @@ import type { City } from "@/entities/city";
 import type { DaylightInfo } from "@/shared/lib/daylight";
 import type { CityWeather } from "../model/types";
 import { buildSummary, type WeatherSummary } from "../lib/summary";
+import { getPromptTemplate } from "../lib/prompt-store";
 import { callGigaChat } from "./gigachat";
 
 async function generateSummary(prompt: string): Promise<WeatherSummary> {
@@ -58,7 +59,8 @@ function parseSummary(raw: string): WeatherSummary | null {
   }
 }
 
-function buildPrompt(city: City, weather: CityWeather, daylight: DaylightInfo): string {
+/* Блок фактических данных — собирается кодом, в шаблон подставляется как {data} */
+function buildDataBlock(weather: CityWeather, daylight: DaylightInfo): string {
   const { current, days } = weather;
   const today = days[0];
   const polarNote = daylight.polarDay
@@ -68,8 +70,6 @@ function buildPrompt(city: City, weather: CityWeather, daylight: DaylightInfo): 
     : "";
 
   return [
-    `Ты — метеоролог на сайте погоды Мурманской области (Заполярье, за полярным кругом). Напиши сводку для ${city.name} на русском языке.`,
-    "",
     "Данные сейчас:",
     `- температура ${current.temp}°C, ощущается как ${current.feels}°C`,
     `- ${current.conditionLabel.toLowerCase()}`,
@@ -77,16 +77,19 @@ function buildPrompt(city: City, weather: CityWeather, daylight: DaylightInfo): 
     `- влажность ${current.humidity}%`,
     today ? `- днём до ${today.tmax}°C, ночью до ${today.tmin}°C` : "",
     polarNote,
-    "",
-    "Правила:",
-    '1. "accurate": 1–2 предложения о текущей погоде и прогнозе на день. Если ощущаемая температура заметно отличается от фактической — коротко объясни причину (ветер и/или влажность).',
-    '2. "advice": один связный совет по одежде под текущую температуру — без противоречий, не предлагай одновременно тёплую и лёгкую одежду. Укажи, нужен ли зонт.',
-    "3. СТРОГО ЗАПРЕЩЕНО упоминать солнцезащитный крем, солнечные очки и защиту от ультрафиолета — это Заполярье, солнце стоит низко над горизонтом, УФ не актуален.",
-    "4. Полярный день/ночь упоминай только как факт освещённости (светло или темно круглые сутки), без советов про солнце и УФ.",
-    "5. Пиши простым человеческим языком, без канцелярита.",
-    "",
-    'Ответь строго JSON без markdown: {"accurate":"...","advice":"..."}',
-  ].join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+/* Шаблон (глобальный или по slug из админки) + подстановка названия и данных */
+function buildPrompt(city: City, weather: CityWeather, daylight: DaylightInfo): string {
+  const dataBlock = buildDataBlock(weather, daylight);
+  return getPromptTemplate(city.slug)
+    .split("{city}")
+    .join(city.name)
+    .split("{data}")
+    .join(dataBlock);
 }
 
 export async function getAiSummary(
@@ -101,7 +104,7 @@ export async function getAiSummary(
     return await unstable_cache(
       () => generateSummary(prompt),
       [`ai-summary-${city.slug}`, hourKey],
-      { revalidate: 3600 },
+      { revalidate: 3600, tags: ["ai", `ai:${city.slug}`] },
     )();
   } catch (err) {
     console.error(`[ai-summary] ${city.slug}:`, err);
