@@ -91,34 +91,75 @@ export interface AddCityResult {
 
 const SLUG_RE = /^[a-z0-9][a-z0-9-]{0,60}$/;
 
-/* Валидирует и добавляет кастомную точку, пишет файл, сбрасывает кэш. */
-export function addCity(input: Partial<City>): AddCityResult {
-  const slug = String(input.slug ?? "").trim();
+/* Запись списка кастомных точек + синхронизация кэша. null — успех, строка — ошибка. */
+function persist(next: City[]): string | null {
+  try {
+    if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
+    writeFileSync(CUSTOM_FILE, JSON.stringify(next, null, 2), "utf-8");
+  } catch (e) {
+    return (e as Error).message;
+  }
+  cache = next;
+  cachedMtime = fileMtime();
+  return null;
+}
+
+/* Валидация атрибутов точки (без slug — он identity и проверяется отдельно). */
+function validateAttrs(input: Partial<City>): { value?: Omit<City, "slug">; error?: string } {
   const name = String(input.name ?? "").trim();
   const kind = input.kind as CityKind;
   const lat = Number(input.lat);
   const lon = Number(input.lon);
   const yrId = String(input.yrId ?? "").trim();
 
+  if (!name) return { error: "name: обязательно" };
+  if (!KINDS.includes(kind)) return { error: "kind: недопустимый тип" };
+  if (!Number.isFinite(lat) || lat < -90 || lat > 90) return { error: "lat: -90..90" };
+  if (!Number.isFinite(lon) || lon < -180 || lon > 180) return { error: "lon: -180..180" };
+  if (!/^2-\d+$/.test(yrId)) return { error: "yrId: формат 2-XXXXXXX" };
+
+  return { value: { name, kind, lat, lon, yrId } };
+}
+
+/* Добавление новой кастомной точки. */
+export function addCity(input: Partial<City>): AddCityResult {
+  const slug = String(input.slug ?? "").trim();
   if (!SLUG_RE.test(slug)) return { ok: false, error: "slug: только a-z, 0-9, дефис (до 61 символа)" };
-  if (!name) return { ok: false, error: "name: обязательно" };
-  if (!KINDS.includes(kind)) return { ok: false, error: "kind: недопустимый тип" };
-  if (!Number.isFinite(lat) || lat < -90 || lat > 90) return { ok: false, error: "lat: -90..90" };
-  if (!Number.isFinite(lon) || lon < -180 || lon > 180) return { ok: false, error: "lon: -180..180" };
-  if (!/^2-\d+$/.test(yrId)) return { ok: false, error: "yrId: формат 2-XXXXXXX" };
   if (getCityMerged(slug)) return { ok: false, error: `slug "${slug}" уже занят` };
 
-  const city: City = { slug, name, kind, lat, lon, yrId };
-  const next = [...loadCustom(), city];
+  const v = validateAttrs(input);
+  if (v.error) return { ok: false, error: v.error };
 
-  try {
-    if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
-    writeFileSync(CUSTOM_FILE, JSON.stringify(next, null, 2), "utf-8");
-  } catch (e) {
-    return { ok: false, error: `запись файла: ${(e as Error).message}` };
-  }
-
-  cache = next;
-  cachedMtime = fileMtime();
+  const city: City = { slug, ...v.value! };
+  const err = persist([...loadCustom(), city]);
+  if (err) return { ok: false, error: `запись файла: ${err}` };
   return { ok: true, city };
+}
+
+/* Редактирование кастомной точки (slug неизменяем — это URL и ключ). */
+export function updateCity(slug: string, input: Partial<City>): AddCityResult {
+  const custom = loadCustom();
+  const idx = custom.findIndex((c) => c.slug === slug);
+  if (idx < 0) return { ok: false, error: `точка "${slug}" не найдена среди кастомных` };
+
+  const v = validateAttrs(input);
+  if (v.error) return { ok: false, error: v.error };
+
+  const city: City = { slug, ...v.value! };
+  const next = custom.slice();
+  next[idx] = city;
+  const err = persist(next);
+  if (err) return { ok: false, error: `запись файла: ${err}` };
+  return { ok: true, city };
+}
+
+/* Удаление кастомной точки. Встроенные точки удалить нельзя — они в коде. */
+export function deleteCity(slug: string): AddCityResult {
+  const custom = loadCustom();
+  if (!custom.some((c) => c.slug === slug)) {
+    return { ok: false, error: `точка "${slug}" не найдена среди кастомных` };
+  }
+  const err = persist(custom.filter((c) => c.slug !== slug));
+  if (err) return { ok: false, error: `запись файла: ${err}` };
+  return { ok: true };
 }
