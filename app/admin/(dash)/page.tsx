@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllCities, getCustomCities } from "@/entities/city/lib/registry";
 import { getPrompts } from "@/entities/weather/lib/prompt-store";
+import { getAnalytics } from "@/shared/lib/analytics-store";
 import styles from "../admin.module.css";
 
 export default function AdminDashboard() {
@@ -8,6 +9,7 @@ export default function AdminDashboard() {
   const custom = getCustomCities().length;
   const prompts = getPrompts();
   const overrides = Object.keys(prompts.perCity).length;
+  const views = Object.values(getAnalytics().days).reduce((s, d) => s + d.total, 0);
 
   return (
     <>
@@ -25,12 +27,21 @@ export default function AdminDashboard() {
             Промпты ИИ: <strong>глобальный</strong>
             <span className={styles.muted}>· оверрайдов по городам: {overrides}</span>
           </li>
+          <li className={styles.listItem}>
+            Просмотров всего: <strong>{views.toLocaleString("ru")}</strong>
+          </li>
         </ul>
       </div>
 
       <div className={styles.card}>
         <div className={styles.cardTitle}>Разделы</div>
         <ul className={styles.list}>
+          <li className={styles.listItem}>
+            <Link className={styles.navLink} href="/admin/analytics">
+              Аналитика
+            </Link>
+            <span className={styles.muted}>просмотры страниц</span>
+          </li>
           <li className={styles.listItem}>
             <Link className={styles.navLink} href="/admin/cache">
               Кеш

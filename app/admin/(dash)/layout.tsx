@@ -15,6 +15,9 @@ export default function AdminDashLayout({ children }: { children: React.ReactNod
         <Link className={styles.navLink} href="/admin">
           Обзор
         </Link>
+        <Link className={styles.navLink} href="/admin/analytics">
+          Аналитика
+        </Link>
         <Link className={styles.navLink} href="/admin/cache">
           Кеш
         </Link>

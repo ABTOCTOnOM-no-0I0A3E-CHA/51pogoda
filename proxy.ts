@@ -10,6 +10,7 @@ import {
   parseRecent,
 } from "@/shared/lib/visit-cookie";
 import { ADMIN_COOKIE, verifySessionToken } from "@/shared/lib/admin-session";
+import { recordHit, HOME_KEY } from "@/shared/lib/analytics-store";
 
 // Match /{city-slug} — only single-segment paths that aren't system routes
 const CITY_PATH_RE = /^\/([a-z0-9][a-z0-9-]{0,60})$/;
@@ -25,9 +26,13 @@ export async function proxy(req: NextRequest) {
   }
 
   const match = pathname.match(CITY_PATH_RE);
-  if (!match) return NextResponse.next();
+  if (!match) {
+    if (pathname === "/") recordHit(HOME_KEY);
+    return NextResponse.next();
+  }
 
   const slug = match[1]!;
+  recordHit(slug);
 
   const res = NextResponse.next();
   const cookieOpts = { maxAge: COOKIE_MAX_AGE, path: "/", httpOnly: true, secure: true, sameSite: "lax" } as const;
