@@ -49,12 +49,6 @@ function loadCustom(): City[] {
   return cache;
 }
 
-/* Принудительный сброс кэша. */
-export function reloadCities(): void {
-  cache = null;
-  cachedMtime = -1;
-}
-
 /* Встроенные + кастомные точки. */
 export function getAllCities(): City[] {
   return [...CITIES, ...loadCustom()];

@@ -58,11 +58,6 @@ function persist(data: PromptsData): void {
   cachedMtime = fileMtime();
 }
 
-export function reloadPrompts(): void {
-  cache = null;
-  cachedMtime = -1;
-}
-
 export function getPrompts(): PromptsData {
   return load();
 }
