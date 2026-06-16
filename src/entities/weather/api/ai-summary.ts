@@ -4,6 +4,7 @@ import type { DaylightInfo } from "@/shared/lib/daylight";
 import type { CityWeather } from "../model/types";
 import { buildSummary, type WeatherSummary } from "../lib/summary";
 import { getPromptTemplate } from "../lib/prompt-store";
+import { renderTemplate } from "../lib/prompt-template";
 import { callGigaChat } from "./gigachat";
 
 async function generateSummary(prompt: string): Promise<WeatherSummary> {
@@ -85,11 +86,7 @@ function buildDataBlock(weather: CityWeather, daylight: DaylightInfo): string {
 /* Шаблон (глобальный или по slug из админки) + подстановка названия и данных */
 function buildPrompt(city: City, weather: CityWeather, daylight: DaylightInfo): string {
   const dataBlock = buildDataBlock(weather, daylight);
-  return getPromptTemplate(city.slug)
-    .split("{city}")
-    .join(city.name)
-    .split("{data}")
-    .join(dataBlock);
+  return renderTemplate(getPromptTemplate(city.slug), { city: city.name, data: dataBlock });
 }
 
 export async function getAiSummary(
