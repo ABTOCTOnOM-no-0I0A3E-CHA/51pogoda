@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { CITIES } from "@/entities/city";
+import { CITIES, type City } from "@/entities/city";
 import { useCitySearch } from "../model/store";
 
 /* Максимум символов запроса — отсекаем мусорный ввод на корню */
@@ -15,16 +15,19 @@ function normalize(value: string): string {
     .slice(0, MAX_QUERY);
 }
 
-export function CitySearch() {
+/* extra — кастомные точки из админки (server-only реестр недоступен на клиенте) */
+export function CitySearch({ extra = [] }: { extra?: City[] }) {
   const router = useRouter();
   const { query, open, setQuery, setOpen, reset } = useCitySearch();
   const blurTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const pool = useMemo(() => [...CITIES, ...extra], [extra]);
+
   const results = useMemo(() => {
     const q = normalize(query).trim();
     if (!q) return [];
-    return CITIES.filter((c) => c.name.toLowerCase().includes(q)).slice(0, 6);
-  }, [query]);
+    return pool.filter((c) => c.name.toLowerCase().includes(q)).slice(0, 6);
+  }, [query, pool]);
 
   const goTo = (slug: string) => {
     reset();

@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { CitySearch } from "@/features/city-search";
+import { getCustomCities } from "@/entities/city/lib/registry";
 import { headerDate } from "@/shared/lib/format";
 import { SITE } from "@/shared/config/site";
 
 export function SiteHeader() {
   const today = headerDate(new Date());
+  /* Кастомные точки из админки — чтобы они тоже находились в поиске */
+  const extra = getCustomCities();
 
   return (
     <div style={{ borderBottom: "1px solid #d4dce5", background: "#fff" }}>
@@ -43,7 +46,7 @@ export function SiteHeader() {
         </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <CitySearch />
+          <CitySearch extra={extra} />
           <div className="hdr-date" style={{ fontSize: 14, color: "#5a6b7b", fontWeight: 600, whiteSpace: "nowrap" }}>{today}</div>
         </div>
       </header>
