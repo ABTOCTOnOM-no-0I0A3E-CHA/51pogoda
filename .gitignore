@@ -9,6 +9,7 @@ next-env.d.ts
 
 # локальный конфиг Claude Code / тулинга
 .claude/
+package-lock.json
 npm-debug.log*
 .vercel
 .env

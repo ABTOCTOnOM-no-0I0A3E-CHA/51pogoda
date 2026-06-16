@@ -13,7 +13,7 @@ import {
 // Match /{city-slug} — only single-segment paths that aren't system routes
 const CITY_PATH_RE = /^\/([a-z0-9][a-z0-9-]{0,60})$/;
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const match = pathname.match(CITY_PATH_RE);
   if (!match) return NextResponse.next();
@@ -21,7 +21,7 @@ export function middleware(req: NextRequest) {
   const slug = match[1]!;
 
   const res = NextResponse.next();
-  const cookieOpts = { maxAge: COOKIE_MAX_AGE, path: "/" } as const;
+  const cookieOpts = { maxAge: COOKIE_MAX_AGE, path: "/", httpOnly: true, secure: true, sameSite: "lax" } as const;
 
   // Increment visit count
   const visits = parseVisits(req.cookies.get(COOKIE_VISITS)?.value ?? "");

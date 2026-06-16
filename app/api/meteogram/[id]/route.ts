@@ -39,6 +39,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       headers: {
         "Content-Type": "image/svg+xml; charset=utf-8",
         "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=3600",
+        "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'",
       },
     });
   } catch {
