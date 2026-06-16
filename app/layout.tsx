@@ -1,14 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Golos_Text } from "next/font/google";
+import { Inter } from "next/font/google";
 import { SiteHeader } from "@/widgets/site-header";
 import { SITE } from "@/shared/config/site";
 import "@/app/styles/globals.css";
 
-const golos = Golos_Text({
+const inter = Inter({
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
-  variable: "--font-golos",
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -50,7 +50,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={golos.variable}>
+    <html lang="ru" className={inter.variable}>
       <body>
         <SiteHeader />
         <main>{children}</main>
