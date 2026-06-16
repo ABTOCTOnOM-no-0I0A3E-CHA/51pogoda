@@ -37,6 +37,9 @@ const SPECS: Record<Variant, VariantSpec> = {
 export function MeteoFallbackChart({ hours, variant }: { hours: HourPoint[]; variant: Variant }) {
   const spec = SPECS[variant];
 
+  /* Нет почасовых данных — не строим график (внешняя метеограмма yr.no грузится сама) */
+  if (hours.length === 0) return null;
+
   return (
     <div className={variant === "city" ? "meteo-fallback-inner" : undefined} style={variant === "city" ? { minWidth: 720 } : undefined}>
       {variant === "city" && (

@@ -35,7 +35,7 @@ export function CitiesGrid({ items, recentSlugs = [] }: CitiesGridProps) {
         {ordered.map(({ city, weather }) => {
           const big = city.kind === "город";
           const isRecent = recentSet.has(city.slug);
-          const { current } = weather;
+          const current = weather?.current ?? null;
 
           return (
             <Link
@@ -55,8 +55,8 @@ export function CitiesGrid({ items, recentSlugs = [] }: CitiesGridProps) {
                 transition: "all .15s",
               }}
             >
-              <div style={{ flex: "none" }}>
-                <WeatherIcon condition={current.condition} size={big ? 40 : 30} />
+              <div style={{ flex: "none", opacity: current ? 1 : 0.3 }}>
+                <WeatherIcon condition={current?.condition ?? "cloudy"} size={big ? 40 : 30} />
               </div>
 
               <div style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
@@ -99,19 +99,19 @@ export function CitiesGrid({ items, recentSlugs = [] }: CitiesGridProps) {
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {city.kind} · {current.conditionLabel}
+                  {city.kind} · {current ? current.conditionLabel : "нет данных"}
                 </div>
               </div>
 
               <div style={{ textAlign: "right", flex: "none" }}>
                 <div
                   className={big ? "city-card-temp" : undefined}
-                  style={{ fontSize: big ? 26 : 20, fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1 }}
+                  style={{ fontSize: big ? 26 : 20, fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1, color: current ? undefined : "#b6c1cc" }}
                 >
-                  {signedTemp(current.temp)}
+                  {current ? signedTemp(current.temp) : "—"}
                 </div>
                 <div style={{ fontSize: 12, color: "#8a98a6", marginTop: 5, whiteSpace: "nowrap" }}>
-                  {signedTemp(current.tmin)} / {signedTemp(current.tmax)}
+                  {current ? `${signedTemp(current.tmin)} / ${signedTemp(current.tmax)}` : ""}
                 </div>
               </div>
 
