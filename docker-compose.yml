@@ -12,11 +12,11 @@ services:
     # данные админки (кастомные точки, промпты) и счётчики аналитики — переживают редеплой
     volumes:
       - app-data:/app/data
-    # --- харденинг (можно убрать, если будет мешать) ---
-    read_only: true            # корень контейнера только на чтение
+    # --- харденинг ---
+    # read_only НЕ ставим: Next 16 пишет prerender-кэш сегментов в .next/server/app,
+    # а не только в .next/cache; на read-only это падает (ENOENT) и ломает ISR.
     tmpfs:
       - /tmp
-      - /app/.next/cache       # ISR/Data Cache Next требует записи
     security_opt:
       - no-new-privileges:true
     # ВАЖНО: ровно один инстанс. In-memory аналитика и анти-брутфорс логина
