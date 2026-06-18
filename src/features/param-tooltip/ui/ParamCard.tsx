@@ -7,6 +7,7 @@ export interface ParamDef {
   id: string;
   label: string;
   value: string;
+  valueColor?: string;
   sub: string;
   tipTitle: string;
   tipText: string;
@@ -80,7 +81,7 @@ export function ParamCard({ param }: { param: ParamDef }) {
         </button>
       </div>
 
-      <div style={{ fontSize: 19, fontWeight: 800, marginTop: 6, letterSpacing: "-.01em" }}>{param.value}</div>
+      <div style={{ fontSize: 19, fontWeight: 800, marginTop: 6, letterSpacing: "-.01em", color: param.valueColor }}>{param.value}</div>
       <div style={{ fontSize: 11, color: "#8a98a6", marginTop: 1 }}>{param.sub}</div>
 
       {open && (

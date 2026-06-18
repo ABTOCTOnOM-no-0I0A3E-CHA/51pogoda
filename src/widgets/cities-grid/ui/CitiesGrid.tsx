@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CityWithWeather } from "@/entities/weather";
 import { WeatherIcon } from "@/entities/weather";
 import { signedTemp } from "@/shared/lib/format";
+import { tempColor } from "@/shared/lib/temp-color";
 
 interface CitiesGridProps {
   items: CityWithWeather[];
@@ -106,7 +107,7 @@ export function CitiesGrid({ items, recentSlugs = [] }: CitiesGridProps) {
               <div style={{ textAlign: "right", flex: "none" }}>
                 <div
                   className={big ? "city-card-temp" : undefined}
-                  style={{ fontSize: big ? 26 : 20, fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1, color: current ? undefined : "#b6c1cc" }}
+                  style={{ fontSize: big ? 26 : 20, fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1, color: current ? tempColor(current.temp) : "#b6c1cc" }}
                 >
                   {current ? signedTemp(current.temp) : "—"}
                 </div>
@@ -116,6 +117,7 @@ export function CitiesGrid({ items, recentSlugs = [] }: CitiesGridProps) {
               </div>
 
               <div
+                className="city-chevron"
                 style={{
                   flex: "none",
                   width: 30,

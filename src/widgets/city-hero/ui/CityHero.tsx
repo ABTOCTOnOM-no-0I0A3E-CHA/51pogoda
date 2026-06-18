@@ -4,6 +4,7 @@ import { WeatherIcon } from "@/entities/weather";
 import { PolarBadge } from "@/shared/ui";
 import type { DaylightInfo } from "@/shared/lib/daylight";
 import { signedTemp } from "@/shared/lib/format";
+import { tempColor } from "@/shared/lib/temp-color";
 
 interface CityHeroProps {
   city: City;
@@ -40,12 +41,12 @@ export function CityHero({ city, weather, daylight }: CityHeroProps) {
         {polar && <PolarBadge label={polar} padding="6px 13px" />}
       </div>
 
-      <div className="hero-now-row" style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 16 }}>
+      <div className="hero-now-row" style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 16 }}>
         <div style={{ flex: "none" }}>
           <WeatherIcon condition={current.condition} size={108} />
         </div>
         <div style={{ display: "flex", alignItems: "flex-start", flex: "none" }}>
-          <span className="temp-big" style={{ fontSize: 78, fontWeight: 700, lineHeight: 0.84, letterSpacing: "-.03em" }}>{signedTemp(current.temp).replace("°", "")}</span>
+          <span className="temp-big" style={{ fontSize: 78, fontWeight: 700, lineHeight: 0.84, letterSpacing: "-.03em", color: tempColor(current.temp) }}>{signedTemp(current.temp).replace("°", "")}</span>
           <span style={{ fontSize: 28, fontWeight: 600, marginTop: 8, marginLeft: 7, color: "#41525f" }}>°C</span>
         </div>
         <div className="hero-now-info" style={{ paddingTop: 6, flex: 1, minWidth: 0 }}>

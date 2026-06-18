@@ -2,6 +2,7 @@ import type { CurrentWeather } from "@/entities/weather";
 import { humidityLabel, uvLabel, visibilityLabel } from "@/entities/weather";
 import { ParamCard, type ParamDef } from "@/features/param-tooltip";
 import { precipLabel } from "@/shared/lib/format";
+import { tempColor } from "@/shared/lib/temp-color";
 
 export function CurrentParams({ current }: { current: CurrentWeather }) {
   const params = buildParams(current);
@@ -29,6 +30,7 @@ function buildParams(c: CurrentWeather): ParamDef[] {
       id: "temp",
       label: "Температура",
       value: degC(c.temp),
+      valueColor: tempColor(c.temp),
       sub: `днём до ${c.tmax > 0 ? "+" : ""}${c.tmax}°`,
       tipTitle: "Температура воздуха",
       tipText: "Фактическая температура в тени на высоте 2 м. Базовый показатель: насколько тепло или холодно сейчас.",
@@ -37,6 +39,7 @@ function buildParams(c: CurrentWeather): ParamDef[] {
       id: "feels",
       label: "Ощущается",
       value: degC(c.feels),
+      valueColor: tempColor(c.feels),
       sub: "с поправкой на ветер",
       tipTitle: "Ощущаемая температура",
       tipText: "Как погоду воспринимает тело с учётом ветра и влажности. На ветру и в сырость ощущается холоднее реальной.",

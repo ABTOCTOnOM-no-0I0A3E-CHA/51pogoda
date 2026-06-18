@@ -1,6 +1,7 @@
 import type { DayPoint } from "@/entities/weather";
 import { WeatherIcon } from "@/entities/weather";
 import { precipLabel, signedTemp } from "@/shared/lib/format";
+import { tempColor } from "@/shared/lib/temp-color";
 
 export function DailyForecast({ days }: { days: DayPoint[] }) {
   return (
@@ -46,7 +47,7 @@ export function DailyForecast({ days }: { days: DayPoint[] }) {
 
             <div className="days-temps" style={{ width: 96, flex: "none", display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 10, marginLeft: 8 }}>
               <span style={{ fontSize: 15, fontWeight: 700, color: "#8a98a6", width: 42, textAlign: "right" }}>{signedTemp(d.tmin)}</span>
-              <span style={{ fontSize: 15, fontWeight: 800, width: 42, textAlign: "right" }}>{signedTemp(d.tmax)}</span>
+              <span style={{ fontSize: 15, fontWeight: 800, width: 42, textAlign: "right", color: tempColor(d.tmax) }}>{signedTemp(d.tmax)}</span>
             </div>
           </div>
         ))}
