@@ -23,7 +23,8 @@ export function PolarBadge({ label, padding = "7px 14px", className }: PolarBadg
         whiteSpace: "nowrap",
       }}
     >
-      <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden>
+      <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden style={{ overflow: "visible" }}>
+        <circle className="polar-dot-pulse" cx="12" cy="12" r="5" fill="#f4a72c" />
         <circle cx="12" cy="12" r="5" fill="#f4a72c" />
       </svg>
       {label}

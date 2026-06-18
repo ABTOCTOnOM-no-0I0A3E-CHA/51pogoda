@@ -11,13 +11,36 @@ interface CityMeteogramProps {
 export function CityMeteogram({ city, hours }: CityMeteogramProps) {
   return (
     <div style={{ marginTop: 22 }}>
-      <div className="meteo-header" style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 }}>
-        <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, letterSpacing: "-.01em", whiteSpace: "nowrap" }}>Метеограмма на 2 суток</h2>
+      <div
+        className="meteo-header"
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+          marginBottom: 12,
+        }}
+      >
+        <h2
+          style={{
+            margin: 0,
+            fontSize: 18,
+            fontWeight: 800,
+            letterSpacing: "-.01em",
+            whiteSpace: "nowrap",
+          }}
+        >
+          Метеограмма на 2 суток
+        </h2>
         <a
           href={`https://www.yr.no/en/content/${city.yrId}/meteogram.svg`}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ fontSize: 13, color: "#0b5cad", fontWeight: 600, whiteSpace: "nowrap" }}
+          style={{
+            fontSize: 13,
+            color: "#0b5cad",
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+          }}
         >
           официальный график yr.no / MET&nbsp;Norway →
         </a>
@@ -42,7 +65,8 @@ export function CityMeteogram({ city, hours }: CityMeteogramProps) {
       </div>
 
       <div style={{ fontSize: 12, color: "#a3aeb9", marginTop: 8 }}>
-        Метеограмма подгружается напрямую с yr.no по ID локации {city.name} ({city.yrId}). Если внешний график недоступен, показан наш почасовой.
+        Метеограмма подгружается напрямую по локации {city.name} ({city.yrId}).
+        Если внешний график недоступен, показан наш почасовой.
       </div>
     </div>
   );

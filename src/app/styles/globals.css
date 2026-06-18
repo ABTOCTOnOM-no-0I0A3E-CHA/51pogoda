@@ -41,6 +41,29 @@ a {
   }
 }
 
+/* ---- пульсация точки в плашке полярного дня/ночи ---- */
+.polar-dot-pulse {
+  transform-origin: 12px 12px;
+  animation: polar-pulse 2s ease-out infinite;
+}
+@keyframes polar-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .polar-dot-pulse {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 .scrollx {
   scrollbar-width: thin;
   scrollbar-color: #cdd6df transparent;
@@ -60,6 +83,11 @@ a {
 .btn-primary:hover {
   background: #0a4f96;
 }
+/* карта осадков на главной: на ПК высота тянется по высоте сводки в одном ряду */
+.home-rainmap-box {
+  height: 100%;
+}
+
 .city-card:hover {
   border-color: #9ec6ea;
   box-shadow: 0 12px 26px rgba(11, 92, 173, 0.13);
@@ -85,11 +113,89 @@ a {
   }
 }
 
+/* заголовок метеограммы и ссылка yr.no сливаются на узких экранах — стопкуем заранее */
+@media (max-width: 600px) {
+  .meteo-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 3px !important;
+  }
+}
+
+/* ---- поиск города в шапке: инлайн на десктопе, лупа+поповер на планшете/мобиле ---- */
+.search-trigger {
+  display: none;
+}
+.search-form {
+  position: relative;
+  width: 230px;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  border: 1px solid #e1e7ee;
+  border-radius: 11px;
+  padding: 9px 14px;
+}
+.search-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #e1e7ee;
+  border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(20, 33, 43, 0.14);
+}
+
+@media (max-width: 1024px) {
+  .search-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 11px;
+    border: 1px solid #e1e7ee;
+    background: #fff;
+    cursor: pointer;
+  }
+  .search-form {
+    display: none;
+    width: auto;
+  }
+  .search-form.is-open {
+    display: block;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: min(300px, calc(100vw - 24px));
+    z-index: 50;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid #e1e7ee;
+    border-radius: 12px;
+    box-shadow: 0 14px 34px rgba(20, 33, 43, 0.16);
+  }
+  /* в поповере результаты идут потоком, без второй рамки и тени */
+  .search-form.is-open .search-results {
+    position: static;
+    margin-top: 6px;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+}
+
 /* ---- адаптив главной ---- */
 @media (max-width: 720px) {
-  .hdr-search {
-    display: none !important;
-  }
   .hdr-date {
     display: none !important;
   }
@@ -102,6 +208,28 @@ a {
   }
   .cities-grid {
     grid-template-columns: 1fr !important;
+  }
+  /* сводка и карта осадков складываются в столбец, карта на всю ширину */
+  .home-summary-row {
+    flex-direction: column !important;
+  }
+  .home-rainmap {
+    width: 100% !important;
+  }
+  /* на мобилке карта снова квадратная и тянется в край (full-bleed-отступы) */
+  .home-rainmap-box {
+    width: auto !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+  }
+  /* карточки городов компактнее, стрелку убираем — иначе строка не влезает */
+  .city-card {
+    gap: 12px !important;
+    padding: 12px 14px !important;
+    min-height: 0 !important;
+  }
+  .city-chevron {
+    display: none !important;
   }
   .hero-polar-badge {
     display: none !important;
@@ -137,7 +265,7 @@ a {
     padding-top: 2px !important;
   }
   .content-padding {
-    padding: 20px 20px 60px !important;
+    padding: 20px 20px 24px !important;
   }
   /* дата в шапке переносится, а не жмётся в одну строку */
   .hdr-date {
@@ -177,7 +305,7 @@ a {
     margin-right: -20px;
   }
   .content-padding {
-    padding: 18px 16px 60px !important;
+    padding: 18px 16px 24px !important;
   }
   .header-inner {
     padding: 12px 16px !important;
@@ -194,11 +322,6 @@ a {
   }
   .ai-block {
     padding: 16px 16px !important;
-  }
-  .meteo-header {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 3px !important;
   }
   .meteo-fallback-inner {
     min-width: 0 !important;

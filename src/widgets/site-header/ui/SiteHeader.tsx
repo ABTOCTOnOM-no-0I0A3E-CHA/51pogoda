@@ -22,7 +22,7 @@ export function SiteHeader() {
           justifyContent: "space-between",
         }}
       >
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <Link href="/" className="hdr-logo" style={{ display: "flex", alignItems: "center", gap: 12, flex: "none", minWidth: 0 }}>
           <div
             style={{
               width: 38,
@@ -45,7 +45,7 @@ export function SiteHeader() {
           </div>
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <div className="hdr-actions" style={{ display: "flex", alignItems: "center", gap: 14, minWidth: 0 }}>
           <CitySearch extra={extra} />
           <div className="hdr-date" style={{ fontSize: 14, color: "#5a6b7b", fontWeight: 600, whiteSpace: "nowrap" }}>{today}</div>
         </div>
