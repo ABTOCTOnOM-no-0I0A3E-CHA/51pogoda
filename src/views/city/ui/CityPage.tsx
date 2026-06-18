@@ -16,7 +16,7 @@ import { CityHeroSkeleton, CityDetailsSkeleton } from "./skeletons";
 
 export function CityPage({ city }: { city: City }) {
   return (
-    <div className="content-padding" style={{ maxWidth: 1060, margin: "0 auto", padding: "24px 24px 80px" }}>
+    <div className="content-padding" style={{ maxWidth: 1060, margin: "0 auto", padding: "24px 24px 28px" }}>
       <nav style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#8a98a6", marginBottom: 16 }}>
         <Link href="/" style={{ color: "#0b5cad", fontWeight: 600 }}>Главная</Link>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -49,7 +49,7 @@ export function CityPage({ city }: { city: City }) {
 }
 
 async function HeroBlock({ city }: { city: City }) {
-  const daylight = getDaylight(city.lat, new Date());
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
   try {
     const weather = await getCityWeather(city);
     return <CityHero city={city} weather={weather} daylight={daylight} />;
@@ -65,7 +65,7 @@ async function AiBlock({ city }: { city: City }) {
   } catch {
     return null;
   }
-  const daylight = getDaylight(city.lat, new Date());
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
   const summary = await getAiSummary(city, weather, daylight);
   return <AiSummary summary={summary} />;
 }
@@ -81,7 +81,7 @@ async function MeteoBlock({ city }: { city: City }) {
 }
 
 async function DetailsBlock({ city }: { city: City }) {
-  const daylight = getDaylight(city.lat, new Date());
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
   let weather;
   try {
     weather = await getCityWeather(city);

@@ -40,6 +40,12 @@ export function weekdayShort(date: Date): string {
   return WEEKDAYS[zonedParts(date).weekday] ?? "";
 }
 
+/* «14 июня» */
+export function dayMonthLong(date: Date): string {
+  const p = zonedParts(date);
+  return `${p.day} ${MONTHS_GEN[p.month]}`;
+}
+
 /* «14.06» */
 export function dayMonth(date: Date): string {
   const p = zonedParts(date);
