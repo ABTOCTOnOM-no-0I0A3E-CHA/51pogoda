@@ -15,18 +15,24 @@ const LABELS: Record<string, string> = {
   "Served by": "Данные:",
 };
 
+/* yr.no сокращает дни нестандартно (Thur., Tues.) — ключ по нижнему регистру без точки */
 const WEEKDAYS: Record<string, string> = {
-  Mon: "Пн", Tue: "Вт", Wed: "Ср", Thu: "Чт", Fri: "Пт", Sat: "Сб", Sun: "Вс",
+  mon: "Пн", tue: "Вт", tues: "Вт", wed: "Ср", thu: "Чт", thur: "Чт", thurs: "Чт",
+  fri: "Пт", sat: "Сб", sun: "Вс",
 };
 
+/* полные и трёхбуквенные названия месяцев (на узких метеограммах бывают сокращения) */
 const MONTHS: Record<string, string> = {
-  January: "января", February: "февраля", March: "марта", April: "апреля",
-  May: "мая", June: "июня", July: "июля", August: "августа",
-  September: "сентября", October: "октября", November: "ноября", December: "декабря",
+  january: "января", jan: "января", february: "февраля", feb: "февраля",
+  march: "марта", mar: "марта", april: "апреля", apr: "апреля",
+  may: "мая", june: "июня", jun: "июня", july: "июля", jul: "июля",
+  august: "августа", aug: "августа", september: "сентября", sep: "сентября", sept: "сентября",
+  october: "октября", oct: "октября", november: "ноября", nov: "ноября",
+  december: "декабря", dec: "декабря",
 };
 
 const TITLE_PREFIX = "Weather forecast for";
-const DATE_RE = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\.?\s+(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\.?$/;
+const DATE_RE = /^([A-Za-z]+)\.?\s+(\d{1,2})\s+([A-Za-z]+)\.?$/;
 
 const TEXT_NODE_RE = /(<text\b[^>]*>)([\s\S]*?)(<\/text>)/g;
 
@@ -50,7 +56,9 @@ function translateLabel(key: string, city: string): string | null {
 
   const date = DATE_RE.exec(key);
   if (date) {
-    return `${WEEKDAYS[date[1]!]}, ${Number(date[2])} ${MONTHS[date[3]!]}`;
+    const weekday = WEEKDAYS[date[1]!.toLowerCase()];
+    const month = MONTHS[date[3]!.toLowerCase()];
+    if (weekday && month) return `${weekday}, ${Number(date[2])} ${month}`;
   }
 
   return null;
