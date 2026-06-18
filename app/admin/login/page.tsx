@@ -11,7 +11,7 @@ export default function AdminLoginPage() {
     <div className={styles.loginWrap}>
       <div className={styles.loginCard}>
         <h1 className={styles.h1}>Админка</h1>
-        <p className={styles.sub}>Погода Заполярья</p>
+        <p className={styles.sub}>Норметео</p>
         <form action={action}>
           <div className={styles.field}>
             <label className={styles.label} htmlFor="password">

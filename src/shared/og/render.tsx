@@ -77,7 +77,7 @@ export function renderOg({ title, subtitle, tag }: OgOpts): ImageResponse {
             </svg>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: "-0.01em" }}>Погода Заполярья</div>
+            <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: "-0.01em" }}>Норметео</div>
             <div style={{ fontSize: 20, opacity: 0.8 }}>Мурманск и область</div>
           </div>
         </div>
