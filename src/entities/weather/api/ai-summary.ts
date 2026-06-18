@@ -40,7 +40,12 @@ async function generateSummary(prompt: string): Promise<WeatherSummary> {
   очки/крем/защиту от УФ, что в Заполярье неуместно (правило промпта).
   Ловим это и перегенерируем; если все попытки нарушают — уходим в fallback.
 */
-const FORBIDDEN = /очк|крем|ультрафиолет|солнцезащит|\bуф\b/i;
+/*
+  Граница слова через lookbehind по кириллице (ASCII-\b с кириллицей не работает):
+  иначе «очк» ловит «точка росы», давая ложный фолбэк. Перед стеблем не должно быть
+  кириллической буквы — так «очки/крем» в начале слова ловятся, а «точка» — нет.
+*/
+const FORBIDDEN = /(?<![а-яё])(очк|крем)|ультрафиолет|солнцезащит|(?<![а-яё])уф(?![а-яё])/i;
 
 function violatesRules(s: WeatherSummary): boolean {
   return FORBIDDEN.test(s.accurate) || FORBIDDEN.test(s.advice);
@@ -70,9 +75,18 @@ function buildDataBlock(weather: CityWeather, daylight: DaylightInfo): string {
     ? "- сейчас полярная ночь: темно круглые сутки, солнце не восходит"
     : "";
 
+  /* направление ощущаемой отдаём готовым — модель не должна сама выводить знак */
+  const feelsDelta = current.feels - current.temp;
+  const feelsNote =
+    feelsDelta <= -1
+      ? " (ощущается ХОЛОДНЕЕ фактической из-за ветра и/или влажности)"
+      : feelsDelta >= 1
+      ? " (ощущается теплее фактической)"
+      : " (примерно как фактическая)";
+
   return [
     "Данные сейчас:",
-    `- температура ${current.temp}°C, ощущается как ${current.feels}°C`,
+    `- температура ${current.temp}°C, ощущается как ${current.feels}°C${feelsNote}`,
     `- ${current.conditionLabel.toLowerCase()}`,
     `- ветер ${current.windDir} ${current.wind} м/с (порывы до ${current.gust} м/с)`,
     `- влажность ${current.humidity}%`,

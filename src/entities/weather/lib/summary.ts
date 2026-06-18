@@ -17,8 +17,9 @@ export function buildSummary(city: City, weather: CityWeather, daylight: Dayligh
   const range = today ? `Днём воздух прогреется до ${withSign(today.tmax)} °C, к ночи похолодает до ${withSign(today.tmin)} °C.` : "";
   const precipChance = chanceOfPrecip(weather);
 
+  /* без «в <город>»: название уже над сводкой, а склонять 224 точки (базы, маяки) нечем */
   const accurate =
-    `Сейчас в ${cityInflected(city.name)} ${tempStr} °C, ${condStr}, ветер ${windWord(current.windDir)} ${current.wind} м/с. ` +
+    `Сейчас ${tempStr} °C, ${condStr}, ветер ${windWord(current.windDir)} ${current.wind} м/с. ` +
     `${range} Вероятность осадков ${precipChance}.`;
 
   return { accurate, advice: buildAdvice(current.temp, weather, daylight) };
@@ -70,24 +71,4 @@ function windWord(dir: string): string {
     СЗ: "северо-западный",
   };
   return map[dir] ?? "переменный";
-}
-
-/* Простое склонение названий городов области в предложный падеж */
-function cityInflected(name: string): string {
-  const exceptions: Record<string, string> = {
-    Мурманск: "Мурманске",
-    Апатиты: "Апатитах",
-    Кировск: "Кировске",
-    Североморск: "Североморске",
-    Мончегорск: "Мончегорске",
-    Кандалакша: "Кандалакше",
-    Оленегорск: "Оленегорске",
-    Полярный: "Полярном",
-    Заполярный: "Заполярном",
-    Ковдор: "Ковдоре",
-    Никель: "Никеле",
-    Териберка: "Териберке",
-    Печенга: "Печенге",
-  };
-  return exceptions[name] ?? name;
 }
