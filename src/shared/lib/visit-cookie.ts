@@ -2,6 +2,7 @@
 
 export const COOKIE_VISITS = "pv"; // "slug:count,slug:count"
 export const COOKIE_RECENT = "pr"; // "slug,slug,slug"
+export const COOKIE_PINNED = "pc"; // вручную выбранный город главной (slug)
 
 const MIN_VISITS = 5;
 const LEAD_FACTOR = 2;

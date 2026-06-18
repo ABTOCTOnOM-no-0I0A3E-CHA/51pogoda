@@ -3,7 +3,7 @@ import { HomePage } from "@/views/home";
 import { JsonLd } from "@/shared/ui";
 import { SITE } from "@/shared/config/site";
 import { CAPITAL_SLUG } from "@/entities/city";
-import { getPreferredSlug, parseRecent, COOKIE_VISITS, COOKIE_RECENT } from "@/shared/lib/visit-cookie";
+import { getPreferredSlug, parseRecent, COOKIE_VISITS, COOKIE_RECENT, COOKIE_PINNED } from "@/shared/lib/visit-cookie";
 
 /* Страница динамическая — personalised по cookie. Погода кешируется в unstable_cache. */
 export const dynamic = "force-dynamic";
@@ -14,6 +14,7 @@ export default async function Page() {
   const recentRaw = cookieStore.get(COOKIE_RECENT)?.value ?? "";
 
   const preferredSlug = getPreferredSlug(visitsRaw, CAPITAL_SLUG);
+  const pinnedSlug = cookieStore.get(COOKIE_PINNED)?.value ?? null;
   const recentSlugs = parseRecent(recentRaw);
 
   const jsonLd = {
@@ -29,7 +30,7 @@ export default async function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <HomePage preferredSlug={preferredSlug} recentSlugs={recentSlugs} />
+      <HomePage preferredSlug={preferredSlug} pinnedSlug={pinnedSlug} recentSlugs={recentSlugs} />
     </>
   );
 }

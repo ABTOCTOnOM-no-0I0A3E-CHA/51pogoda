@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { getCapital } from "@/entities/city";
 import type { City } from "@/entities/city";
-import { getAllCities, getRegionCitiesMerged, getCityMerged } from "@/entities/city/lib/registry";
+import { getAllCities, getRegionCitiesMerged, getCityMerged, getCustomCities } from "@/entities/city/lib/registry";
 import { getCityWeather, getCitiesWeather, getAiSummary } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { HomeHero } from "@/widgets/home-hero";
@@ -16,45 +16,49 @@ import { HeroSkeleton, CitiesGridSkeleton } from "./skeletons";
 
 interface HomePageProps {
   preferredSlug?: string | null;
+  pinnedSlug?: string | null;
   recentSlugs?: string[];
 }
 
-export function HomePage({ preferredSlug, recentSlugs = [] }: HomePageProps) {
+export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePageProps) {
   const capital = getCapital();
-  const heroCity = (preferredSlug ? getCityMerged(preferredSlug) : null) ?? capital;
+  /* ручной выбор главнее всего; иначе популярный по визитам; иначе столица */
+  const autoCity = preferredSlug ? getCityMerged(preferredSlug) : null;
+  const pinnedCity = pinnedSlug ? getCityMerged(pinnedSlug) : null;
+  const heroCity = pinnedCity ?? autoCity ?? capital;
+  const heroPinned = pinnedCity != null;
+  const pickerExtra = getCustomCities();
 
   const recentCities = recentSlugs
     .map((s) => getCityMerged(s))
     .filter((c): c is City => c != null);
 
   return (
-    <div className="content-padding" style={{ maxWidth: 1060, margin: "0 auto", padding: "28px 24px 80px" }}>
+    <div className="content-padding" style={{ maxWidth: 1060, margin: "0 auto", padding: "28px 24px 28px" }}>
       <Suspense fallback={<HeroSkeleton />}>
-        <HeroBlock city={heroCity} />
+        <HeroBlock city={heroCity} pinned={heroPinned} pickerExtra={pickerExtra} />
       </Suspense>
-
-      <div className="full-bleed-mobile" style={{ marginTop: 16 }}>
-        <Suspense fallback={<AiSummarySkeleton />}>
-          <AiBlock city={heroCity} />
-        </Suspense>
-      </div>
 
       <Suspense fallback={<MeteoSkeleton />}>
         <MeteoBlock city={heroCity} />
       </Suspense>
 
-      <div style={{ marginTop: 28 }}>
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12, gap: 12 }}>
-          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800, letterSpacing: "-.02em" }}>Карта осадков</h2>
-          <span style={{ fontSize: 13, color: "#8a98a6", fontWeight: 500 }}>Windy</span>
+      <div className="home-summary-row" style={{ display: "flex", gap: 16, marginTop: 16, alignItems: "stretch" }}>
+        <div className="full-bleed-mobile" style={{ flex: 1, minWidth: 0 }}>
+          <Suspense fallback={<AiSummarySkeleton />}>
+            <AiBlock city={heroCity} />
+          </Suspense>
         </div>
-        <div className="full-bleed-mobile" style={{ borderRadius: 14, overflow: "hidden" }}>
-          <RainMap height={360} />
+
+        <div className="home-rainmap" style={{ flex: "none", width: 380, display: "flex", flexDirection: "column" }}>
+          <div className="home-rainmap-box full-bleed-mobile" style={{ width: "100%", borderRadius: 14, overflow: "hidden", border: "1px solid #d4dce5" }}>
+            <RainMap />
+          </div>
         </div>
       </div>
 
       {recentCities.length > 0 && (
-        <div style={{ marginTop: 38 }}>
+        <div style={{ marginTop: 32 }}>
           <h2 style={{ margin: "0 0 12px", fontSize: 20, fontWeight: 800, letterSpacing: "-.02em" }}>Недавно смотрели</h2>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             {recentCities.map((city) => (
@@ -96,11 +100,11 @@ export function HomePage({ preferredSlug, recentSlugs = [] }: HomePageProps) {
 
 /* ---- стримящиеся блоки: оболочка отдаётся сразу, данные подтекают ---- */
 
-async function HeroBlock({ city }: { city: City }) {
-  const daylight = getDaylight(city.lat, new Date());
+async function HeroBlock({ city, pinned, pickerExtra }: { city: City; pinned: boolean; pickerExtra: City[] }) {
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
   try {
     const weather = await getCityWeather(city);
-    return <HomeHero city={city} weather={weather} daylight={daylight} />;
+    return <HomeHero city={city} weather={weather} daylight={daylight} pinned={pinned} pickerExtra={pickerExtra} />;
   } catch {
     return <HeroSkeleton />;
   }
@@ -113,7 +117,7 @@ async function AiBlock({ city }: { city: City }) {
   } catch {
     return null;
   }
-  const daylight = getDaylight(city.lat, new Date());
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
   const summary = await getAiSummary(city, weather, daylight);
   return <AiSummary summary={summary} />;
 }
