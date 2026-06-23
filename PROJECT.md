@@ -1,4 +1,4 @@
-# Погода Заполярья — PROJECT MAP
+# Норметео (51pogoda.ru) — PROJECT MAP
 
 Региональный погодный сервис для Мурманска и Мурманской области: прогноз для
 **224 точек** (города, посёлки, сёла, маяки, КПП, аэродромы, турбазы, рыболовные
@@ -22,9 +22,29 @@ bun run lint       # eslint .
 bun test           # юнит-тесты (bun:test)
 ```
 
-**Рантайм — Bun**, не Node: `bunfig.toml` содержит `[run] bun = true`, поэтому все
+**Локально — Bun**: `bunfig.toml` содержит `[run] bun = true`, поэтому все
 `bun run <script>` исполняются Bun'ом. `proxy.ts` (бывший middleware) работает в
 **Node-рантайме** Next 16 — там доступен `fs`.
+
+### Деплой (Docker)
+
+`Dockerfile` (многостадийный) + `docker-compose.yml` + `.dockerignore`:
+
+```bash
+cp .env.example .env   # заполнить секреты (см. таблицу ниже)
+docker compose up -d --build
+```
+
+- **deps** — Bun (по `bun.lock`); **build и runtime — Node** (`next build`/`next start`).
+  ⚠️ Прод НЕ на Bun: вывод Turbopack у Next 16 на рантайме Bun падает
+  (`util.markAsUncloneable` не реализован) — сервер стартует, но любой рендер 500.
+- non-root (`USER node`), только прод-зависимости, `no-new-privileges`, том `app-data`
+  для `/app/data`. `read_only` НЕ ставим: Next 16 пишет prerender-кэш в
+  `.next/server/app`, на read-only это ENOENT.
+- порт хоста `5100` → контейнер `3000`; наружу — реверс-прокси (TLS/HSTS/CSP).
+- **ровно один инстанс** (in-memory аналитика + login-throttle, см. подводные камни).
+- `NEXT_PUBLIC_SITE_URL` инлайнится на сборке (в build `.env` не виден) — дефолт
+  домена зашит в `site.ts` (`51pogoda.ru`).
 
 Переменные окружения (`.env`, gitignored; пример — `.env.example`):
 
@@ -86,9 +106,10 @@ src/
 ├── shared/                     переиспользуемое, без доменной логики
 │   ├── config/site.ts          SITE (имя, url, описание), MET_USER_AGENT, FORECAST_REVALIDATE=1800
 │   ├── lib/
-│   │   ├── daylight.ts             полярный день/ночь по координатам и дате
-│   │   ├── format.ts               форматтеры (tempStr, headerDate …)
-│   │   ├── visit-cookie.ts         parse/serialize кук pv (визиты) и pr (недавние)
+│   │   ├── daylight.ts             полярный день/ночь + восход/закат + пер-городские интервалы (по lat/lon)
+│   │   ├── temp-color.ts           цвет температуры по значению (шкала pogoda51)
+│   │   ├── format.ts               форматтеры (signedTemp, headerDate, dayMonthLong …)
+│   │   ├── visit-cookie.ts         parse/serialize кук pv (визиты), pr (недавние), pc (закреплённый город)
 │   │   ├── admin-session.ts        HMAC-сессия (Web Crypto): verifyPassword, create/verifySessionToken
 │   │   ├── admin-guard.ts          isAdminAuthed() для route handlers (через next/headers cookies)
 │   │   ├── login-throttle.ts       per-IP анти-брутфорс (5 попыток/15мин → блок), in-memory
@@ -115,7 +136,7 @@ src/
 │       │   ├── gigachat-ca.ts      PEM корневого/промежуточного УЦ
 │       │   └── ai-summary.ts       getAiSummary: unstable_cache(3600, tags ai/ai:slug), 3 ретрая, фильтр правил, fallback
 │       ├── lib/
-│       │   ├── summary.ts          buildSummary — детерминированная сводка (fallback без LLM) + склонения
+│       │   ├── summary.ts          buildSummary — детерминированная сводка (fallback без LLM)
 │       │   ├── prompt-store.ts     ★ server-only: промпты (data/ai-prompts.json), getPromptTemplate, set*
 │       │   ├── prompt-template.ts  чистый рендер шаблона {city}/{data} + DEFAULT_GLOBAL_PROMPT (под тесты)
 │       │   ├── meteogram-i18n.ts   перевод подписей в SVG-метеограмме yr.no
@@ -124,7 +145,8 @@ src/
 │       └── ui/                     WeatherIcon, TempChart
 
 ├── features/
-│   ├── city-search/            клиентский поиск в шапке (zustand store); custom-точки приходят пропом
+│   ├── city-search/            поиск в шапке (zustand store); инлайн на десктопе, лупа+поповер ≤1024px
+│   ├── home-city/              ручной выбор города героя на главной (пишет куку pc, router.refresh)
 │   └── param-tooltip/          тултипы к параметрам погоды (zustand store)
 
 ├── widgets/                    композитные блоки UI (см. ниже «Страницы»)
@@ -134,11 +156,12 @@ src/
 │   └── locations-catalog, sun-card, other-cities-cta
 
 └── views/
-    ├── home/ui/HomePage.tsx    сборка главной (Suspense-блоки: Hero, Ai, Meteo, Cities)
+    ├── home/ui/HomePage.tsx    сборка главной (Hero → Meteo → сводка+карта осадков в ряд → Cities)
     └── city/ui/CityPage.tsx    сборка страницы точки (Hero, Ai, Meteo, Details)
 
 proxy.ts                        ★ per-request хук (Node): защита /admin, трекинг кук визитов, recordHit аналитики
 data/                           рантайм-данные (gitignored): custom-cities.json, ai-prompts.json, analytics.json
+Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деплой» выше)
 ```
 
 ★ — модули с неочевидной ролью, см. «Конвенции и подводные камни».
@@ -175,9 +198,11 @@ data/                           рантайм-данные (gitignored): custom
 - Сброс из админки: `revalidateTag(tag, "max")` (второй аргумент обязателен в Next 16).
 - Добавление/правка точки: `revalidatePath("/")`, `/sitemap.xml`, `/<slug>`.
 
-### Персонализация (cookie-based, в `proxy.ts`)
-- `pv` — визиты по каждому slug; `pr` — последние 5 посещённых.
-- **Предпочитаемый город** на главной: ≥5 визитов И ≥2× отрыв от второго → в герой.
+### Персонализация (cookie-based)
+- `pv` — визиты по slug; `pr` — последние 5 посещённых (пишет `proxy.ts`).
+- `pc` — вручную закреплённый город главной (пишет клиент `home-city`).
+- **Город героя на главной** (приоритет): ручной `pc` → «популярный» по визитам
+  (≥5 визитов И ≥2× отрыв от второго) → столица. Т.е. ручной выбор главнее визитов.
 - **«Недавно смотрели»** и badge «смотрели» в сетке.
 
 ### Админка (`/admin`)
@@ -240,8 +265,8 @@ data/                           рантайм-данные (gitignored): custom
 - **Аналитика:** хранилище не ограничено (мусорные slug пишутся, фильтр только на
   отображении) — стоит валидировать slug до записи или капать число ключей/день.
 - **Атомарность записи** файловых сторов (см. подводные камни).
-- **Склонения:** `cityInflected` (summary.ts) покрывает ~12 городов; заголовок
-  страницы спецкейсит только Мурманск.
+- **Склонения:** заголовок страницы города спецкейсит предложный падеж только для
+  Мурманска («Погода в Мурманске»); остальные — в именительном.
 - **Заголовки безопасности** (`next.config.ts`): есть `X-Frame-Options`,
   `Referrer-Policy`, `Permissions-Policy`, `nosniff`. Нет HSTS и site-wide CSP
   (CSP только на SVG-прокси) — обычно вешают на реверс-прокси/CDN.
