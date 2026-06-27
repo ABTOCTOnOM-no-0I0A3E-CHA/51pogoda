@@ -15,3 +15,6 @@ package-lock.json
 npm-debug.log*
 .vercel
 .env
+
+# файловый кэш метеограмм
+.cache
