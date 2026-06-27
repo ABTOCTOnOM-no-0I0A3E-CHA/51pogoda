@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import type { City } from "@/entities/city";
-import { getCityWeather, getAiSummary } from "@/entities/weather";
+import { getCityWeather, getAiSummary, getCityConsensus } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { CityHero } from "@/widgets/city-hero";
 import { AiSummary, AiSummarySkeleton } from "@/widgets/ai-summary";
@@ -10,6 +10,7 @@ import { CurrentParams } from "@/widgets/current-params";
 import { SunCard } from "@/widgets/sun-card";
 import { HourlyTable } from "@/widgets/hourly-table";
 import { DailyForecast } from "@/widgets/daily-forecast";
+import { SourceConsensus } from "@/widgets/consensus";
 import { OtherCitiesCta } from "@/widgets/other-cities-cta";
 import { SiteFooter } from "@/widgets/site-footer";
 import { CityHeroSkeleton, CityDetailsSkeleton } from "./skeletons";
@@ -66,7 +67,8 @@ async function AiBlock({ city }: { city: City }) {
     return null;
   }
   const daylight = getDaylight(city.lat, new Date(), city.lon);
-  const summary = await getAiSummary(city, weather, daylight);
+  const consensus = await getCityConsensus(city);
+  const summary = await getAiSummary(city, weather, daylight, consensus);
   return <AiSummary summary={summary} />;
 }
 
@@ -88,12 +90,14 @@ async function DetailsBlock({ city }: { city: City }) {
   } catch {
     return <SunCard city={city} daylight={daylight} />;
   }
+  const consensus = await getCityConsensus(city);
   return (
     <>
       <CurrentParams current={weather.current} />
       <SunCard city={city} daylight={daylight} />
       <HourlyTable hours={weather.hours} />
       <DailyForecast days={weather.days} />
+      {consensus && <SourceConsensus consensus={consensus} />}
     </>
   );
 }

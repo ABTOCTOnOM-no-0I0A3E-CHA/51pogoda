@@ -34,6 +34,21 @@ export function symbolToCondition(symbol: string | undefined): WeatherCondition 
   return "cloudy";
 }
 
+/* WMO weather code (Open-Meteo) в наш ограниченный набор условий */
+export function wmoToCondition(code: number): WeatherCondition {
+  if (code >= 95) return "rain"; /* гроза → дождь */
+  if (code >= 85) return "snow"; /* снежные ливни */
+  if (code >= 80) return "rain"; /* ливни */
+  if (code >= 71) return "snow"; /* снег */
+  if (code >= 66) return "rain"; /* ледяной дождь */
+  if (code >= 63) return "rain"; /* умеренный/сильный дождь */
+  if (code >= 51) return "lightrain"; /* морось и слабый дождь */
+  if (code >= 45) return "fog"; /* туман */
+  if (code === 3) return "overcast";
+  if (code === 1 || code === 2) return "partly";
+  return "clear"; /* 0 */
+}
+
 const COMPASS = ["С", "СВ", "В", "ЮВ", "Ю", "ЮЗ", "З", "СЗ"];
 
 /* Направление, ОТКУДА дует ветер (как принято в метеорологии) */

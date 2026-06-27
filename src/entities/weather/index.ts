@@ -4,6 +4,10 @@ export type {
   DayPoint,
   CurrentWeather,
   CityWeather,
+  Confidence,
+  SourceDay,
+  DayConsensus,
+  ForecastConsensus,
 } from "./model/types";
 
 export { WeatherIcon } from "./ui/WeatherIcon";
@@ -21,3 +25,5 @@ export {
   getCitiesWeather,
   type CityWithWeather,
 } from "./api/get-weather";
+
+export { getCityConsensus } from "./api/get-consensus";
