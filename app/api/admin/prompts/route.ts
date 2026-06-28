@@ -34,11 +34,11 @@ export async function POST(req: Request) {
 
   if (scope === "global") {
     setGlobalPrompt(String(body.text ?? ""));
-    revalidateTag("ai", "max");
+    revalidateTag("ai");
   } else {
     /* пустой text — удалить оверрайд */
     setCityPrompt(scope, body.text ?? null);
-    revalidateTag(`ai:${scope}`, "max");
+    revalidateTag(`ai:${scope}`);
   }
 
   return NextResponse.json({ ok: true });

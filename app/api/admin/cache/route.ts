@@ -24,8 +24,7 @@ export async function POST(req: Request) {
   }
 
   const tag = slug ? `${type}:${slug}` : type;
-  /* "max" — рекомендованный Next 16 профиль: немедленная инвалидация тега */
-  revalidateTag(tag, "max");
+  revalidateTag(tag);
 
   return NextResponse.json({ ok: true, revalidated: tag });
 }
