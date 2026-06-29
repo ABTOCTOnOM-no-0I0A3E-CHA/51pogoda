@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   }
 
   const tag = slug ? `${type}:${slug}` : type;
-  revalidateTag(tag);
+  revalidateTag(tag, "max");
 
   return NextResponse.json({ ok: true, revalidated: tag });
 }

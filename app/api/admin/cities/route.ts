@@ -53,8 +53,8 @@ export async function PUT(req: Request) {
   if (!result.ok) return NextResponse.json({ error: result.error }, { status: 400 });
 
   /* Координаты/имя могли измениться — сбрасываем кеши погоды и ИИ этой точки */
-  revalidateTag(`weather:${slug}`);
-  revalidateTag(`ai:${slug}`);
+  revalidateTag(`weather:${slug}`, "max");
+  revalidateTag(`ai:${slug}`, "max");
   revalidateCity(slug);
   return NextResponse.json({ ok: true, city: result.city });
 }
@@ -71,8 +71,8 @@ export async function DELETE(req: Request) {
   const result = deleteCity(slug);
   if (!result.ok) return NextResponse.json({ error: result.error }, { status: 400 });
 
-  revalidateTag(`weather:${slug}`);
-  revalidateTag(`ai:${slug}`);
+  revalidateTag(`weather:${slug}`, "max");
+  revalidateTag(`ai:${slug}`, "max");
   revalidateCity(slug);
   return NextResponse.json({ ok: true });
 }
