@@ -11,25 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Copy source to production
+      - name: Package source
+        run: tar czf deploy.tar.gz --exclude=.git --exclude=.github --exclude=.claude --exclude=node_modules --exclude=.next --exclude=data --exclude=.env .
+
+      - name: Copy to production
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          source: "."
+          source: "deploy.tar.gz"
           target: "/opt/51pogoda"
-          use_rsync: true
-          rm: false
-          exclude: |
-            .git/
-            .github/
-            .claude/
-            node_modules/
-            .next/
-            data/
-            .env
 
       - name: Build and restart
         uses: appleboy/ssh-action@v1
@@ -40,4 +33,6 @@ jobs:
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
             cd /opt/51pogoda
+            tar xzf deploy.tar.gz
+            rm deploy.tar.gz
             docker compose up -d --build
