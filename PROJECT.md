@@ -35,10 +35,9 @@ cp .env.example .env   # заполнить секреты (см. таблицу
 docker compose up -d --build
 ```
 
-- **ollama** — сервис локальной нейронки (`ollama/ollama:latest`), порт `11434`.
-  Том `ollama_data:/root/.ollama` хранит скачанные модели. healthcheck до старта
-  `avito-monitor` не требуется (сайт работает и без нейронки — fallback), но
-  `depends_on` желателен для первого запуска.
+- **Ollama** — отдельный инстанс на сервере (НЕ в этом compose). 51pogoda
+  обращается к нему через `OLLAMA_URL` из `.env`. Если нейронка недоступна —
+  детерминированный fallback `buildSummary`.
 - **deps** — Bun (по `bun.lock`); **build и runtime — Node** (`next build`/`next start`).
   ⚠️ Прод НЕ на Bun: вывод Turbopack у Next 16 на рантайме Bun падает
   (`util.markAsUncloneable` не реализован) — сервер стартует, но любой рендер 500.
@@ -184,11 +183,11 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
 - **yr.no meteogram** — официальная SVG на 2 суток, проксируется через
   `/api/meteogram/[id]` (обход CORS/hotlink, перевод подписей, CSP). Если не
   загрузилась — клиент рисует свой почасовой график (`MeteoFallbackChart`).
-- **Локальная нейронка (Ollama)** — ИИ-сводка «простым языком». Замена GigaChat:
-  `ollama/ollama` в Docker, модель `qwen2.5:7b` (или через `OLLAMA_MODEL`). Вызов
-  через `fetch` к `OLLAMA_URL` (по умолч. `http://localhost:11434`), эндпоинт
-  `/api/generate`. 3 ретрая с экспоненциальной задержкой, fallback при таймауте.
-  Если Ollama недоступна — детерминированная сводка `buildSummary`.
+- **Локальная нейронка (Ollama)** — ИИ-сводка «простым языком». Замена GigaChat.
+  Отдельный инстанс на сервере, 51pogoda обращается по `OLLAMA_URL` (по умолч.
+  `http://localhost:11434`), эндпоинт `/api/generate`. Модель `qwen2.5:7b` (или
+  через `OLLAMA_MODEL`). 3 ретрая с экспоненциальной задержкой, fallback при
+  таймауте. Если Ollama недоступна — детерминированная сводка `buildSummary`.
 - ~~**GigaChat (Сбер)** — ИИ-сводка~~ (заменён на Ollama). Вызов шёл через `undici`
   с кастомным CA (сертификаты Минцифры); 3 ретрая + фильтр запрещённых тем.
   Код `gigachat.ts`/`gigachat-ca.ts` пока в репе, не используется.
