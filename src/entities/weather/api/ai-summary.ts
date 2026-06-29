@@ -5,7 +5,9 @@ import type { CityWeather, ForecastConsensus } from "../model/types";
 import { buildSummary, type WeatherSummary } from "../lib/summary";
 import { getPromptTemplate } from "../lib/prompt-store";
 import { renderTemplate } from "../lib/prompt-template";
-import { callGigaChat } from "./gigachat";
+import { callOllama } from "./ollama";
+
+const FORBIDDEN = /(?<![а-яё])(очк|крем)|ультрафиолет|солнцезащит|(?<![а-яё])уф(?![а-яё])/i;
 
 async function generateSummary(prompt: string): Promise<WeatherSummary> {
   let lastErr: Error = new Error("no attempts");
@@ -15,7 +17,7 @@ async function generateSummary(prompt: string): Promise<WeatherSummary> {
 
     let raw: string;
     try {
-      raw = await callGigaChat(prompt);
+      raw = await callOllama(prompt);
     } catch (e) {
       lastErr = e as Error;
       continue;
@@ -36,16 +38,10 @@ async function generateSummary(prompt: string): Promise<WeatherSummary> {
 }
 
 /*
-  GigaChat слабее держит негативные инструкции и периодически советует
-  очки/крем/защиту от УФ, что в Заполярье неуместно (правило промпта).
-  Ловим это и перегенерируем; если все попытки нарушают — уходим в fallback.
-*/
-/*
   Граница слова через lookbehind по кириллице (ASCII-\b с кириллицей не работает):
   иначе «очк» ловит «точка росы», давая ложный фолбэк. Перед стеблем не должно быть
   кириллической буквы — так «очки/крем» в начале слова ловятся, а «точка» — нет.
 */
-const FORBIDDEN = /(?<![а-яё])(очк|крем)|ультрафиолет|солнцезащит|(?<![а-яё])уф(?![а-яё])/i;
 
 function violatesRules(s: WeatherSummary): boolean {
   return FORBIDDEN.test(s.accurate) || FORBIDDEN.test(s.advice);

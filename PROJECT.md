@@ -35,6 +35,10 @@ cp .env.example .env   # заполнить секреты (см. таблицу
 docker compose up -d --build
 ```
 
+- **ollama** — сервис локальной нейронки (`ollama/ollama:latest`), порт `11434`.
+  Том `ollama_data:/root/.ollama` хранит скачанные модели. healthcheck до старта
+  `avito-monitor` не требуется (сайт работает и без нейронки — fallback), но
+  `depends_on` желателен для первого запуска.
 - **deps** — Bun (по `bun.lock`); **build и runtime — Node** (`next build`/`next start`).
   ⚠️ Прод НЕ на Bun: вывод Turbopack у Next 16 на рантайме Bun падает
   (`util.markAsUncloneable` не реализован) — сервер стартует, но любой рендер 500.
@@ -52,9 +56,11 @@ docker compose up -d --build
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | базовый URL (canonical, sitemap, OG) |
 | `MET_USER_AGENT` | контактный UA для api.met.no (требование ToS; example.com → 403) |
-| `GIGACHAT_AUTH_KEY` | base64-ключ авторизации GigaChat (Сбер) |
-| `GIGACHAT_SCOPE` | `GIGACHAT_API_PERS` \| `_B2B` \| `_CORP` |
-| `GIGACHAT_MODEL` | опц. (`GigaChat` \| `GigaChat-Pro` \| `GigaChat-Max`) |
+| `GIGACHAT_AUTH_KEY` | base64-ключ авторизации GigaChat (Сбер) — больше не используется |
+| `GIGACHAT_SCOPE` | `GIGACHAT_API_PERS` \| `_B2B` \| `_CORP` — не используется |
+| `GIGACHAT_MODEL` | опц. (`GigaChat` \| `GigaChat-Pro` \| `GigaChat-Max`) — не используется |
+| `OLLAMA_URL` | URL Ollama API (по умолч. `http://localhost:11434`) |
+| `OLLAMA_MODEL` | модель локальной нейронки (по умолч. `qwen2.5:7b`) |
 | `ADMIN_PASSWORD` | пароль входа в админку (без него админка недоступна) |
 | `ADMIN_SESSION_SECRET` | секрет подписи сессионной куки (иначе деградирует на пароль) |
 
@@ -178,10 +184,14 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
 - **yr.no meteogram** — официальная SVG на 2 суток, проксируется через
   `/api/meteogram/[id]` (обход CORS/hotlink, перевод подписей, CSP). Если не
   загрузилась — клиент рисует свой почасовой график (`MeteoFallbackChart`).
-- **GigaChat (Сбер)** — ИИ-сводка. Вызов идёт через `undici` с кастомным CA
-  (сертификаты Минцифры нет в дефолтном бандле; TLS НЕ отключается). 3 ретрая +
-  фильтр запрещённых тем (УФ/крем неактуальны в Заполярье). Любая ошибка → детермин.
-  fallback `buildSummary`.
+- **Локальная нейронка (Ollama)** — ИИ-сводка «простым языком». Замена GigaChat:
+  `ollama/ollama` в Docker, модель `qwen2.5:7b` (или через `OLLAMA_MODEL`). Вызов
+  через `fetch` к `OLLAMA_URL` (по умолч. `http://localhost:11434`), эндпоинт
+  `/api/generate`. 3 ретрая с экспоненциальной задержкой, fallback при таймауте.
+  Если Ollama недоступна — детерминированная сводка `buildSummary`.
+- ~~**GigaChat (Сбер)** — ИИ-сводка~~ (заменён на Ollama). Вызов шёл через `undici`
+  с кастомным CA (сертификаты Минцифры); 3 ретрая + фильтр запрещённых тем.
+  Код `gigachat.ts`/`gigachat-ca.ts` пока в репе, не используется.
 - **Windy** — iframe с картой осадков (ECMWF), без API-ключа.
 
 ### Модель рендеринга
