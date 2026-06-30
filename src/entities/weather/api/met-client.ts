@@ -40,7 +40,18 @@ export async function fetchMetForecast(
     }
 
     if (response.ok) {
-      return (await response.json()) as MetForecast;
+      const data = (await response.json()) as MetForecast;
+
+      /* Проверка свежести: если последняя точка в ряду старше 1 часа — пофиксить */
+      if (data.properties?.meta?.updated_at) {
+        const updated = new Date(data.properties.meta.updated_at).getTime();
+        const ageHrs = (Date.now() - updated) / 3_600_000;
+        if (ageHrs > 1) {
+          console.warn(`[met-client] ${slug ?? "?"} данные устарели на ${ageHrs.toFixed(1)}ч (обновлено ${data.properties.meta.updated_at})`);
+        }
+      }
+
+      return data;
     }
 
     lastErr = new Error(`MET Norway ответил ${response.status}`);

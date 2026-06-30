@@ -29,11 +29,13 @@ export const metadata: Metadata = {
     title: `${SITE.name} — погода в Мурманске и области`,
     description: SITE.description,
     url: SITE.url,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${SITE.name} — погода в Мурманске и области`,
     description: SITE.description,
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

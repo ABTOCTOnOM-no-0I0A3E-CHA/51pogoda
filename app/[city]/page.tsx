@@ -6,8 +6,8 @@ import { CityPage } from "@/views/city";
 import { JsonLd } from "@/shared/ui";
 import { SITE } from "@/shared/config/site";
 
-export const revalidate = 1800;
-/* Города пререндерим на сборке, остальные локации — по требованию + ISR */
+/* ISR: один HTML на час для всех пользователей. Данные в фоне обновятся. */
+export const revalidate = 3600;
 export const dynamicParams = true;
 
 interface PageProps {
@@ -39,6 +39,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${title} · ${SITE.name}`,
       description,
       url: `${SITE.url}${canonical}`,
+      images: [{ url: `/${city.slug}/opengraph-image`, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} · ${SITE.name}`,
+      description,
+      images: [`/${city.slug}/opengraph-image`],
     },
   };
 }

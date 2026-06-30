@@ -12,7 +12,7 @@ function cachedResponse(svg: string) {
     status: 200,
     headers: {
       "Content-Type": "image/svg+xml; charset=utf-8",
-      "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=3600",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=7200",
       "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'",
     },
   });
@@ -32,7 +32,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   try {
     const upstream = await fetch(`https://www.yr.no/en/content/${id}/meteogram.svg`, {
       headers: { "User-Agent": MET_USER_AGENT, Accept: "image/svg+xml" },
-      next: { revalidate: 1800 },
+      next: { revalidate: 3600 },
     });
 
     if (!upstream.ok) {

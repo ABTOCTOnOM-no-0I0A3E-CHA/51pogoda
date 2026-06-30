@@ -55,11 +55,9 @@ docker compose up -d --build
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | базовый URL (canonical, sitemap, OG) |
 | `MET_USER_AGENT` | контактный UA для api.met.no (требование ToS; example.com → 403) |
-| `GIGACHAT_AUTH_KEY` | base64-ключ авторизации GigaChat (Сбер) — больше не используется |
-| `GIGACHAT_SCOPE` | `GIGACHAT_API_PERS` \| `_B2B` \| `_CORP` — не используется |
-| `GIGACHAT_MODEL` | опц. (`GigaChat` \| `GigaChat-Pro` \| `GigaChat-Max`) — не используется |
 | `OLLAMA_URL` | URL Ollama API (по умолч. `http://localhost:11434`) |
 | `OLLAMA_MODEL` | модель локальной нейронки (по умолч. `qwen2.5:7b`) |
+| `OPEN_METEO_PROXY` | HTTP/HTTPS/SOCKS-прокси для Open-Meteo (если недоступен напрямую) |
 | `ADMIN_PASSWORD` | пароль входа в админку (без него админка недоступна) |
 | `ADMIN_SESSION_SECRET` | секрет подписи сессионной куки (иначе деградирует на пароль) |
 
@@ -80,8 +78,10 @@ app/
 ├── robots.ts, sitemap.ts   SEO (sitemap по всем точкам через registry)
 ├── not-found.tsx           404
 ├── api/
-│   ├── meteogram/[id]/route.ts   прокси yr.no SVG-метеограммы (SSRF-фильтр 2-\d{4,9}, i18n, CSP)
-│   └── admin/                    защищённые API админки (каждый сам проверяет сессию):
+│   ├── meteogram/[id]/route.ts     прокси yr.no SVG-метеограммы (SSRF-фильтр 2-\d{4,9}, i18n, CSP)
+│   ├── ai-summary/[slug]/route.ts  GET сводки (Server Component stream, force-dynamic)
+│   ├── open-meteo-proxy/route.ts   прокси Open-Meteo (обход блокировок, опциональный PROXY_AGENT)
+│   └── admin/                      защищённые API админки (каждый сам проверяет сессию):
 │       ├── cache/route.ts        POST: revalidateTag(weather|ai[:slug], "max")
 │       ├── cities/route.ts       GET/POST/PUT/DELETE кастомных точек
 │       ├── prompts/route.ts      GET/POST глобального и по-городских промптов
@@ -137,16 +137,18 @@ src/
 │       │   ├── build-weather.ts    buildCityWeather — парсинг ответа MET в CityWeather
 │       │   ├── met-types.ts        типы ответа api.met.no
 │       │   ├── get-weather.ts      getCityWeather (React cache, дедуп) + getCitiesWeather (батчи по 4)
-│       │   ├── gigachat.ts         ★ вызов GigaChat через undici + кастомный CA (сертификаты Минцифры)
-│       │   ├── gigachat-ca.ts      PEM корневого/промежуточного УЦ
-│       │   └── ai-summary.ts       getAiSummary: unstable_cache(3600, tags ai/ai:slug), 3 ретрая, фильтр правил, fallback
+│       │   ├── ai-summary.ts       getAiSummary (buildSummary, без LLM)
+│       │   ├── open-meteo-client.ts  fetchOpenMeteo — прокси-клиент Open-Meteo API
+│       │   ├── open-meteo-types.ts   типы ответа Open-Meteo
+│       │   └── get-consensus.ts    getCityConsensus — свод по нескольким моделям
 │       ├── lib/
 │       │   ├── summary.ts          buildSummary — детерминированная сводка (fallback без LLM)
 │       │   ├── prompt-store.ts     ★ server-only: промпты (data/ai-prompts.json), getPromptTemplate, set*
 │       │   ├── prompt-template.ts  чистый рендер шаблона {city}/{data} + DEFAULT_GLOBAL_PROMPT (под тесты)
 │       │   ├── meteogram-i18n.ts   перевод подписей в SVG-метеограмме yr.no
+│       │   ├── consensus.ts        buildConsensus — свод по моделям (clean, под тесты)
 │       │   ├── apparent.ts, condition.ts, chart.ts   ярлыки/иконки/конфиг графика
-│       ├── model/types.ts          CityWeather, CurrentWeather, HourPoint, DayPoint
+│       ├── model/types.ts          CityWeather, CurrentWeather, HourPoint, DayPoint, ForecastConsensus
 │       └── ui/                     WeatherIcon, TempChart
 
 ├── features/
@@ -157,7 +159,7 @@ src/
 ├── widgets/                    композитные блоки UI (см. ниже «Страницы»)
 │   ├── site-header (★ server: подмешивает кастомные точки в поиск), site-footer
 │   ├── home-hero, city-hero, ai-summary, meteogram, rain-map (Windy iframe)
-│   ├── cities-grid, current-params, daily-forecast, hourly-table
+│   ├── cities-grid, current-params, daily-forecast, hourly-table, consensus
 │   └── locations-catalog, sun-card, other-cities-cta
 
 └── views/
@@ -183,14 +185,12 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
 - **yr.no meteogram** — официальная SVG на 2 суток, проксируется через
   `/api/meteogram/[id]` (обход CORS/hotlink, перевод подписей, CSP). Если не
   загрузилась — клиент рисует свой почасовой график (`MeteoFallbackChart`).
-- **Локальная нейронка (Ollama)** — ИИ-сводка «простым языком». Замена GigaChat.
-  Отдельный инстанс на сервере, 51pogoda обращается по `OLLAMA_URL` (по умолч.
-  `http://localhost:11434`), эндпоинт `/api/generate`. Модель `qwen2.5:7b` (или
-  через `OLLAMA_MODEL`). 3 ретрая с экспоненциальной задержкой, fallback при
-  таймауте. Если Ollama недоступна — детерминированная сводка `buildSummary`.
-- ~~**GigaChat (Сбер)** — ИИ-сводка~~ (заменён на Ollama). Вызов шёл через `undici`
-  с кастомным CA (сертификаты Минцифры); 3 ретрая + фильтр запрещённых тем.
-  Код `gigachat.ts`/`gigachat-ca.ts` пока в репе, не используется.
+- **Open-Meteo** — консенсус-прогноз по нескольким численным моделям (ECMWF, GFS,
+  MeteoFrance, JMA и др.). Вызов через `/api/open-meteo-proxy` (обход блокировок
+  через опциональный прокси). Результат — `ForecastConsensus` с разбросом температур
+  и уверенностью.
+- **ИИ-сводка** — временно отключена (`getAiSummary` → `buildSummary`).
+  Детерминированная сводка работает всегда; LLM-интеграция (Ollama) заглушена.
 - **Windy** — iframe с картой осадков (ECMWF), без API-ключа.
 
 ### Модель рендеринга
@@ -264,8 +264,9 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
 
 ## Тех-долг и известные ограничения
 
-- **Мёртвые зависимости:** `leaflet`, `react-leaflet`, `@types/leaflet` нигде не
-  импортятся (карта осадков — Windy iframe). Можно удалить.
+- **ИИ-сводка (LLM)** временно отключена: `getAiSummary` вызывает `buildSummary`
+  (детерминированный fallback). Интеграция с Ollama (`callOllama`) удалена как
+  неиспользуемая.
 - **Покрытие тестами:** 41 юнит-тест (HMAC-сессия, валидация точек, рендер промпта).
   Не покрыто: `buildCityWeather` (парсинг MET — главный кандидат на баги),
   `visit-cookie`, агрегация аналитики, E2E админки.

@@ -13,6 +13,7 @@ import { DailyForecast } from "@/widgets/daily-forecast";
 import { SourceConsensus } from "@/widgets/consensus";
 import { OtherCitiesCta } from "@/widgets/other-cities-cta";
 import { SiteFooter } from "@/widgets/site-footer";
+import { Skeleton } from "@/shared/ui";
 import { CityHeroSkeleton, CityDetailsSkeleton } from "./skeletons";
 
 export function CityPage({ city }: { city: City }) {
@@ -38,13 +39,41 @@ export function CityPage({ city }: { city: City }) {
       </Suspense>
 
       <Suspense fallback={<CityDetailsSkeleton />}>
-        <DetailsBlock city={city} />
+        <WeatherBlocks city={city} />
+      </Suspense>
+
+      <Suspense fallback={<Skeleton height={80} radius={16} style={{ marginTop: 22 }} />}>
+        <ConsensusBlock city={city} />
       </Suspense>
 
       <OtherCitiesCta />
       <SiteFooter marginTop={32} />
     </div>
   );
+}
+
+async function WeatherBlocks({ city }: { city: City }) {
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
+  let weather;
+  try {
+    weather = await getCityWeather(city);
+  } catch {
+    return <SunCard city={city} daylight={daylight} />;
+  }
+  return (
+    <>
+      <CurrentParams current={weather.current} />
+      <SunCard city={city} daylight={daylight} />
+      <HourlyTable hours={weather.hours} />
+      <DailyForecast days={weather.days} />
+    </>
+  );
+}
+
+async function ConsensusBlock({ city }: { city: City }) {
+  const consensus = await getCityConsensus(city);
+  if (!consensus) return null;
+  return <SourceConsensus consensus={consensus} />;
 }
 
 async function HeroBlock({ city }: { city: City }) {
@@ -65,26 +94,6 @@ async function MeteoBlock({ city }: { city: City }) {
     /* внешняя метеограмма yr.no всё равно отрисуется */
   }
   return <CityMeteogram city={city} hours={hours} />;
-}
-
-async function DetailsBlock({ city }: { city: City }) {
-  const daylight = getDaylight(city.lat, new Date(), city.lon);
-  let weather;
-  try {
-    weather = await getCityWeather(city);
-  } catch {
-    return <SunCard city={city} daylight={daylight} />;
-  }
-  const consensus = await getCityConsensus(city);
-  return (
-    <>
-      <CurrentParams current={weather.current} />
-      <SunCard city={city} daylight={daylight} />
-      <HourlyTable hours={weather.hours} />
-      <DailyForecast days={weather.days} />
-      {consensus && <SourceConsensus consensus={consensus} />}
-    </>
-  );
 }
 
 /* Реальные данные недоступны — честное состояние вместо мока */
