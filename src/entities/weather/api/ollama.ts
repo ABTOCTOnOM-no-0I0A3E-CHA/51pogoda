@@ -3,7 +3,7 @@ const OLLAMA_MODEL = process.env.OLLAMA_MODEL ?? "qwen2.5:7b";
 
 export async function callOllama(prompt: string): Promise<string> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 15_000);
+  const timer = setTimeout(() => controller.abort(), 120_000);
 
   try {
     const response = await fetch(`${OLLAMA_URL}/api/generate`, {

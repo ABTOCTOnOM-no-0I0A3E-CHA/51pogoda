@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import type { City } from "@/entities/city";
-import { getCityWeather, getAiSummary, getCityConsensus } from "@/entities/weather";
+import { getCityWeather, getCityConsensus } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { CityHero } from "@/widgets/city-hero";
-import { AiSummary, AiSummarySkeleton } from "@/widgets/ai-summary";
+import { AiSummaryStream } from "@/widgets/ai-summary";
 import { CityMeteogram, MeteoSkeleton } from "@/widgets/meteogram";
 import { CurrentParams } from "@/widgets/current-params";
 import { SunCard } from "@/widgets/sun-card";
@@ -30,9 +30,7 @@ export function CityPage({ city }: { city: City }) {
         <Suspense fallback={<CityHeroSkeleton />}>
           <HeroBlock city={city} />
         </Suspense>
-        <Suspense fallback={<AiSummarySkeleton />}>
-          <AiBlock city={city} />
-        </Suspense>
+        <AiSummaryStream slug={city.slug} />
       </div>
 
       <Suspense fallback={<MeteoSkeleton />}>
@@ -57,19 +55,6 @@ async function HeroBlock({ city }: { city: City }) {
   } catch {
     return <HeroUnavailable city={city} />;
   }
-}
-
-async function AiBlock({ city }: { city: City }) {
-  let weather;
-  try {
-    weather = await getCityWeather(city);
-  } catch {
-    return null;
-  }
-  const daylight = getDaylight(city.lat, new Date(), city.lon);
-  const consensus = await getCityConsensus(city);
-  const summary = await getAiSummary(city, weather, daylight, consensus);
-  return <AiSummary summary={summary} />;
 }
 
 async function MeteoBlock({ city }: { city: City }) {
