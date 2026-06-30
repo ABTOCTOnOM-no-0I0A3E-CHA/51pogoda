@@ -234,9 +234,7 @@ a {
   .hero-polar-badge {
     display: none !important;
   }
-  .hero-ai-row {
-    flex-direction: column !important;
-  }
+
   /* ---- адаптив города ---- */
   .hero-grid {
     grid-template-columns: 1fr !important;
@@ -248,7 +246,6 @@ a {
     flex-wrap: wrap !important;
     gap: 16px !important;
   }
-  .days-bar-col,
   .days-cond,
   .days-wind {
     display: none !important;
@@ -273,14 +270,6 @@ a {
     text-align: right;
     line-height: 1.25;
   }
-  /* метеограмма на главной — на всю ширину блока hero, без скруглений */
-  .home-meteo {
-    margin-left: -36px;
-    margin-right: -36px;
-  }
-  .home-meteo img {
-    border-radius: 0 !important;
-  }
 }
 
 @media (max-width: 480px) {
@@ -296,14 +285,7 @@ a {
   .hero-padding {
     padding: 18px 18px 10px !important;
   }
-  .hero-meteo-padding {
-    padding: 4px 18px 20px !important;
-  }
-  /* на ≤480 боковой отступ hero меньше (18px) — корректируем вынос */
-  .home-meteo {
-    margin-left: -20px;
-    margin-right: -20px;
-  }
+  /* на ≤480 боковой отступ hero меньше (18px) */
   .content-padding {
     padding: 18px 16px 24px !important;
   }
@@ -323,10 +305,7 @@ a {
   .ai-block {
     padding: 16px 16px !important;
   }
-  .meteo-fallback-inner {
-    min-width: 0 !important;
-    width: 100% !important;
-  }
+
   .sun-svg {
     width: 100% !important;
     height: auto !important;
