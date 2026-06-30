@@ -14,26 +14,29 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — погода в Мурманске и области`,
+    default: `Норвежский сайт погоды — ${SITE.name}: погода в Мурманске и области`,
     template: `%s · ${SITE.name}`,
   },
   description: SITE.description,
   applicationName: SITE.name,
-  keywords: ["погода Мурманск", "погода Мурманская область", "прогноз погоды Заполярье", "yr.no", "MET Norway"],
+  keywords: ["погода Мурманск", "норвежский сайт погоды", "погода Мурманская область", "прогноз погоды Заполярье", "yr.no", "MET Norway"],
+  icons: {
+    apple: "/icon.svg",
+  },
   authors: [{ name: SITE.name }],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: SITE.locale,
     siteName: SITE.name,
-    title: `${SITE.name} — погода в Мурманске и области`,
+    title: `Норвежский сайт погоды — ${SITE.name}: погода в Мурманске и области`,
     description: SITE.description,
     url: SITE.url,
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} — погода в Мурманске и области`,
+    title: `Норвежский сайт погоды — ${SITE.name}: погода в Мурманске и области`,
     description: SITE.description,
     images: ["/opengraph-image"],
   },

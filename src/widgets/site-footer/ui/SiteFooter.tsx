@@ -22,7 +22,12 @@ export function SiteFooter({ marginTop = 40 }: { marginTop?: number }) {
       <span>
         {SITE.name} · © {SITE.copyrightYear}
       </span>
-      <span>Источник прогноза: {SITE.source} · обновлено {updated}</span>
+      <span style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        <a href="https://www.yr.no" target="_blank" rel="noopener noreferrer" style={{ color: "#8a98a6" }}>
+          {SITE.source}
+        </a>
+        <span>обновлено {updated}</span>
+      </span>
     </footer>
   );
 }

@@ -5,6 +5,7 @@ import { PolarBadge } from "@/shared/ui";
 import type { DaylightInfo } from "@/shared/lib/daylight";
 import { signedTemp } from "@/shared/lib/format";
 import { tempColor } from "@/shared/lib/temp-color";
+import { SITE } from "@/shared/config/site";
 
 interface CityHeroProps {
   city: City;
@@ -33,7 +34,7 @@ export function CityHero({ city, weather, daylight }: CityHeroProps) {
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
-          <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.name}</div>
+          <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.name} — погода на сегодня</h1>
           <div style={{ fontSize: 13, color: "#5a6b7b", fontWeight: 500, marginTop: 2 }}>
             Мурманская область · {coords} · обновлено {weather.updatedAt}
           </div>
@@ -58,6 +59,19 @@ export function CityHero({ city, weather, daylight }: CityHeroProps) {
             </div>
           )}
         </div>
+        <p style={{ fontSize: 13, color: "#5a6b7b", lineHeight: 1.5, margin: "18px 0 0" }}>
+          {SITE.name} — норвежский сайт погоды по данным MET Norway (yr.no).
+          Прогноз для {city.name}, Мурманская область: температура, ветер, осадки,
+          давление, влажность. Данные норвежского метеорологического института.
+          <a
+            href="https://www.yr.no"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#0b5cad", marginLeft: 4 }}
+          >
+            yr.no
+          </a>
+        </p>
       </div>
     </div>
   );

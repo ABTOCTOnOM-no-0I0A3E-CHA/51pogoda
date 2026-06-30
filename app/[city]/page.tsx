@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!city) return {};
 
-  const title = `Погода в ${city.name === "Мурманск" ? "Мурманске" : city.name}`;
-  const description = `Подробный прогноз погоды в ${city.name}, Мурманская область: температура, ветер, осадки, метеограмма на 2 суток и прогноз на 10 дней по данным MET Norway (yr.no).`;
+  const title = `Погода в ${city.name === "Мурманск" ? "Мурманске" : city.name} — норвежский сайт погоды, MET Norway`;
+  const description = `Прогноз погоды в ${city.name}, Мурманская область: температура, ветер, осадки. Данные норвежского сайта MET Norway (yr.no), метеограмма на 2 суток.`;
   const canonical = `/${city.slug}`;
 
   return {

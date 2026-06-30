@@ -7,6 +7,7 @@ import { PolarBadge } from "@/shared/ui";
 import type { DaylightInfo } from "@/shared/lib/daylight";
 import { signedTemp } from "@/shared/lib/format";
 import { tempColor } from "@/shared/lib/temp-color";
+import { SITE } from "@/shared/config/site";
 
 interface HomeHeroProps {
   city: City;
@@ -41,7 +42,7 @@ export function HomeHero({ city, weather, daylight, pinned = false, pickerExtra 
               </span>
               <HomeCityPicker extra={pickerExtra} />
             </div>
-            <div className="hero-title" style={{ fontSize: 30, fontWeight: 800, letterSpacing: "-.02em", marginTop: 2 }}>{city.name}</div>
+            <h1 className="hero-title" style={{ margin: 0, fontSize: 30, fontWeight: 800, letterSpacing: "-.02em", marginTop: 2 }}>{city.name} — погода сегодня</h1>
             <div style={{ fontSize: 13, color: "#5a6b7b", fontWeight: 500, marginTop: 1 }}>Мурманская область · обновлено {weather.updatedAt}</div>
           </div>
           {polar && <PolarBadge label={polar} className="hero-polar-badge" />}
@@ -86,6 +87,13 @@ export function HomeHero({ city, weather, daylight, pinned = false, pickerExtra 
             <path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </Link>
+
+        <p style={{ fontSize: 13, color: "#5a6b7b", lineHeight: 1.5, margin: "16px 0 0" }}>
+          {SITE.name} — норвежский сайт погоды, использующий данные MET Norway (yr.no).
+          Актуальный прогноз погоды в Мурманске и Мурманской области: температура воздуха,
+          скорость ветра, атмосферное давление, осадки. Метеограмма на 2 суток и прогноз
+          на 10 дней от норвежского метеорологического института.
+        </p>
       </div>
     </div>
   );
