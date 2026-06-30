@@ -7,7 +7,7 @@ import { getDaylight } from "@/shared/lib/daylight";
 import { SITE } from "@/shared/config/site";
 import { CityHero } from "@/widgets/city-hero";
 import { AiSummaryStream } from "@/widgets/ai-summary";
-import { CityMeteogram, MeteoFallbackChart } from "@/widgets/meteogram";
+import { CityMeteogram } from "@/widgets/meteogram";
 import { CurrentParams } from "@/widgets/current-params";
 import { SunCard } from "@/widgets/sun-card";
 import { HourlyTable } from "@/widgets/hourly-table";
@@ -37,11 +37,6 @@ export function CityPage({ city }: { city: City }) {
       </div>
 
       <CityMeteogram city={city} />
-
-      
-      <Suspense fallback={null}>
-        <MeteoFallbackBlock city={city} />
-      </Suspense>
 
       <Suspense fallback={<CityDetailsSkeleton />}>
         <WeatherBlocks city={city} />
@@ -91,15 +86,6 @@ async function HeroBlock({ city }: { city: City }) {
   } catch {
     return <HeroUnavailable city={city} />;
   }
-}
-
-/* Запасной почасовой график — рендерится асинхронно после загрузки данных */
-async function MeteoFallbackBlock({ city }: { city: City }) {
-  let hours: Awaited<ReturnType<typeof getCityWeather>>["hours"] = [];
-  try {
-    hours = (await getCityWeather(city)).hours;
-  } catch {}
-  return <MeteoFallbackChart hours={hours} variant="city" />;
 }
 
 /* Список городов области для внутренней перелинковки */

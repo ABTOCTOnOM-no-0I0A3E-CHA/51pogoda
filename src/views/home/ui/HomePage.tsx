@@ -7,7 +7,7 @@ import { getCityWeather, getCitiesWeather } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { HomeHero } from "@/widgets/home-hero";
 import { AiSummaryStream } from "@/widgets/ai-summary";
-import { CityMeteogram, MeteoFallbackChart } from "@/widgets/meteogram";
+import { CityMeteogram } from "@/widgets/meteogram";
 import { CitiesGrid } from "@/widgets/cities-grid";
 import { RainMap } from "@/widgets/rain-map";
 import { LocationsCatalog } from "@/widgets/locations-catalog";
@@ -40,9 +40,6 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
       </Suspense>
 
       <CityMeteogram city={heroCity} />
-      <Suspense fallback={null}>
-        <MeteoFallbackBlock city={heroCity} />
-      </Suspense>
 
       <div className="home-summary-row" style={{ display: "flex", gap: 16, marginTop: 16, alignItems: "stretch" }}>
         <div className="full-bleed-mobile" style={{ flex: 1, minWidth: 0 }}>
@@ -109,14 +106,6 @@ async function HeroBlock({ city, pinned, pickerExtra }: { city: City; pinned: bo
   } catch {
     return <HeroSkeleton />;
   }
-}
-
-async function MeteoFallbackBlock({ city }: { city: City }) {
-  let hours: Awaited<ReturnType<typeof getCityWeather>>["hours"] = [];
-  try {
-    hours = (await getCityWeather(city)).hours;
-  } catch {}
-  return <MeteoFallbackChart hours={hours} variant="home" />;
 }
 
 async function CitiesBlock({ recentSlugs }: { recentSlugs: string[] }) {
