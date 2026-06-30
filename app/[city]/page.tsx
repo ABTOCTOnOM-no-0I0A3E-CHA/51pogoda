@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CITIES } from "@/entities/city";
+import { CITIES, type City } from "@/entities/city";
 import { getCityMerged } from "@/entities/city/lib/registry";
 import { CityPage } from "@/views/city";
 import { JsonLd } from "@/shared/ui";
@@ -18,14 +18,44 @@ export function generateStaticParams() {
   return CITIES.filter((c) => c.kind === "город").map((c) => ({ city: c.slug }));
 }
 
+const KIND_LABEL: Record<string, string> = {
+  "город": "в городе",
+  "пгт": "в посёлке",
+  "село": "в селе",
+  "турбаза": "на турбазе",
+  "база отдыха": "на базе отдыха",
+  "рыболовный лагерь": "в рыболовном лагере",
+  "КПП": "на КПП",
+  "маяк": "на маяке",
+  "аэропорт": "в аэропорту",
+  "порт": "в порту",
+  "станция": "на станции",
+  "акватория": "в акватории",
+};
+
+function metaTitle(city: City): string {
+  const base = city.kind === "город"
+    ? `Погода в ${city.name}`
+    : `Погода ${KIND_LABEL[city.kind] ?? "в"} ${city.name}`;
+  return `${base} — норвежский сайт погоды, MET Norway`;
+}
+
+function metaDescription(city: City): string {
+  const label = KIND_LABEL[city.kind] ?? "в";
+  const polar = city.lat > 66.5
+    ? "за Полярным кругом. "
+    : "в Мурманской области. ";
+  return `Прогноз погоды ${label} ${city.name}, ${polar}Температура, ветер, осадки, давление. Данные норвежского сайта MET Norway (yr.no), метеограмма на 2 суток и прогноз на 10 дней.`;
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { city: slug } = await params;
   const city = getCityMerged(slug);
 
   if (!city) return {};
 
-  const title = `Погода в ${city.name === "Мурманск" ? "Мурманске" : city.name} — норвежский сайт погоды, MET Norway`;
-  const description = `Прогноз погоды в ${city.name}, Мурманская область: температура, ветер, осадки. Данные норвежского сайта MET Norway (yr.no), метеограмма на 2 суток.`;
+  const title = metaTitle(city);
+  const description = metaDescription(city);
   const canonical = `/${city.slug}`;
 
   return {
@@ -65,9 +95,19 @@ export default async function Page({ params }: PageProps) {
     url: `${SITE.url}/${city.slug}`,
   };
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Главная", item: SITE.url },
+      { "@type": "ListItem", position: 2, name: city.name, item: `${SITE.url}/${city.slug}` },
+    ],
+  };
+
   return (
     <>
       <JsonLd data={jsonLd} />
+      <JsonLd data={breadcrumbLd} />
       <CityPage city={city} />
     </>
   );

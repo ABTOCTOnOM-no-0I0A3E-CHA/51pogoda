@@ -1,8 +1,10 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import type { City } from "@/entities/city";
+import { getRegionCities } from "@/entities/city";
 import { getCityWeather, getCityConsensus } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
+import { SITE } from "@/shared/config/site";
 import { CityHero } from "@/widgets/city-hero";
 import { AiSummaryStream } from "@/widgets/ai-summary";
 import { CityMeteogram, MeteoSkeleton } from "@/widgets/meteogram";
@@ -47,6 +49,8 @@ export function CityPage({ city }: { city: City }) {
       </Suspense>
 
       <OtherCitiesCta />
+      <CityCrossLinks city={city} />
+      <SeoBlock city={city} />
       <SiteFooter marginTop={32} />
     </div>
   );
@@ -94,6 +98,43 @@ async function MeteoBlock({ city }: { city: City }) {
     /* внешняя метеограмма yr.no всё равно отрисуется */
   }
   return <CityMeteogram city={city} hours={hours} />;
+}
+
+/* Список городов области для внутренней перелинковки */
+function CityCrossLinks({ city }: { city: City }) {
+  const others = getRegionCities().filter((c) => c.slug !== city.slug);
+  if (others.length === 0) return null;
+  return (
+    <div style={{ marginTop: 30, paddingTop: 20, borderTop: "1px solid #dfe5ec" }}>
+      <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>
+        Прогноз погоды в городах Мурманской области:
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 16px", fontSize: 13 }}>
+        {others.map((c) => (
+          <Link
+            key={c.slug}
+            href={`/${c.slug}`}
+            style={{ color: "#0b5cad", textDecoration: "none", whiteSpace: "nowrap" }}
+          >
+            Погода в {c.name}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* Уникальный SEO-текст для каждой точки */
+function SeoBlock({ city }: { city: City }) {
+  const polar = city.lat > 66.5 ? "за Полярным кругом" : "в Мурманской области";
+  const prep = city.kind === "маяк" || city.kind === "КПП" || city.kind === "станция" || city.kind === "турбаза" || city.kind === "база отдыха" ? "на" : "в";
+  return (
+    <p style={{ margin: "18px 0 0", lineHeight: 1.6, fontSize: 13, color: "#8a98a6" }}>
+      Норвежский сайт погоды {SITE.name}: точный прогноз {prep} {city.name} — {city.kind} {polar}.
+      Данные норвежского метеорологического института MET Norway (yr.no): температура воздуха,
+      скорость ветра, атмосферное давление, осадки, метеограмма на 2 суток и прогноз на 10 дней.
+    </p>
+  );
 }
 
 /* Реальные данные недоступны — честное состояние вместо мока */
