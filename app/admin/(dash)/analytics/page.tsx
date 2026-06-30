@@ -85,7 +85,7 @@ export default function AdminAnalyticsPage() {
                       borderRadius: 5,
                     }}
                   />
-                  <div style={{ fontSize: 11, color: "#8a98a6" }}>{d.day.slice(8)}</div>
+                  <div style={{ fontSize: 11, color: "#6d7f8e" }}>{d.day.slice(8)}</div>
                 </div>
               ))}
             </div>

@@ -33,21 +33,21 @@ export function SunCard({ city, daylight }: SunCardProps) {
             {showSun && (
               <>
                 <div>
-                  <div style={{ fontSize: 12, color: "#8a98a6", fontWeight: 600 }}>Восход</div>
+                  <div style={{ fontSize: 12, color: "#6d7f8e", fontWeight: 600 }}>Восход</div>
                   <div style={{ fontSize: 18, fontWeight: 800, marginTop: 2 }}>{daylight.sunrise}</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 12, color: "#8a98a6", fontWeight: 600 }}>Заход</div>
+                  <div style={{ fontSize: 12, color: "#6d7f8e", fontWeight: 600 }}>Заход</div>
                   <div style={{ fontSize: 18, fontWeight: 800, marginTop: 2 }}>{daylight.sunset}</div>
                 </div>
               </>
             )}
             <div>
-              <div style={{ fontSize: 12, color: "#8a98a6", fontWeight: 600 }}>Макс. высота</div>
+              <div style={{ fontSize: 12, color: "#6d7f8e", fontWeight: 600 }}>Макс. высота</div>
               <div style={{ fontSize: 18, fontWeight: 800, marginTop: 2 }}>{daylight.maxAltitude}°</div>
             </div>
             <div>
-              <div style={{ fontSize: 12, color: "#8a98a6", fontWeight: 600 }}>Долгота дня</div>
+              <div style={{ fontSize: 12, color: "#6d7f8e", fontWeight: 600 }}>Долгота дня</div>
               <div style={{ fontSize: 18, fontWeight: 800, marginTop: 2, whiteSpace: "nowrap" }}>{daylight.dayLengthLabel}</div>
             </div>
           </div>

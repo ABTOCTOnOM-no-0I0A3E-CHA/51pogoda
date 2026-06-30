@@ -12,6 +12,8 @@ export function RainMapInner() {
   return (
     <iframe
       src={WINDY_URL}
+      title="Карта осадков — windy.com"
+      loading="lazy"
       style={{ border: "none", display: "block", width: "100%", height: "100%" }}
       allowFullScreen
     />

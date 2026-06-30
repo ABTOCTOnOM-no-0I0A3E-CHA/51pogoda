@@ -7,7 +7,7 @@ import { getDaylight } from "@/shared/lib/daylight";
 import { SITE } from "@/shared/config/site";
 import { CityHero } from "@/widgets/city-hero";
 import { AiSummaryStream } from "@/widgets/ai-summary";
-import { CityMeteogram, MeteoSkeleton } from "@/widgets/meteogram";
+import { CityMeteogram, MeteoFallbackChart } from "@/widgets/meteogram";
 import { CurrentParams } from "@/widgets/current-params";
 import { SunCard } from "@/widgets/sun-card";
 import { HourlyTable } from "@/widgets/hourly-table";
@@ -21,7 +21,7 @@ import { CityHeroSkeleton, CityDetailsSkeleton } from "./skeletons";
 export function CityPage({ city }: { city: City }) {
   return (
     <div className="content-padding" style={{ maxWidth: 1060, margin: "0 auto", padding: "24px 24px 28px" }}>
-      <nav style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#8a98a6", marginBottom: 16 }}>
+      <nav style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#6d7f8e", marginBottom: 16 }}>
         <Link href="/" style={{ color: "#0b5cad", fontWeight: 600 }}>Главная</Link>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
           <path d="M9 6l6 6-6 6" stroke="#b6c1cc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -36,8 +36,11 @@ export function CityPage({ city }: { city: City }) {
         <AiSummaryStream slug={city.slug} />
       </div>
 
-      <Suspense fallback={<MeteoSkeleton />}>
-        <MeteoBlock city={city} />
+      <CityMeteogram city={city} />
+
+      
+      <Suspense fallback={null}>
+        <MeteoFallbackBlock city={city} />
       </Suspense>
 
       <Suspense fallback={<CityDetailsSkeleton />}>
@@ -90,14 +93,13 @@ async function HeroBlock({ city }: { city: City }) {
   }
 }
 
-async function MeteoBlock({ city }: { city: City }) {
+/* Запасной почасовой график — рендерится асинхронно после загрузки данных */
+async function MeteoFallbackBlock({ city }: { city: City }) {
   let hours: Awaited<ReturnType<typeof getCityWeather>>["hours"] = [];
   try {
     hours = (await getCityWeather(city)).hours;
-  } catch {
-    /* внешняя метеограмма yr.no всё равно отрисуется */
-  }
-  return <CityMeteogram city={city} hours={hours} />;
+  } catch {}
+  return <MeteoFallbackChart hours={hours} variant="city" />;
 }
 
 /* Список городов области для внутренней перелинковки */
@@ -129,7 +131,7 @@ function SeoBlock({ city }: { city: City }) {
   const polar = city.lat > 66.5 ? "за Полярным кругом" : "в Мурманской области";
   const prep = city.kind === "маяк" || city.kind === "КПП" || city.kind === "станция" || city.kind === "турбаза" || city.kind === "база отдыха" ? "на" : "в";
   return (
-    <p style={{ margin: "18px 0 0", lineHeight: 1.6, fontSize: 13, color: "#8a98a6" }}>
+    <p style={{ margin: "18px 0 0", lineHeight: 1.6, fontSize: 13, color: "#6d7f8e" }}>
       Норвежский сайт погоды {SITE.name}: точный прогноз {prep} {city.name} — {city.kind} {polar}.
       Данные норвежского метеорологического института MET Norway (yr.no): температура воздуха,
       скорость ветра, атмосферное давление, осадки, метеограмма на 2 суток и прогноз на 10 дней.

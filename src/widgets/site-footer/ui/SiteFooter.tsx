@@ -14,12 +14,12 @@ export function SiteFooter({ marginTop = 40 }: { marginTop?: number }) {
         flexDirection: "column",
         gap: 8,
         fontSize: 13,
-        color: "#8a98a6",
+        color: "#6d7f8e",
       }}
     >
       <p style={{ margin: 0, lineHeight: 1.5 }}>
         {SITE.name} — норвежский сайт погоды по данным{" "}
-        <a href="https://www.yr.no" target="_blank" rel="noopener noreferrer" style={{ color: "#8a98a6" }}>
+        <a href="https://www.yr.no" target="_blank" rel="noopener noreferrer" style={{ color: "#6d7f8e" }}>
           MET Norway (yr.no)
         </a>
         . Прогноз для Мурманска и Мурманской области: температура воздуха, скорость ветра,

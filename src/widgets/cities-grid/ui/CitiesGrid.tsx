@@ -92,7 +92,7 @@ export function CitiesGrid({ items, recentSlugs = [] }: CitiesGridProps) {
                 <div
                   style={{
                     fontSize: 12.5,
-                    color: "#8a98a6",
+                    color: "#6d7f8e",
                     textTransform: "capitalize",
                     marginTop: 3,
                     whiteSpace: "nowrap",
@@ -111,7 +111,7 @@ export function CitiesGrid({ items, recentSlugs = [] }: CitiesGridProps) {
                 >
                   {current ? signedTemp(current.temp) : "—"}
                 </div>
-                <div style={{ fontSize: 12, color: "#8a98a6", marginTop: 5, whiteSpace: "nowrap" }}>
+                <div style={{ fontSize: 12, color: "#6d7f8e", marginTop: 5, whiteSpace: "nowrap" }}>
                   {current ? `${signedTemp(current.tmin)} / ${signedTemp(current.tmax)}` : ""}
                 </div>
               </div>

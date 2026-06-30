@@ -1,14 +1,7 @@
 import type { City } from "@/entities/city";
-import type { HourPoint } from "@/entities/weather";
 import { MeteogramImage } from "./MeteogramImage";
-import { MeteoFallbackChart } from "./MeteoFallbackChart";
 
-interface CityMeteogramProps {
-  city: City;
-  hours: HourPoint[];
-}
-
-export function CityMeteogram({ city, hours }: CityMeteogramProps) {
+export function CityMeteogram({ city }: { city: City }) {
   return (
     <div style={{ marginTop: 22 }}>
       <div
@@ -59,12 +52,11 @@ export function CityMeteogram({ city, hours }: CityMeteogramProps) {
         <MeteogramImage
           yrId={city.yrId}
           alt={`Метеограмма ${city.name} — yr.no`}
-          imgStyle={{ width: "100%", height: "auto", borderRadius: 8 }}
-          fallback={<MeteoFallbackChart hours={hours} variant="city" />}
+          imgStyle={{ borderRadius: 8 }}
         />
       </div>
 
-      <div style={{ fontSize: 12, color: "#a3aeb9", marginTop: 8 }}>
+      <div style={{ fontSize: 12, color: "#5a6b7b", marginTop: 8 }}>
         Метеограмма подгружается напрямую по локации {city.name} ({city.yrId}).
         Если внешний график недоступен, показан наш почасовой.
       </div>

@@ -25,9 +25,9 @@ export function HourlyTable({ hours }: { hours: HourPoint[] }) {
                 <WeatherIcon condition={hr.condition} size={32} />
               </div>
               <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-.01em", color: tempColor(hr.temp) }}>{signedTemp(hr.temp)}</div>
-              <div style={{ fontSize: 11, color: "#8a98a6", marginTop: 4 }}>ощущ. {signedTemp(hr.feels)}</div>
+              <div style={{ fontSize: 11, color: "#6d7f8e", marginTop: 4 }}>ощущ. {signedTemp(hr.feels)}</div>
               <div style={{ fontSize: 11, color: "#5a6b7b", marginTop: 5, fontWeight: 600 }}>{hr.wind} м/с</div>
-              <div style={{ fontSize: 11, color: "#8a98a6", marginTop: 3 }}>{hr.pressure} мм</div>
+              <div style={{ fontSize: 11, color: "#6d7f8e", marginTop: 3 }}>{hr.pressure} мм</div>
               <div style={{ fontSize: 11, color: "#5b9bd6", marginTop: 3, fontWeight: 600, minHeight: 14 }}>{precipLabel(hr.precip)}</div>
             </div>
           ))}

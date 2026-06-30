@@ -22,7 +22,7 @@ export function SourceConsensus({ consensus }: { consensus: ForecastConsensus })
       <h2 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 800, letterSpacing: "-.01em" }}>
         Сравнение источников
       </h2>
-      <p style={{ margin: "0 0 12px", fontSize: 13, color: "#8a98a6" }}>
+      <p style={{ margin: "0 0 12px", fontSize: 13, color: "#6d7f8e" }}>
         Дневной максимум по {sources.length} моделям прогноза. Чем ближе цифры — тем надёжнее.
       </p>
 
@@ -43,7 +43,7 @@ export function SourceConsensus({ consensus }: { consensus: ForecastConsensus })
           {days.map((d) => (
             <Cell key={d.iso} head center>
               <div style={{ fontWeight: 700 }}>{d.dow}</div>
-              <div style={{ fontSize: 12, color: "#8a98a6" }}>{d.date}</div>
+              <div style={{ fontSize: 12, color: "#6d7f8e" }}>{d.date}</div>
             </Cell>
           ))}
 

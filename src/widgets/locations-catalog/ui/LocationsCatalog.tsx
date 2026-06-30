@@ -40,9 +40,9 @@ export function LocationsCatalog({ items, excludeKinds = [], id }: LocationsCata
     <section id={id} style={{ marginTop: 40, scrollMarginTop: 16 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 6, gap: 12 }}>
         <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800, letterSpacing: "-.02em" }}>Все точки прогноза</h2>
-        <span style={{ fontSize: 13, color: "#8a98a6", fontWeight: 600 }}>{total}</span>
+        <span style={{ fontSize: 13, color: "#6d7f8e", fontWeight: 600 }}>{total}</span>
       </div>
-      <p style={{ margin: "0 0 22px", fontSize: 13, color: "#8a98a6" }}>
+      <p style={{ margin: "0 0 22px", fontSize: 13, color: "#6d7f8e" }}>
         Сёла, станции, маяки, КПП, аэродромы, турбазы и рыболовные лагеря Мурманской области — нажмите для подробного прогноза.
       </p>
 
@@ -50,7 +50,7 @@ export function LocationsCatalog({ items, excludeKinds = [], id }: LocationsCata
         <div key={g.kind} style={{ marginBottom: 26 }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 12 }}>
             <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, letterSpacing: "-.01em" }}>{GROUP_TITLE[g.kind]}</h3>
-            <span style={{ fontSize: 12, color: "#8a98a6", fontWeight: 600 }}>{g.list.length}</span>
+            <span style={{ fontSize: 12, color: "#6d7f8e", fontWeight: 600 }}>{g.list.length}</span>
           </div>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>

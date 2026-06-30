@@ -77,8 +77,8 @@ export function CitySearch({ extra = [] }: { extra?: City[] }) {
       <form onSubmit={onSubmit} className={`search-form${open ? " is-open" : ""}`}>
         <div className="search-box">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <circle cx="11" cy="11" r="7" stroke="#8a98a6" strokeWidth="2" />
-            <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="#8a98a6" strokeWidth="2" strokeLinecap="round" />
+            <circle cx="11" cy="11" r="7" stroke="#6d7f8e" strokeWidth="2" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="#6d7f8e" strokeWidth="2" strokeLinecap="round" />
           </svg>
           <input
             ref={inputRef}
@@ -128,7 +128,7 @@ export function CitySearch({ extra = [] }: { extra?: City[] }) {
                   }}
                 >
                   <span style={{ fontWeight: 600 }}>{c.name}</span>
-                  <span style={{ fontSize: 12, color: "#8a98a6", textTransform: "capitalize" }}>{c.kind}</span>
+                  <span style={{ fontSize: 12, color: "#6d7f8e", textTransform: "capitalize" }}>{c.kind}</span>
                 </button>
               </li>
             ))}

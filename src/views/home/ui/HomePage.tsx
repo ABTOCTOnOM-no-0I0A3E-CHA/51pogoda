@@ -7,7 +7,7 @@ import { getCityWeather, getCitiesWeather } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { HomeHero } from "@/widgets/home-hero";
 import { AiSummaryStream } from "@/widgets/ai-summary";
-import { CityMeteogram, MeteoSkeleton } from "@/widgets/meteogram";
+import { CityMeteogram, MeteoFallbackChart } from "@/widgets/meteogram";
 import { CitiesGrid } from "@/widgets/cities-grid";
 import { RainMap } from "@/widgets/rain-map";
 import { LocationsCatalog } from "@/widgets/locations-catalog";
@@ -39,8 +39,9 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
         <HeroBlock city={heroCity} pinned={heroPinned} pickerExtra={pickerExtra} />
       </Suspense>
 
-      <Suspense fallback={<MeteoSkeleton />}>
-        <MeteoBlock city={heroCity} />
+      <CityMeteogram city={heroCity} />
+      <Suspense fallback={null}>
+        <MeteoFallbackBlock city={heroCity} />
       </Suspense>
 
       <div className="home-summary-row" style={{ display: "flex", gap: 16, marginTop: 16, alignItems: "stretch" }}>
@@ -49,9 +50,11 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
         </div>
 
         <div className="home-rainmap" style={{ flex: "none", width: 380, display: "flex", flexDirection: "column" }}>
-          <div className="home-rainmap-box full-bleed-mobile" style={{ width: "100%", borderRadius: 14, overflow: "hidden", border: "1px solid #d4dce5" }}>
-            <RainMap />
-          </div>
+          <Suspense fallback={<div style={{ width: "100%", height: 380, borderRadius: 14, background: "#f0f4f9" }} />}>
+            <div className="home-rainmap-box full-bleed-mobile" style={{ width: "100%", borderRadius: 14, overflow: "hidden", border: "1px solid #d4dce5" }}>
+              <RainMap />
+            </div>
+          </Suspense>
         </div>
       </div>
 
@@ -108,15 +111,12 @@ async function HeroBlock({ city, pinned, pickerExtra }: { city: City; pinned: bo
   }
 }
 
-async function MeteoBlock({ city }: { city: City }) {
-  /* Метеограмма yr.no грузится по yrId независимо от MET; hours — лишь для запасного графика */
+async function MeteoFallbackBlock({ city }: { city: City }) {
   let hours: Awaited<ReturnType<typeof getCityWeather>>["hours"] = [];
   try {
     hours = (await getCityWeather(city)).hours;
-  } catch {
-    /* внешняя метеограмма всё равно отрисуется */
-  }
-  return <CityMeteogram city={city} hours={hours} />;
+  } catch {}
+  return <MeteoFallbackChart hours={hours} variant="home" />;
 }
 
 async function CitiesBlock({ recentSlugs }: { recentSlugs: string[] }) {

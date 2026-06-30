@@ -41,7 +41,7 @@ export function SiteHeader() {
           </div>
           <div>
             <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-.01em", whiteSpace: "nowrap" }}>{SITE.name}</div>
-            <div style={{ fontSize: 12, color: "#8a98a6", fontWeight: 500, marginTop: 1 }}>{SITE.tagline}</div>
+            <div style={{ fontSize: 12, color: "#6d7f8e", fontWeight: 500, marginTop: 1 }}>{SITE.tagline}</div>
           </div>
         </Link>
 

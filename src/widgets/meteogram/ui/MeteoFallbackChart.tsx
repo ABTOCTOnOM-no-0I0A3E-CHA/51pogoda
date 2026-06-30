@@ -29,7 +29,7 @@ const SPECS: Record<Variant, VariantSpec> = {
     barFill: "#aacdec",
     chartHeight: 140,
     iconSize: 38,
-    timeColor: "#8a98a6",
+    timeColor: "#6d7f8e",
     timeSize: 12,
   },
 };
@@ -43,7 +43,7 @@ export function MeteoFallbackChart({ hours, variant }: { hours: HourPoint[]; var
   return (
     <div className={variant === "city" ? "meteo-fallback-inner" : undefined} style={variant === "city" ? { minWidth: 720 } : undefined}>
       {variant === "city" && (
-        <div style={{ fontSize: 12, color: "#8a98a6", marginBottom: 8 }}>Наш почасовой график · 24 часа</div>
+        <div style={{ fontSize: 12, color: "#6d7f8e", marginBottom: 8 }}>Наш почасовой график · 24 часа</div>
       )}
 
       <div style={{ display: "flex", padding: "0 2px", marginBottom: 2 }}>

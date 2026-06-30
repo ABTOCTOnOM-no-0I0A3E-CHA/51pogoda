@@ -135,7 +135,7 @@ export function HomeCityPicker({ extra = [] }: { extra?: City[] }) {
                     }}
                   >
                     <span style={{ fontWeight: 600 }}>{c.name}</span>
-                    <span style={{ fontSize: 12, color: "#8a98a6", textTransform: "capitalize" }}>{c.kind}</span>
+                    <span style={{ fontSize: 12, color: "#6d7f8e", textTransform: "capitalize" }}>{c.kind}</span>
                   </button>
                 </li>
               ))}

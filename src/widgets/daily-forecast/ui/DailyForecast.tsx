@@ -23,7 +23,7 @@ export function DailyForecast({ days }: { days: DayPoint[] }) {
           >
             <div className="days-dow" style={{ width: 120, flex: "none" }}>
               <div style={{ fontSize: 15, fontWeight: 700 }}>{d.dow}</div>
-              <div style={{ fontSize: 12, color: "#8a98a6" }}>{d.date}</div>
+              <div style={{ fontSize: 12, color: "#6d7f8e" }}>{d.date}</div>
             </div>
 
             <div style={{ width: 40, flex: "none", display: "flex", justifyContent: "center" }}>
@@ -46,7 +46,7 @@ export function DailyForecast({ days }: { days: DayPoint[] }) {
             </div>
 
             <div className="days-temps" style={{ width: 96, flex: "none", display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 10, marginLeft: 8 }}>
-              <span style={{ fontSize: 15, fontWeight: 700, color: "#8a98a6", width: 42, textAlign: "right" }}>{signedTemp(d.tmin)}</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: "#6d7f8e", width: 42, textAlign: "right" }}>{signedTemp(d.tmin)}</span>
               <span style={{ fontSize: 15, fontWeight: 800, width: 42, textAlign: "right", color: tempColor(d.tmax) }}>{signedTemp(d.tmax)}</span>
             </div>
           </div>

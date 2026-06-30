@@ -29,7 +29,7 @@ export function AiSummary({ summary }: { summary: WeatherSummary }) {
         >
           СВОДКА
         </span>
-        <span style={{ fontSize: 13, color: "#8a98a6" }}>простым языком</span>
+        <span style={{ fontSize: 13, color: "#6d7f8e" }}>простым языком</span>
       </div>
 
       <p style={{ margin: "0 0 14px", fontSize: 15.5, lineHeight: 1.55, fontWeight: 600, color: "#22303b" }}>{summary.accurate}</p>

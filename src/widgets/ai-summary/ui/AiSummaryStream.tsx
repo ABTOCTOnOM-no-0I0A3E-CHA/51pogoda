@@ -40,7 +40,7 @@ export function AiSummaryStream({ slug }: { slug: string }) {
         <p
           style={{
             fontSize: 13,
-            color: "#8a98a6",
+            color: "#6d7f8e",
             textAlign: "center",
             margin: 0,
           }}

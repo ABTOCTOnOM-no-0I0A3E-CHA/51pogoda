@@ -19,7 +19,7 @@ export function OtherCitiesCta() {
     >
       <div>
         <div style={{ fontSize: 15, fontWeight: 700 }}>Смотрите погоду в других точках области</div>
-        <div style={{ fontSize: 13, color: "#8a98a6", marginTop: 2 }}>Города, сёла, станции, маяки, КПП, аэродромы, турбазы и рыболовные лагеря</div>
+        <div style={{ fontSize: 13, color: "#6d7f8e", marginTop: 2 }}>Города, сёла, станции, маяки, КПП, аэродромы, турбазы и рыболовные лагеря</div>
       </div>
 
       <Link

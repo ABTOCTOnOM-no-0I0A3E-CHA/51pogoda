@@ -50,7 +50,7 @@ export function ParamCard({ param }: { param: ParamDef }) {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
-        <div style={{ fontSize: 12, color: "#8a98a6", fontWeight: 600 }}>{param.label}</div>
+        <div style={{ fontSize: 12, color: "#6d7f8e", fontWeight: 600 }}>{param.label}</div>
         <button
           type="button"
           onClick={() => toggle(param.id)}
@@ -65,7 +65,7 @@ export function ParamCard({ param }: { param: ParamDef }) {
             borderRadius: "50%",
             border: "1.5px solid #cdd8e2",
             background: "#fff",
-            color: "#8a98a6",
+            color: "#6d7f8e",
             fontSize: 12,
             fontWeight: 800,
             lineHeight: 1,
@@ -82,7 +82,7 @@ export function ParamCard({ param }: { param: ParamDef }) {
       </div>
 
       <div style={{ fontSize: 19, fontWeight: 800, marginTop: 6, letterSpacing: "-.01em", color: param.valueColor }}>{param.value}</div>
-      <div style={{ fontSize: 11, color: "#8a98a6", marginTop: 1 }}>{param.sub}</div>
+      <div style={{ fontSize: 11, color: "#6d7f8e", marginTop: 1 }}>{param.sub}</div>
 
       {open && (
         <div
