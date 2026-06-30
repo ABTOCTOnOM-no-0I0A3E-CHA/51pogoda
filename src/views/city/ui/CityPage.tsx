@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import Link from "next/link";
 import type { City } from "@/entities/city";
 import { getRegionCities } from "@/entities/city";
-import { getCityWeather, getCityConsensus } from "@/entities/weather";
+import { getCityWeather, getCityConsensus, buildSummary } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { SITE } from "@/shared/config/site";
 import { CityHero } from "@/widgets/city-hero";
-import { AiSummaryStream } from "@/widgets/ai-summary";
+import { AiSummary, AiSummarySkeleton } from "@/widgets/ai-summary";
 import { CityMeteogram } from "@/widgets/meteogram";
 import { CurrentParams } from "@/widgets/current-params";
 import { SunCard } from "@/widgets/sun-card";
@@ -33,7 +33,9 @@ export function CityPage({ city }: { city: City }) {
         <Suspense fallback={<CityHeroSkeleton />}>
           <HeroBlock city={city} />
         </Suspense>
-        <AiSummaryStream slug={city.slug} />
+        <Suspense fallback={<AiSummarySkeleton />}>
+          <SummaryBlock city={city} />
+        </Suspense>
       </div>
 
       <CityMeteogram city={city} />
@@ -52,6 +54,13 @@ export function CityPage({ city }: { city: City }) {
       <SiteFooter marginTop={32} />
     </div>
   );
+}
+
+async function SummaryBlock({ city }: { city: City }) {
+  const weather = await getCityWeather(city);
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
+  const summary = buildSummary(city, weather, daylight);
+  return <AiSummary summary={summary} />;
 }
 
 async function WeatherBlocks({ city }: { city: City }) {

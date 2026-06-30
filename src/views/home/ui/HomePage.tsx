@@ -3,10 +3,10 @@ import Link from "next/link";
 import { getCapital } from "@/entities/city";
 import type { City } from "@/entities/city";
 import { getAllCities, getRegionCitiesMerged, getCityMerged, getCustomCities } from "@/entities/city/lib/registry";
-import { getCityWeather, getCitiesWeather } from "@/entities/weather";
+import { getCityWeather, getCitiesWeather, buildSummary } from "@/entities/weather";
 import { getDaylight } from "@/shared/lib/daylight";
 import { HomeHero } from "@/widgets/home-hero";
-import { AiSummaryStream } from "@/widgets/ai-summary";
+import { AiSummary, AiSummarySkeleton } from "@/widgets/ai-summary";
 import { CityMeteogram } from "@/widgets/meteogram";
 import { CitiesGrid } from "@/widgets/cities-grid";
 import { RainMap } from "@/widgets/rain-map";
@@ -43,7 +43,9 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
 
       <div className="home-summary-row" style={{ display: "flex", gap: 16, marginTop: 16, alignItems: "stretch" }}>
         <div className="full-bleed-mobile" style={{ flex: 1, minWidth: 0 }}>
-          <AiSummaryStream slug={heroCity.slug} />
+          <Suspense fallback={<AiSummarySkeleton />}>
+            <SummaryBlock city={heroCity} />
+          </Suspense>
         </div>
 
         <div className="home-rainmap" style={{ flex: "none", width: 380, display: "flex", flexDirection: "column" }}>
@@ -106,6 +108,13 @@ async function HeroBlock({ city, pinned, pickerExtra }: { city: City; pinned: bo
   } catch {
     return <HeroSkeleton />;
   }
+}
+
+async function SummaryBlock({ city }: { city: City }) {
+  const weather = await getCityWeather(city);
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
+  const summary = buildSummary(city, weather, daylight);
+  return <AiSummary summary={summary} />;
 }
 
 async function CitiesBlock({ recentSlugs }: { recentSlugs: string[] }) {

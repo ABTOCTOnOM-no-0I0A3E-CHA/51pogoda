@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { AiSummarySkeleton } from "./AiSummarySkeleton";
 import { AiSummary } from "./AiSummary";
 import type { WeatherSummary } from "@/entities/weather";
 
@@ -30,7 +31,25 @@ export function AiSummaryStream({ slug }: { slug: string }) {
     };
   }, [slug]);
 
-  if (error || !summary) return null;
+  if (error) return null;
+
+  if (!summary) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <AiSummarySkeleton />
+        <p
+          style={{
+            fontSize: 13,
+            color: "#6d7f8e",
+            textAlign: "center",
+            margin: 0,
+          }}
+        >
+          Сводка сейчас появится…
+        </p>
+      </div>
+    );
+  }
 
   return <AiSummary summary={summary} />;
 }
