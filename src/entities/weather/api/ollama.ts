@@ -1,5 +1,5 @@
 const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL ?? "qwen2.5:7b";
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL ?? "llama3.2:3b";
 
 export async function callOllama(prompt: string): Promise<string> {
   const controller = new AbortController();
