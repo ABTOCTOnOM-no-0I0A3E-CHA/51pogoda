@@ -42,12 +42,14 @@ export async function fetchMetForecast(
     if (response.ok) {
       const data = (await response.json()) as MetForecast;
 
-      /* Проверка свежести: если последняя точка в ряду старше 1 часа — страница не должна рендериться с устаревшими данными */
+      /* Проверка свежести для мониторинга: если данные старше 1ч — warn,
+         но не ломаем SSR — Cache-Control в proxy.ts уже не даёт
+         браузеру показывать bfcached-страницы со старыми данными. */
       if (data.properties?.meta?.updated_at) {
         const updated = new Date(data.properties.meta.updated_at).getTime();
         const ageHrs = (Date.now() - updated) / 3_600_000;
         if (ageHrs > 1) {
-          throw new Error(`[met-client] ${slug ?? "?"} данные устарели на ${ageHrs.toFixed(1)}ч (обновлено ${data.properties.meta.updated_at}) — страница не будет перегенерирована`);
+          console.warn(`[met-client] ${slug ?? "?"} данные устарели на ${ageHrs.toFixed(1)}ч (обновлено ${data.properties.meta.updated_at})`);
         }
       }
 

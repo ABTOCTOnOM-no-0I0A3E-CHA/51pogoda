@@ -20,12 +20,10 @@ const MAX_ATTEMPTS = 2;
 const RETRYABLE = new Set([429, 500, 502, 503, 504]);
 
 /*
-  Запросы идут через локальный /api/open-meteo-proxy, который при необходимости
-  проксирует через OPEN_METEO_PROXY (на случай блокировки api.open-meteo.com из РФ).
+  Запросы идут напрямую на бекенд-прокси (отдельный докер-контейнер),
+  который форвардит на api.open-meteo.com из-за блокировки в РФ.
 */
-const PROXY_BASE =
-  (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "") +
-  "/api/open-meteo-proxy";
+const PROXY_BASE = process.env.OPEN_METEO_PROXY ?? "http://127.0.0.1:3001/forecast";
 
 export async function fetchOpenMeteo(
   lat: number,

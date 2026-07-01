@@ -16,4 +16,4 @@ export const MET_USER_AGENT =
   process.env.MET_USER_AGENT ?? "Normeteo/1.0 (+https://51pogoda.ru; contact@51pogoda.ru)";
 
 /* Как часто пересобирать серверный кэш прогноза, секунды */
-export const FORECAST_REVALIDATE = 1800;
+export const FORECAST_REVALIDATE = 3600;
