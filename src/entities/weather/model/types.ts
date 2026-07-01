@@ -56,6 +56,7 @@ export interface CityWeather {
   updatedAt: string;
   /* true, если данные взяты из локального фолбэка (MET недоступен) */
   fallback: boolean;
+  fetchedAt: number;
 }
 
 /* Согласованность прогноза по нескольким численным моделям (Open-Meteo) */

@@ -26,13 +26,14 @@ export function buildCityWeather(raw: MetForecast): CityWeather {
   }
 
   const updatedAt = hhmm(new Date(raw.properties.meta.updated_at));
+  const fetchedAt = Date.now();
 
   const hours = buildHours(series);
   const days = buildDays(series);
   const today = days[0];
   const current = buildCurrent(first, today);
 
-  return { current, hours, days, updatedAt, fallback: false };
+  return { current, hours, days, updatedAt, fallback: false, fetchedAt };
 }
 
 function buildHours(series: MetTimeseriesEntry[]): HourPoint[] {

@@ -6,8 +6,8 @@ import { CityPage } from "@/views/city";
 import { JsonLd } from "@/shared/ui";
 import { SITE } from "@/shared/config/site";
 
-/* ISR: один HTML на час для всех пользователей. Данные в фоне обновятся. */
-export const revalidate = 3600;
+/* ISR: один HTML на 30 минут для всех пользователей. Данные в фоне обновятся. */
+export const revalidate = 1800;
 export const dynamicParams = true;
 
 interface PageProps {

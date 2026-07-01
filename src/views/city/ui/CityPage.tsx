@@ -15,7 +15,7 @@ import { DailyForecast } from "@/widgets/daily-forecast";
 import { SourceConsensus } from "@/widgets/consensus";
 import { OtherCitiesCta } from "@/widgets/other-cities-cta";
 import { SiteFooter } from "@/widgets/site-footer";
-import { Skeleton } from "@/shared/ui";
+import { Skeleton, StaleGuard } from "@/shared/ui";
 import { CityHeroSkeleton, CityDetailsSkeleton } from "./skeletons";
 
 export function CityPage({ city }: { city: City }) {
@@ -30,11 +30,8 @@ export function CityPage({ city }: { city: City }) {
       </nav>
 
       <div className="hero-grid full-bleed-mobile" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.4fr) minmax(0,1fr)", gap: 16, alignItems: "start" }}>
-        <Suspense fallback={<CityHeroSkeleton />}>
-          <HeroBlock city={city} />
-        </Suspense>
-        <Suspense fallback={<AiSummarySkeleton />}>
-          <SummaryBlock city={city} />
+        <Suspense fallback={<><CityHeroSkeleton /><AiSummarySkeleton /></>}>
+          <HeroSection city={city} />
         </Suspense>
       </div>
 
@@ -56,11 +53,24 @@ export function CityPage({ city }: { city: City }) {
   );
 }
 
-async function SummaryBlock({ city }: { city: City }) {
-  const weather = await getCityWeather(city);
+/* Один fetch погоды, оба блока (Hero + Summary) рендерятся синхронно */
+function HeroGridFallback({ city }: { city: City }) {
+  return <><HeroUnavailable city={city} /><AiSummarySkeleton /></>;
+}
+
+async function HeroSection({ city }: { city: City }) {
   const daylight = getDaylight(city.lat, new Date(), city.lon);
-  const summary = buildSummary(city, weather, daylight);
-  return <AiSummary summary={summary} />;
+  try {
+    const weather = await getCityWeather(city);
+    return (
+      <StaleGuard fetchedAt={weather.fetchedAt} fallback={<HeroGridFallback city={city} />}>
+        <CityHero city={city} weather={weather} daylight={daylight} />
+        <AiSummary summary={buildSummary(city, weather, daylight)} />
+      </StaleGuard>
+    );
+  } catch {
+    return <HeroGridFallback city={city} />;
+  }
 }
 
 async function WeatherBlocks({ city }: { city: City }) {
@@ -85,16 +95,6 @@ async function ConsensusBlock({ city }: { city: City }) {
   const consensus = await getCityConsensus(city);
   if (!consensus) return null;
   return <SourceConsensus consensus={consensus} />;
-}
-
-async function HeroBlock({ city }: { city: City }) {
-  const daylight = getDaylight(city.lat, new Date(), city.lon);
-  try {
-    const weather = await getCityWeather(city);
-    return <CityHero city={city} weather={weather} daylight={daylight} />;
-  } catch {
-    return <HeroUnavailable city={city} />;
-  }
 }
 
 /* Список городов области для внутренней перелинковки */
