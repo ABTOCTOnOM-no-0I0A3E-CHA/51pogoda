@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import type { City } from "@/entities/city";
 import { getRegionCities } from "@/entities/city";
-import { getCityWeather, getCityConsensus, buildSummary, type CityWeather } from "@/entities/weather";
+import { getCityWeather, buildSummary, type CityWeather } from "@/entities/weather";
 import { getDaylight, type DaylightInfo } from "@/shared/lib/daylight";
 import { SITE } from "@/shared/config/site";
 import { CityHero } from "@/widgets/city-hero";
@@ -12,10 +12,9 @@ import { CurrentParams } from "@/widgets/current-params";
 import { SunCard } from "@/widgets/sun-card";
 import { HourlyTable } from "@/widgets/hourly-table";
 import { DailyForecast } from "@/widgets/daily-forecast";
-import { SourceConsensus } from "@/widgets/consensus";
+import { ConsensusClient } from "@/widgets/consensus";
 import { OtherCitiesCta } from "@/widgets/other-cities-cta";
 import { SiteFooter } from "@/widgets/site-footer";
-import { Skeleton } from "@/shared/ui";
 import { CityHeroSkeleton, CityDetailsSkeleton } from "./skeletons";
 
 export function CityPage({ city }: { city: City }) {
@@ -47,9 +46,9 @@ export function CityPage({ city }: { city: City }) {
         <WeatherBlocks city={city} weatherPromise={weatherPromise} daylight={daylight} />
       </Suspense>
 
-      <Suspense fallback={<Skeleton height={80} radius={16} style={{ marginTop: 22 }} />}>
-        <ConsensusBlock city={city} />
-      </Suspense>
+      <div style={{ marginTop: 24 }}>
+        <ConsensusClient slug={city.slug} />
+      </div>
 
       <OtherCitiesCta />
       <CityCrossLinks city={city} />
@@ -79,12 +78,6 @@ async function WeatherBlocks({ city, weatherPromise, daylight }: { city: City; w
       <DailyForecast days={weather.days} />
     </>
   );
-}
-
-async function ConsensusBlock({ city }: { city: City }) {
-  const consensus = await getCityConsensus(city);
-  if (!consensus) return null;
-  return <SourceConsensus consensus={consensus} />;
 }
 
 /* Список городов области для внутренней перелинковки */
