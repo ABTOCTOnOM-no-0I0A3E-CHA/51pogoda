@@ -17,6 +17,7 @@ export function MeteogramImage({ yrId, alt, imgStyle }: MeteogramImageProps) {
       width={782}
       height={391}
       priority
+      unoptimized
       style={{
         width: "100%",
         height: "auto",
