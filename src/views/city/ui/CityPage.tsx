@@ -15,7 +15,7 @@ import { DailyForecast } from "@/widgets/daily-forecast";
 import { SourceConsensus } from "@/widgets/consensus";
 import { OtherCitiesCta } from "@/widgets/other-cities-cta";
 import { SiteFooter } from "@/widgets/site-footer";
-import { Skeleton, StaleGuard } from "@/shared/ui";
+import { Skeleton } from "@/shared/ui";
 import { CityHeroSkeleton, CityDetailsSkeleton } from "./skeletons";
 
 export function CityPage({ city }: { city: City }) {
@@ -62,23 +62,23 @@ export function CityPage({ city }: { city: City }) {
 async function HeroBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
   try {
     const weather = await weatherPromise;
-    return (
-      <StaleGuard fetchedAt={weather.fetchedAt} fallback={<HeroUnavailable city={city} />}>
-        <CityHero city={city} weather={weather} daylight={daylight} />
-      </StaleGuard>
-    );
+    return <CityHero city={city} weather={weather} daylight={daylight} />;
   } catch {
-    return <HeroUnavailable city={city} />;
+    return (
+      <div style={{ borderRadius: 20, border: "1px solid #d3e4f2", background: "linear-gradient(160deg,#e8f1fb,#f4f9fd)", padding: "26px 28px" }}>
+        <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.name}</div>
+      </div>
+    );
   }
 }
 
 async function SummaryBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
-  const weather = await weatherPromise;
-  return (
-    <StaleGuard fetchedAt={weather.fetchedAt} fallback={<AiSummarySkeleton />}>
-      <AiSummary summary={buildSummary(city, weather, daylight)} />
-    </StaleGuard>
-  );
+  try {
+    const weather = await weatherPromise;
+    return <AiSummary summary={buildSummary(city, weather, daylight)} />;
+  } catch {
+    return null;
+  }
 }
 
 async function WeatherBlocks({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
@@ -141,14 +141,4 @@ function SeoBlock({ city }: { city: City }) {
   );
 }
 
-/* Реальные данные недоступны — честное состояние вместо мока */
-function HeroUnavailable({ city }: { city: City }) {
-  return (
-    <div style={{ borderRadius: 20, border: "1px solid #d3e4f2", background: "linear-gradient(160deg,#e8f1fb,#f4f9fd)", padding: "26px 28px" }}>
-      <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.name}</div>
-      <div style={{ fontSize: 15, color: "#5a6b7b", marginTop: 10 }}>
-        Данные прогноза временно недоступны. Обновите страницу через минуту.
-      </div>
-    </div>
-  );
-}
+

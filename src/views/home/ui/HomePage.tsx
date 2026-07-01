@@ -12,7 +12,6 @@ import { CitiesGrid } from "@/widgets/cities-grid";
 import { RainMap } from "@/widgets/rain-map";
 import { LocationsCatalog } from "@/widgets/locations-catalog";
 import { SiteFooter } from "@/widgets/site-footer";
-import { StaleGuard } from "@/shared/ui";
 import { HeroSkeleton, CitiesGridSkeleton } from "./skeletons";
 
 interface HomePageProps {
@@ -104,23 +103,23 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
 async function HomeHeroBlock({ city, weatherPromise, daylight, pinned, pickerExtra }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo; pinned: boolean; pickerExtra: City[] }) {
   try {
     const weather = await weatherPromise;
-    return (
-      <StaleGuard fetchedAt={weather.fetchedAt} fallback={<HeroSkeleton />}>
-        <HomeHero city={city} weather={weather} daylight={daylight} pinned={pinned} pickerExtra={pickerExtra} />
-      </StaleGuard>
-    );
+    return <HomeHero city={city} weather={weather} daylight={daylight} pinned={pinned} pickerExtra={pickerExtra} />;
   } catch {
-    return <HeroSkeleton />;
+    return (
+      <div style={{ padding: "26px 28px" }}>
+        <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.name}</div>
+      </div>
+    );
   }
 }
 
 async function HomeSummaryBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
-  const weather = await weatherPromise;
-  return (
-    <StaleGuard fetchedAt={weather.fetchedAt} fallback={<AiSummarySkeleton />}>
-      <AiSummary summary={buildSummary(city, weather, daylight)} />
-    </StaleGuard>
-  );
+  try {
+    const weather = await weatherPromise;
+    return <AiSummary summary={buildSummary(city, weather, daylight)} />;
+  } catch {
+    return null;
+  }
 }
 
 async function CitiesBlock({ recentSlugs }: { recentSlugs: string[] }) {
