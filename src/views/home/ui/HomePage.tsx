@@ -101,25 +101,13 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
 }
 
 async function HomeHeroBlock({ city, weatherPromise, daylight, pinned, pickerExtra }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo; pinned: boolean; pickerExtra: City[] }) {
-  try {
-    const weather = await weatherPromise;
-    return <HomeHero city={city} weather={weather} daylight={daylight} pinned={pinned} pickerExtra={pickerExtra} />;
-  } catch {
-    return (
-      <div style={{ padding: "26px 28px" }}>
-        <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.name}</div>
-      </div>
-    );
-  }
+  const weather = await weatherPromise;
+  return <HomeHero city={city} weather={weather} daylight={daylight} pinned={pinned} pickerExtra={pickerExtra} />;
 }
 
 async function HomeSummaryBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
-  try {
-    const weather = await weatherPromise;
-    return <AiSummary summary={buildSummary(city, weather, daylight)} />;
-  } catch {
-    return null;
-  }
+  const weather = await weatherPromise;
+  return <AiSummary summary={buildSummary(city, weather, daylight)} />;
 }
 
 async function CitiesBlock({ recentSlugs }: { recentSlugs: string[] }) {

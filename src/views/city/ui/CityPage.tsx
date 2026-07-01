@@ -60,34 +60,17 @@ export function CityPage({ city }: { city: City }) {
 }
 
 async function HeroBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
-  try {
-    const weather = await weatherPromise;
-    return <CityHero city={city} weather={weather} daylight={daylight} />;
-  } catch {
-    return (
-      <div style={{ borderRadius: 20, border: "1px solid #d3e4f2", background: "linear-gradient(160deg,#e8f1fb,#f4f9fd)", padding: "26px 28px" }}>
-        <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.name}</div>
-      </div>
-    );
-  }
+  const weather = await weatherPromise;
+  return <CityHero city={city} weather={weather} daylight={daylight} />;
 }
 
 async function SummaryBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
-  try {
-    const weather = await weatherPromise;
-    return <AiSummary summary={buildSummary(city, weather, daylight)} />;
-  } catch {
-    return null;
-  }
+  const weather = await weatherPromise;
+  return <AiSummary summary={buildSummary(city, weather, daylight)} />;
 }
 
 async function WeatherBlocks({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
-  let weather;
-  try {
-    weather = await weatherPromise;
-  } catch {
-    return <SunCard city={city} daylight={daylight} />;
-  }
+  const weather = await weatherPromise;
   return (
     <>
       <CurrentParams current={weather.current} />
