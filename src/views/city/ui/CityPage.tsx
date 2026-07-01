@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import Link from "next/link";
 import type { City } from "@/entities/city";
 import { getRegionCities } from "@/entities/city";
-import { getCityWeather, getCityConsensus, buildSummary } from "@/entities/weather";
-import { getDaylight } from "@/shared/lib/daylight";
+import { getCityWeather, getCityConsensus, buildSummary, type CityWeather } from "@/entities/weather";
+import { getDaylight, type DaylightInfo } from "@/shared/lib/daylight";
 import { SITE } from "@/shared/config/site";
 import { CityHero } from "@/widgets/city-hero";
 import { AiSummary, AiSummarySkeleton } from "@/widgets/ai-summary";
@@ -19,6 +19,9 @@ import { Skeleton, StaleGuard } from "@/shared/ui";
 import { CityHeroSkeleton, CityDetailsSkeleton } from "./skeletons";
 
 export function CityPage({ city }: { city: City }) {
+  const weatherPromise = getCityWeather(city);
+  const daylight = getDaylight(city.lat, new Date(), city.lon);
+
   return (
     <div className="content-padding" style={{ maxWidth: 1060, margin: "0 auto", padding: "24px 24px 28px" }}>
       <nav style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#6d7f8e", marginBottom: 16 }}>
@@ -30,15 +33,18 @@ export function CityPage({ city }: { city: City }) {
       </nav>
 
       <div className="hero-grid full-bleed-mobile" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.4fr) minmax(0,1fr)", gap: 16, alignItems: "start" }}>
-        <Suspense fallback={<><CityHeroSkeleton /><AiSummarySkeleton /></>}>
-          <HeroSection city={city} />
+        <Suspense fallback={<CityHeroSkeleton />}>
+          <HeroBlock city={city} weatherPromise={weatherPromise} daylight={daylight} />
+        </Suspense>
+        <Suspense fallback={<AiSummarySkeleton />}>
+          <SummaryBlock city={city} weatherPromise={weatherPromise} daylight={daylight} />
         </Suspense>
       </div>
 
       <CityMeteogram city={city} />
 
       <Suspense fallback={<CityDetailsSkeleton />}>
-        <WeatherBlocks city={city} />
+        <WeatherBlocks city={city} weatherPromise={weatherPromise} daylight={daylight} />
       </Suspense>
 
       <Suspense fallback={<Skeleton height={80} radius={16} style={{ marginTop: 22 }} />}>
@@ -53,31 +59,32 @@ export function CityPage({ city }: { city: City }) {
   );
 }
 
-/* Один fetch погоды, оба блока (Hero + Summary) рендерятся синхронно */
-function HeroGridFallback({ city }: { city: City }) {
-  return <><HeroUnavailable city={city} /><AiSummarySkeleton /></>;
-}
-
-async function HeroSection({ city }: { city: City }) {
-  const daylight = getDaylight(city.lat, new Date(), city.lon);
+async function HeroBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
   try {
-    const weather = await getCityWeather(city);
+    const weather = await weatherPromise;
     return (
-      <StaleGuard fetchedAt={weather.fetchedAt} fallback={<HeroGridFallback city={city} />}>
+      <StaleGuard fetchedAt={weather.fetchedAt} fallback={<HeroUnavailable city={city} />}>
         <CityHero city={city} weather={weather} daylight={daylight} />
-        <AiSummary summary={buildSummary(city, weather, daylight)} />
       </StaleGuard>
     );
   } catch {
-    return <HeroGridFallback city={city} />;
+    return <HeroUnavailable city={city} />;
   }
 }
 
-async function WeatherBlocks({ city }: { city: City }) {
-  const daylight = getDaylight(city.lat, new Date(), city.lon);
+async function SummaryBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
+  const weather = await weatherPromise;
+  return (
+    <StaleGuard fetchedAt={weather.fetchedAt} fallback={<AiSummarySkeleton />}>
+      <AiSummary summary={buildSummary(city, weather, daylight)} />
+    </StaleGuard>
+  );
+}
+
+async function WeatherBlocks({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
   let weather;
   try {
-    weather = await getCityWeather(city);
+    weather = await weatherPromise;
   } catch {
     return <SunCard city={city} daylight={daylight} />;
   }

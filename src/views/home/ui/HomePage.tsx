@@ -3,8 +3,8 @@ import Link from "next/link";
 import { getCapital } from "@/entities/city";
 import type { City } from "@/entities/city";
 import { getAllCities, getRegionCitiesMerged, getCityMerged, getCustomCities } from "@/entities/city/lib/registry";
-import { getCityWeather, getCitiesWeather, buildSummary } from "@/entities/weather";
-import { getDaylight } from "@/shared/lib/daylight";
+import { getCityWeather, getCitiesWeather, buildSummary, type CityWeather } from "@/entities/weather";
+import { getDaylight, type DaylightInfo } from "@/shared/lib/daylight";
 import { HomeHero } from "@/widgets/home-hero";
 import { AiSummary, AiSummarySkeleton } from "@/widgets/ai-summary";
 import { CityMeteogram } from "@/widgets/meteogram";
@@ -30,15 +30,35 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
   const heroPinned = pinnedCity != null;
   const pickerExtra = getCustomCities();
 
+  const weatherPromise = getCityWeather(heroCity);
+  const daylight = getDaylight(heroCity.lat, new Date(), heroCity.lon);
+
   const recentCities = recentSlugs
     .map((s) => getCityMerged(s))
     .filter((c): c is City => c != null);
 
   return (
     <div className="content-padding" style={{ maxWidth: 1060, margin: "0 auto", padding: "28px 24px 28px" }}>
-      <Suspense fallback={<HomeFallback />}>
-        <WeatherSection city={heroCity} pinned={heroPinned} pickerExtra={pickerExtra} />
+      <Suspense fallback={<HeroSkeleton />}>
+        <HomeHeroBlock city={heroCity} weatherPromise={weatherPromise} daylight={daylight} pinned={heroPinned} pickerExtra={pickerExtra} />
       </Suspense>
+
+      <CityMeteogram city={heroCity} />
+
+      <div className="home-summary-row" style={{ display: "flex", gap: 16, marginTop: 16, alignItems: "stretch" }}>
+        <div className="full-bleed-mobile" style={{ flex: 1, minWidth: 0 }}>
+          <Suspense fallback={<AiSummarySkeleton />}>
+            <HomeSummaryBlock city={heroCity} weatherPromise={weatherPromise} daylight={daylight} />
+          </Suspense>
+        </div>
+        <div className="home-rainmap" style={{ flex: "none", width: 380, display: "flex", flexDirection: "column" }}>
+          <Suspense fallback={<div style={{ width: "100%", height: 380, borderRadius: 14, background: "#f0f4f9" }} />}>
+            <div className="home-rainmap-box full-bleed-mobile" style={{ width: "100%", borderRadius: 14, overflow: "hidden", border: "1px solid #d4dce5" }}>
+              <RainMap />
+            </div>
+          </Suspense>
+        </div>
+      </div>
 
       {recentCities.length > 0 && (
         <div style={{ marginTop: 32 }}>
@@ -81,49 +101,25 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
   );
 }
 
-/* ---- один fetch погоды на Hero + метеограмму + сводку ---- */
-
-async function WeatherSection({ city, pinned, pickerExtra }: { city: City; pinned: boolean; pickerExtra: City[] }) {
-  const daylight = getDaylight(city.lat, new Date(), city.lon);
+async function HomeHeroBlock({ city, weatherPromise, daylight, pinned, pickerExtra }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo; pinned: boolean; pickerExtra: City[] }) {
   try {
-    const weather = await getCityWeather(city);
+    const weather = await weatherPromise;
     return (
-      <StaleGuard fetchedAt={weather.fetchedAt} fallback={<HomeFallback />}>
+      <StaleGuard fetchedAt={weather.fetchedAt} fallback={<HeroSkeleton />}>
         <HomeHero city={city} weather={weather} daylight={daylight} pinned={pinned} pickerExtra={pickerExtra} />
-        <CityMeteogram city={city} />
-        <div className="home-summary-row" style={{ display: "flex", gap: 16, marginTop: 16, alignItems: "stretch" }}>
-          <div className="full-bleed-mobile" style={{ flex: 1, minWidth: 0 }}>
-            <AiSummary summary={buildSummary(city, weather, daylight)} />
-          </div>
-          <div className="home-rainmap" style={{ flex: "none", width: 380, display: "flex", flexDirection: "column" }}>
-            <Suspense fallback={<div style={{ width: "100%", height: 380, borderRadius: 14, background: "#f0f4f9" }} />}>
-              <div className="home-rainmap-box full-bleed-mobile" style={{ width: "100%", borderRadius: 14, overflow: "hidden", border: "1px solid #d4dce5" }}>
-                <RainMap />
-              </div>
-            </Suspense>
-          </div>
-        </div>
       </StaleGuard>
     );
   } catch {
-    return <HomeFallback />;
+    return <HeroSkeleton />;
   }
 }
 
-function HomeFallback() {
+async function HomeSummaryBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
+  const weather = await weatherPromise;
   return (
-    <>
-      <HeroSkeleton />
-      <div style={{ height: 200, borderRadius: 14, background: "#f0f4f9", marginTop: 16 }} />
-      <div className="home-summary-row" style={{ display: "flex", gap: 16, marginTop: 16, alignItems: "stretch" }}>
-        <div className="full-bleed-mobile" style={{ flex: 1, minWidth: 0 }}>
-          <AiSummarySkeleton />
-        </div>
-        <div className="home-rainmap" style={{ flex: "none", width: 380 }}>
-          <div style={{ width: "100%", height: 380, borderRadius: 14, background: "#f0f4f9" }} />
-        </div>
-      </div>
-    </>
+    <StaleGuard fetchedAt={weather.fetchedAt} fallback={<AiSummarySkeleton />}>
+      <AiSummary summary={buildSummary(city, weather, daylight)} />
+    </StaleGuard>
   );
 }
 
