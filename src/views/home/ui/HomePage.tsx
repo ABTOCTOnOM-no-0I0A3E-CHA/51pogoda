@@ -3,7 +3,10 @@ import Link from "next/link";
 import { getCapital } from "@/entities/city";
 import type { City } from "@/entities/city";
 import { getAllCities, getRegionCitiesMerged, getCityMerged, getCustomCities } from "@/entities/city/lib/registry";
-import { getCityWeather, getCitiesWeather, buildSummary, type CityWeather } from "@/entities/weather";
+import { getCityWeather, getCitiesWeather, type CityWeather } from "@/entities/weather";
+import { type ForecastConsensus } from "@/entities/weather";
+import { getCityConsensusTimed } from "@/entities/weather/api/get-consensus";
+import { getAiSummary } from "@/entities/weather/api/ai-summary";
 import { getDaylight, type DaylightInfo } from "@/shared/lib/daylight";
 import { HomeHero } from "@/widgets/home-hero";
 import { AiSummary, AiSummarySkeleton, AiSummaryStream } from "@/widgets/ai-summary";
@@ -31,6 +34,7 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
 
   const weatherPromise = getCityWeather(heroCity);
   const daylight = getDaylight(heroCity.lat, new Date(), heroCity.lon);
+  const consensusPromise = getCityConsensusTimed(heroCity);
 
   const recentCities = recentSlugs
     .map((s) => getCityMerged(s))
@@ -48,7 +52,7 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
         <div className="full-bleed-mobile" style={{ flex: 1, minWidth: 0 }}>
           {heroCity.kind === "город" ? (
             <Suspense fallback={<AiSummarySkeleton />}>
-              <HomeSummaryBlock city={heroCity} weatherPromise={weatherPromise} daylight={daylight} />
+              <HomeSummaryBlock city={heroCity} weatherPromise={weatherPromise} daylight={daylight} consensusPromise={consensusPromise} />
             </Suspense>
           ) : (
             <AiSummaryStream slug={heroCity.slug} />
@@ -109,9 +113,9 @@ async function HomeHeroBlock({ city, weatherPromise, daylight, pinned, pickerExt
   return <HomeHero city={city} weather={weather} daylight={daylight} pinned={pinned} pickerExtra={pickerExtra} />;
 }
 
-async function HomeSummaryBlock({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
-  const weather = await weatherPromise;
-  return <AiSummary summary={buildSummary(city, weather, daylight)} />;
+async function HomeSummaryBlock({ city, weatherPromise, daylight, consensusPromise }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo; consensusPromise: Promise<ForecastConsensus | null> }) {
+  const [weather, consensus] = await Promise.all([weatherPromise, consensusPromise]);
+  return <AiSummary summary={await getAiSummary(city, weather, daylight, consensus)} />;
 }
 
 async function CitiesBlock({ recentSlugs }: { recentSlugs: string[] }) {

@@ -172,7 +172,7 @@ src/
     └── city/ui/CityPage.tsx    сборка страницы точки (Hero, Ai, Meteo, Details)
 
 proxy.ts                        ★ per-request хук (Node): защита /admin, трекинг кук визитов, recordHit аналитики
-data/                           рантайм-данные (gitignored): custom-cities.json, ai-prompts.json, analytics.json
+data/                           рантайм-данные (gitignored): custom-cities.json, ai-prompts.json, ai-summary-cache.json, analytics.json
 Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деплой» выше)
 ```
 
@@ -193,7 +193,8 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
 - **Open-Meteo** — консенсус-прогноз по нескольким численным моделям (ECMWF, GFS,
   MeteoFrance, JMA и др.). Вызов через `/api/open-meteo-proxy` (обход блокировок
   через опциональный прокси). Результат — `ForecastConsensus` с разбросом температур
-  и уверенностью.
+  и уверенностью. **Рендерится SSR** с таймаутом 3 с — если прокси тормозит,
+  консенсус пропускается без задержки страницы.
 - **ИИ-сводка** — генерируется через OpenRouter (DeepSeek v4 Flash). Промпт
   включает текущую погоду, прогноз на день, полярный день/ночь и **надёжность
   прогноза по ансамблю моделей** (консенсус Open-Meteo). Если LLM недоступна
@@ -217,6 +218,9 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
 - Результат кэшируется в `data/ai-summary-cache.json` на день (ключ
   `<slug>:YYYY-MM-DD`). Fallback — детерминированная `buildSummary` без LLM,
   если OpenRouter недоступен или ключ не задан.
+- Консенсус Open-Meteo (разброс моделей) фетчится SSR с таймаутом 3 с и
+  передаётся в промпт. Если консенсус не пришёл за 3 с — сводка генерируется
+  без данных о надёжности, виджет сравнения моделей не показывается.
 - Промпт редактируется в админке (`/admin/prompts`): глобальный шаблон +
   индивидуальные оверрайды по slug.
 
@@ -231,6 +235,9 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
   только `kind="город"` (16 шт.); остальные — on-demand (`dynamicParams`).
 - **Деградация при сбое MET** — страница не падает: герой → `HeroUnavailable`,
   метеограмма и рассвет/закат рендерятся независимо.
+- **Консенсус Open-Meteo** — SSR с таймаутом 3 с. Не влияет на основной
+  контент: если не пришёл за 3 с — виджет не показывается, ИИ-сводка
+  генерируется без данных о надёжности.
 
 ### Кэш и инвалидация
 - Погода: теги `weather`, `weather:<slug>` на fetch (Data Cache).
