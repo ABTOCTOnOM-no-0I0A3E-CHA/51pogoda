@@ -10,7 +10,7 @@ import { getDaylight, type DaylightInfo } from "@/shared/lib/daylight";
 import { SITE } from "@/shared/config/site";
 import { CityHero } from "@/widgets/city-hero";
 import { AiSummary, AiSummarySkeleton, AiSummaryStream } from "@/widgets/ai-summary";
-import { SourceConsensus } from "@/widgets/consensus";
+import { ConsensusClient } from "@/widgets/consensus";
 import { CityMeteogram } from "@/widgets/meteogram";
 import { CurrentParams } from "@/widgets/current-params";
 import { SunCard } from "@/widgets/sun-card";
@@ -54,10 +54,9 @@ export function CityPage({ city }: { city: City }) {
         <WeatherBlocks city={city} weatherPromise={weatherPromise} daylight={daylight} />
       </Suspense>
 
-      {/* consensus — SSR с таймаутом 3 с; если не пришёл — не показываем */}
-      <Suspense fallback={null}>
-        <ConsensusBlock consensusPromise={consensusPromise} />
-      </Suspense>
+      <div style={{ marginTop: 24 }}>
+        <ConsensusClient slug={city.slug} />
+      </div>
 
       <OtherCitiesCta />
       <CityCrossLinks city={city} />
@@ -75,12 +74,6 @@ async function HeroBlock({ city, weatherPromise, daylight }: { city: City; weath
 async function SummaryBlock({ city, weatherPromise, daylight, consensusPromise }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo; consensusPromise: Promise<ForecastConsensus | null> }) {
   const [weather, consensus] = await Promise.all([weatherPromise, consensusPromise]);
   return <AiSummary summary={await getAiSummary(city, weather, daylight, consensus)} />;
-}
-
-async function ConsensusBlock({ consensusPromise }: { consensusPromise: Promise<ForecastConsensus | null> }) {
-  const consensus = await consensusPromise;
-  if (!consensus) return null;
-  return <SourceConsensus consensus={consensus} />;
 }
 
 async function WeatherBlocks({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
