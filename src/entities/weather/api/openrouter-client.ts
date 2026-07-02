@@ -6,7 +6,7 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 export async function callOpenRouter(prompt: string): Promise<WeatherSummary | null> {
   if (!OPENROUTER_API_KEY) return null;
 
-  const model = process.env.OPENROUTER_MODEL ?? "deepseek/deepseek-chat";
+  const model = process.env.OPENROUTER_MODEL ?? "deepseek/deepseek-v4-flash";
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://51pogoda.ru";
 
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {

@@ -11,7 +11,9 @@ services:
     # данные админки (кастомные точки, промпты) и счётчики аналитики — переживают редеплой
     volumes:
       - app-data:/app/data
-    # OpenRouter доступен напрямую через интернет, extra_hosts не нужен
+    # Open-Meteo прокси (и legacy сервисы) могут быть на хосте через host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     # --- харденинг ---
     # read_only НЕ ставим: Next 16 пишет prerender-кэш сегментов в .next/server/app,
     # а не только в .next/cache; на read-only это падает (ENOENT) и ломает ISR.
