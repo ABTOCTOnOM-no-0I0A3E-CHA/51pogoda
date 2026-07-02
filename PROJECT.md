@@ -35,9 +35,9 @@ cp .env.example .env   # заполнить секреты (см. таблицу
 docker compose up -d --build
 ```
 
-- **Ollama** — отдельный инстанс на сервере (НЕ в этом compose). 51pogoda
-  обращается к нему через `OLLAMA_URL` из `.env`. Если нейронка недоступна —
-  детерминированный fallback `buildSummary`.
+- **OpenRouter** — внешний API для ИИ-сводки. 51pogoda обращается к нему через
+  `OPENROUTER_API_KEY` из `.env`. Модель — DeepSeek v4 Flash (настраивается).
+  Если нейронка недоступна — детерминированный fallback `buildSummary`.
 - **deps** — Bun (по `bun.lock`); **build и runtime — Node** (`next build`/`next start`).
   ⚠️ Прод НЕ на Bun: вывод Turbopack у Next 16 на рантайме Bun падает
   (`util.markAsUncloneable` не реализован) — сервер стартует, но любой рендер 500.
@@ -55,8 +55,9 @@ docker compose up -d --build
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | базовый URL (canonical, sitemap, OG) |
 | `MET_USER_AGENT` | контактный UA для api.met.no (требование ToS; example.com → 403) |
-| `OLLAMA_URL` | URL Ollama API (по умолч. `http://localhost:11434`) |
-| `OLLAMA_MODEL` | модель локальной нейронки (по умолч. `qwen2.5:7b`) |
+| `OPENROUTER_API_KEY` | API-ключ OpenRouter (без него — fallback без LLM) |
+| `OPENROUTER_MODEL` | модель OpenRouter (по умолч. `deepseek/deepseek-chat-v4-flash`) |
+| `CRON_SECRET` | ключ для крона предгенерации сводок (`/api/cron/daily-summary?key=...`) |
 | `OPEN_METEO_PROXY` | HTTP/HTTPS/SOCKS-прокси для Open-Meteo (если недоступен напрямую) |
 | `ADMIN_PASSWORD` | пароль входа в админку (без него админка недоступна) |
 | `ADMIN_SESSION_SECRET` | секрет подписи сессионной куки (иначе деградирует на пароль) |
@@ -79,8 +80,9 @@ app/
 ├── not-found.tsx           404
 ├── api/
 │   ├── meteogram/[id]/route.ts     прокси yr.no SVG-метеограммы (SSRF-фильтр 2-\d{4,9}, i18n, CSP)
-│   ├── ai-summary/[slug]/route.ts  GET сводки (Server Component stream, force-dynamic)
+│   ├── ai-summary/[slug]/route.ts  GET сводки (LLM/fallback, force-dynamic)
 │   ├── open-meteo-proxy/route.ts   прокси Open-Meteo (обход блокировок, опциональный PROXY_AGENT)
+│   ├── cron/daily-summary/route.ts предгенерация сводок для городов (ключ CRON_SECRET)
 │   └── admin/                      защищённые API админки (каждый сам проверяет сессию):
 │       ├── cache/route.ts        POST: revalidateTag(weather|ai[:slug], "max")
 │       ├── cities/route.ts       GET/POST/PUT/DELETE кастомных точек
@@ -138,13 +140,16 @@ src/
 │       │   ├── met-types.ts        типы ответа api.met.no
 │       │   ├── get-weather.ts      getCityWeather (React cache, дедуп) + getCitiesWeather (батчи по 4)
 │       │   ├── ai-summary.ts       getAiSummary (buildSummary, без LLM)
-│       │   ├── open-meteo-client.ts  fetchOpenMeteo — прокси-клиент Open-Meteo API
-│       │   ├── open-meteo-types.ts   типы ответа Open-Meteo
-│       │   └── get-consensus.ts    getCityConsensus — свод по нескольким моделям
-│       ├── lib/
-│       │   ├── summary.ts          buildSummary — детерминированная сводка (fallback без LLM)
-│       │   ├── prompt-store.ts     ★ server-only: промпты (data/ai-prompts.json), getPromptTemplate, set*
-│       │   ├── prompt-template.ts  чистый рендер шаблона {city}/{data} + DEFAULT_GLOBAL_PROMPT (под тесты)
+│   │   ├── open-meteo-client.ts  fetchOpenMeteo — прокси-клиент Open-Meteo API
+│   │   ├── open-meteo-types.ts   типы ответа Open-Meteo
+│   │   ├── get-consensus.ts    getCityConsensus — свод по нескольким моделям
+│   │   └── openrouter-client.ts  callOpenRouter — вызов OpenRouter (DeepSeek)
+│   ├── lib/
+│   │   ├── summary.ts          buildSummary — детерминированная сводка (fallback без LLM)
+│   │   ├── summary-cache.ts    ★ server-only: файловый дневной кэш сводок (data/ai-summary-cache.json)
+│   │   ├── data-block.ts       сборка блока данных для промпта (+ consensus/надёжность)
+│   │   ├── prompt-store.ts     ★ server-only: промпты (data/ai-prompts.json), getPromptTemplate, set*
+│   │   ├── prompt-template.ts  чистый рендер шаблона {city}/{data} + DEFAULT_GLOBAL_PROMPT (под тесты)
 │       │   ├── meteogram-i18n.ts   перевод подписей в SVG-метеограмме yr.no
 │       │   ├── consensus.ts        buildConsensus — свод по моделям (clean, под тесты)
 │       │   ├── apparent.ts, condition.ts, chart.ts   ярлыки/иконки/конфиг графика
@@ -189,9 +194,35 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
   MeteoFrance, JMA и др.). Вызов через `/api/open-meteo-proxy` (обход блокировок
   через опциональный прокси). Результат — `ForecastConsensus` с разбросом температур
   и уверенностью.
-- **ИИ-сводка** — временно отключена (`getAiSummary` → `buildSummary`).
-  Детерминированная сводка работает всегда; LLM-интеграция (Ollama) заглушена.
+- **ИИ-сводка** — генерируется через OpenRouter (DeepSeek v4 Flash). Промпт
+  включает текущую погоду, прогноз на день, полярный день/ночь и **надёжность
+  прогноза по ансамблю моделей** (консенсус Open-Meteo). Если LLM недоступна
+  или ключ не задан — детерминированный fallback `buildSummary`.
 - **Windy** — iframe с картой осадков (ECMWF), без API-ключа.
+
+### ИИ-сводка (OpenRouter)
+
+Генерирует короткую текстовую сводку «простым языком» для каждой точки. Промпт
+включает текущую погоду, прогноз на день, полярный день/ночь и **надёжность
+прогноза по ансамблю моделей** (данные Open-Meteo consensus: разброс температур
+и уверенность). Модель — DeepSeek v4 Flash через OpenRouter.
+
+**Механизм генерации:**
+- **Города** (`kind="город"`): предгенерация в 8:00 UTC+3 через внешний крон
+  (`/api/cron/daily-summary?key=<CRON_SECRET>`). До конца дня все видят готовую
+  сводку — генерация на запросе не происходит.
+- **Остальные точки** (посёлки, сёла, маяки и т.д.): генерация по первому
+  запросу за день. Пользователь видит скелетон + подпись «Сводка сейчас
+  появится…», затем готовая сводка подгружается с `/api/ai-summary/<slug>`.
+- Результат кэшируется в `data/ai-summary-cache.json` на день (ключ
+  `<slug>:YYYY-MM-DD`). Fallback — детерминированная `buildSummary` без LLM,
+  если OpenRouter недоступен или ключ не задан.
+- Промпт редактируется в админке (`/admin/prompts`): глобальный шаблон +
+  индивидуальные оверрайды по slug.
+
+**Достоверность:** в промпт передаётся разброс температур между численными
+моделями (ECMWF, GFS, MeteoFrance, JMA) и уровень уверенности. LLM упоминает
+надёжность прогноза в сводке — пользователь видит, насколько модели согласны.
 
 ### Модель рендеринга
 - **Главная `/`** — `force-dynamic`: читает куки на сервере (персонализация без
@@ -203,7 +234,9 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
 
 ### Кэш и инвалидация
 - Погода: теги `weather`, `weather:<slug>` на fetch (Data Cache).
-- ИИ: теги `ai`, `ai:<slug>` на `unstable_cache`.
+- ИИ: файловый кэш `data/ai-summary-cache.json` с ключами `<slug>:YYYY-MM-DD`.
+  Сводка генерируется раз в день: для городов — по крону в 8:00 (см. ниже),
+  для остальных — по первому запросу за день.
 - Сброс из админки: `revalidateTag(tag, "max")` (второй аргумент обязателен в Next 16).
 - Добавление/правка точки: `revalidatePath("/")`, `/sitemap.xml`, `/<slug>`.
 
@@ -264,9 +297,9 @@ Dockerfile · docker-compose.yml · .dockerignore   деплой (см. «Деп
 
 ## Тех-долг и известные ограничения
 
-- **ИИ-сводка (LLM)** временно отключена: `getAiSummary` вызывает `buildSummary`
-  (детерминированный fallback). Интеграция с Ollama (`callOllama`) удалена как
-  неиспользуемая.
+- **ИИ-сводка:** OpenRouter может быть недоступен (тариф, сеть) — тогда
+  детерминированный fallback `buildSummary`. Нет мониторинга успешности генерации.
+  Нет повторной генерации при обновлении погоды (только раз в день).
 - **Покрытие тестами:** 41 юнит-тест (HMAC-сессия, валидация точек, рендер промпта).
   Не покрыто: `buildCityWeather` (парсинг MET — главный кандидат на баги),
   `visit-cookie`, агрегация аналитики, E2E админки.

@@ -11,9 +11,7 @@ services:
     # данные админки (кастомные точки, промпты) и счётчики аналитики — переживают редеплой
     volumes:
       - app-data:/app/data
-    # доступ к Ollama на хосте (host.docker.internal → шлюз docker)
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    # OpenRouter доступен напрямую через интернет, extra_hosts не нужен
     # --- харденинг ---
     # read_only НЕ ставим: Next 16 пишет prerender-кэш сегментов в .next/server/app,
     # а не только в .next/cache; на read-only это падает (ENOENT) и ломает ISR.

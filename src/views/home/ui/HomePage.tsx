@@ -6,7 +6,7 @@ import { getAllCities, getRegionCitiesMerged, getCityMerged, getCustomCities } f
 import { getCityWeather, getCitiesWeather, buildSummary, type CityWeather } from "@/entities/weather";
 import { getDaylight, type DaylightInfo } from "@/shared/lib/daylight";
 import { HomeHero } from "@/widgets/home-hero";
-import { AiSummary, AiSummarySkeleton } from "@/widgets/ai-summary";
+import { AiSummary, AiSummarySkeleton, AiSummaryStream } from "@/widgets/ai-summary";
 import { CityMeteogram } from "@/widgets/meteogram";
 import { CitiesGrid } from "@/widgets/cities-grid";
 import { RainMap } from "@/widgets/rain-map";
@@ -46,9 +46,13 @@ export function HomePage({ preferredSlug, pinnedSlug, recentSlugs = [] }: HomePa
 
       <div className="home-summary-row" style={{ display: "flex", gap: 16, marginTop: 16, alignItems: "stretch" }}>
         <div className="full-bleed-mobile" style={{ flex: 1, minWidth: 0 }}>
-          <Suspense fallback={<AiSummarySkeleton />}>
-            <HomeSummaryBlock city={heroCity} weatherPromise={weatherPromise} daylight={daylight} />
-          </Suspense>
+          {heroCity.kind === "город" ? (
+            <Suspense fallback={<AiSummarySkeleton />}>
+              <HomeSummaryBlock city={heroCity} weatherPromise={weatherPromise} daylight={daylight} />
+            </Suspense>
+          ) : (
+            <AiSummaryStream slug={heroCity.slug} />
+          )}
         </div>
         <div className="home-rainmap" style={{ flex: "none", width: 380, display: "flex", flexDirection: "column" }}>
           <Suspense fallback={<div style={{ width: "100%", height: 380, borderRadius: 14, background: "#f0f4f9" }} />}>

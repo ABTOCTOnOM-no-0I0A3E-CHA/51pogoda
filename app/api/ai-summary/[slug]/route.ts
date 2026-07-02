@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCityMerged } from "@/entities/city/lib/registry";
-import { getCityWeather, getCityConsensus, getAiSummary } from "@/entities/weather";
+import { getCityWeather, getCityConsensus } from "@/entities/weather";
+import { getAiSummary } from "@/entities/weather/api/ai-summary";
 import { getDaylight } from "@/shared/lib/daylight";
 
 export const dynamic = "force-dynamic";
@@ -15,22 +16,16 @@ export async function GET(
     if (!city) {
       return NextResponse.json({ error: "Город не найден" }, { status: 404 });
     }
-
     const weather = await getCityWeather(city);
     const daylight = getDaylight(city.lat, new Date(), city.lon);
     const consensus = await getCityConsensus(city);
     const summary = await getAiSummary(city, weather, daylight, consensus);
 
     return NextResponse.json(summary, {
-      headers: {
-        "Cache-Control": "public, s-maxage=7200, stale-while-revalidate=14400",
-      },
+      headers: { "Cache-Control": "public, s-maxage=43200, stale-while-revalidate=86400" },
     });
   } catch (err) {
     console.error("[api/ai-summary]", err);
-    return NextResponse.json(
-      { error: "Сводка временно недоступна" },
-      { status: 200 },
-    );
+    return NextResponse.json({ error: "Сводка временно недоступна" }, { status: 200 });
   }
 }

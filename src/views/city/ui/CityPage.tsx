@@ -6,7 +6,7 @@ import { getCityWeather, buildSummary, type CityWeather } from "@/entities/weath
 import { getDaylight, type DaylightInfo } from "@/shared/lib/daylight";
 import { SITE } from "@/shared/config/site";
 import { CityHero } from "@/widgets/city-hero";
-import { AiSummary, AiSummarySkeleton } from "@/widgets/ai-summary";
+import { AiSummary, AiSummarySkeleton, AiSummaryStream } from "@/widgets/ai-summary";
 import { CityMeteogram } from "@/widgets/meteogram";
 import { CurrentParams } from "@/widgets/current-params";
 import { SunCard } from "@/widgets/sun-card";
@@ -35,9 +35,13 @@ export function CityPage({ city }: { city: City }) {
         <Suspense fallback={<CityHeroSkeleton />}>
           <HeroBlock city={city} weatherPromise={weatherPromise} daylight={daylight} />
         </Suspense>
-        <Suspense fallback={<AiSummarySkeleton />}>
-          <SummaryBlock city={city} weatherPromise={weatherPromise} daylight={daylight} />
-        </Suspense>
+        {city.kind === "город" ? (
+          <Suspense fallback={<AiSummarySkeleton />}>
+            <SummaryBlock city={city} weatherPromise={weatherPromise} daylight={daylight} />
+          </Suspense>
+        ) : (
+          <AiSummaryStream slug={city.slug} />
+        )}
       </div>
 
       <CityMeteogram city={city} />
