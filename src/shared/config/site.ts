@@ -17,3 +17,8 @@ export const MET_USER_AGENT =
 
 /* Как часто пересобирать серверный кэш прогноза, секунды */
 export const FORECAST_REVALIDATE = 3600;
+
+/* Флаг dev-среда: запрещает индексацию (X-Robots-Tag, robots.txt Disallow, meta noindex).
+   Задаётся ТОЛЬКО в .env dev-сервера (gitignored). На проде флаг не установлен →
+   случайный merge dev→main не может сделать прод неиндексируемым. */
+export const NOINDEX = process.env.NOINDEX === "true";

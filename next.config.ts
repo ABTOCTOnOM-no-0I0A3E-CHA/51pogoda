@@ -16,18 +16,24 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
+    const baseHeaders = [
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "X-Frame-Options", value: "SAMEORIGIN" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      {
+        key: "Permissions-Policy",
+        value: "camera=(), microphone=(), geolocation=()",
+      },
+    ];
+    /* Dev: запрет индексации на уровне HTTP-заголовка (покрывает все ответы,
+       включая 404/static). Флаг NOINDEX задаётся в .env dev-сервера. */
+    if (process.env.NOINDEX === "true") {
+      baseHeaders.push({ key: "X-Robots-Tag", value: "noindex, nofollow" });
+    }
     return [
       {
         source: "/(.*)",
-        headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
-        ],
+        headers: baseHeaders,
       },
     ];
   },

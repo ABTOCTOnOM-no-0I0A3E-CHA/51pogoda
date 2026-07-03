@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { SiteHeader } from "@/widgets/site-header";
-import { SITE } from "@/shared/config/site";
+import { SITE, NOINDEX } from "@/shared/config/site";
 import "@/app/styles/globals.css";
 
 const inter = Inter({
@@ -41,11 +41,13 @@ export const metadata: Metadata = {
     description: SITE.description,
     images: ["/opengraph-image"],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
-  },
+  robots: NOINDEX
+    ? { index: false, follow: false }
+    : {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, "max-image-preview": "large" },
+      },
   verification: {
     yandex: "5da092ec326088b0",
   },
