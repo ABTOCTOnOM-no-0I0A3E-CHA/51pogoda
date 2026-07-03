@@ -37,7 +37,8 @@ export async function GET(req: NextRequest) {
         "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=7200",
       },
     });
-  } catch {
+  } catch (e) {
+    console.error(`[open-meteo-proxy] ${(e as Error).message}`);
     return NextResponse.json({ error: "Open-Meteo unavailable" }, { status: 502 });
   }
 }

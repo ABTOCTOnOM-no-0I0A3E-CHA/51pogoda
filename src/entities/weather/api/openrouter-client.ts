@@ -1,4 +1,5 @@
 import "server-only";
+import { SITE } from "@/shared/config/site";
 import type { WeatherSummary } from "../lib/summary";
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
@@ -7,14 +8,13 @@ export async function callOpenRouter(prompt: string): Promise<WeatherSummary | n
   if (!OPENROUTER_API_KEY) return null;
 
   const model = process.env.OPENROUTER_MODEL ?? "deepseek/deepseek-v4-flash";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://51pogoda.ru";
 
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-      "HTTP-Referer": siteUrl,
+      "HTTP-Referer": SITE.url,
     },
     body: JSON.stringify({
       model,

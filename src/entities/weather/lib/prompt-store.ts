@@ -25,7 +25,8 @@ let cachedMtime = -1;
 function fileMtime(): number {
   try {
     return existsSync(PROMPTS_FILE) ? statSync(PROMPTS_FILE).mtimeMs : 0;
-  } catch {
+  } catch (e) {
+    console.warn(`[prompt-store] fileMtime: ${(e as Error).message}`);
     return 0;
   }
 }
@@ -44,8 +45,8 @@ function load(): PromptsData {
         perCity: parsed.perCity && typeof parsed.perCity === "object" ? parsed.perCity : {},
       };
     }
-  } catch {
-    /* битый файл — деградируем на дефолт */
+  } catch (e) {
+    console.warn(`[prompt-store] load: ${(e as Error).message} — деградация на дефолт`);
   }
   cache = data;
   return cache;

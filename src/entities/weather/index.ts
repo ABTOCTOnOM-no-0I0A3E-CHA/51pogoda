@@ -11,8 +11,6 @@ export type {
 } from "./model/types";
 
 export { WeatherIcon } from "./ui/WeatherIcon";
-export { TempChart } from "./ui/TempChart";
-export type { ChartConfig } from "./lib/chart";
 
 export { conditionLabel } from "./lib/condition";
 export { uvLabel, humidityLabel, visibilityLabel } from "./lib/apparent";

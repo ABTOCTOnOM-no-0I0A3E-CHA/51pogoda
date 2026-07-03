@@ -27,7 +27,8 @@ let cachedMtime = -1;
 function fileMtime(): number {
   try {
     return existsSync(CUSTOM_FILE) ? statSync(CUSTOM_FILE).mtimeMs : 0;
-  } catch {
+  } catch (e) {
+    console.warn(`[registry] fileMtime: ${(e as Error).message}`);
     return 0;
   }
 }
@@ -43,7 +44,8 @@ function loadCustom(): City[] {
     }
     const parsed = JSON.parse(readFileSync(CUSTOM_FILE, "utf-8")) as unknown;
     cache = Array.isArray(parsed) ? (parsed as City[]) : [];
-  } catch {
+  } catch (e) {
+    console.warn(`[registry] loadCustom: ${(e as Error).message} — откат на пустой список`);
     cache = [];
   }
   return cache;

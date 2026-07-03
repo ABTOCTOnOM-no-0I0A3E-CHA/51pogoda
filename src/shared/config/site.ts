@@ -8,7 +8,7 @@ export const SITE = {
   /* Базовый URL берётся из окружения, иначе — продакшен-домен по умолчанию */
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://51pogoda.ru").replace(/\/+$/, ""),
   source: "MET Norway (yr.no)",
-  copyrightYear: 2026,
+  copyrightYear: new Date().getFullYear(),
 } as const;
 
 /* Контакт обязателен в User-Agent по условиям Terms of Service api.met.no */

@@ -5,6 +5,4 @@ export {
   getCity,
   getCapital,
   getRegionCities,
-  getAllExceptCapital,
 } from "./model/cities";
-export { getCityByYrId } from "./lib/lookup";

@@ -18,6 +18,7 @@ export async function getCached(id: string): Promise<string | null> {
     }
     return null;
   } catch {
+    /* ENOENT — норма (нет кэшированной копии), прочие ошибки логировать не стоит */
     return null;
   }
 }

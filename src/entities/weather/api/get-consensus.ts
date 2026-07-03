@@ -29,12 +29,16 @@ export const getCityConsensus = cache(async (city: City): Promise<ForecastConsen
 export const getCityConsensusTimed = cache(async (city: City): Promise<ForecastConsensus | null> => {
   try {
     const raw = await Promise.race([
-      fetchOpenMeteo(city.lat, city.lon, city.slug).catch(() => null),
+      fetchOpenMeteo(city.lat, city.lon, city.slug).catch((e) => {
+        console.error(`[consensus] ${city.slug}: ${(e as Error).message}`);
+        return null;
+      }),
       new Promise<null>((resolve) => setTimeout(() => resolve(null), CONSENSUS_TIMEOUT)),
     ]);
     if (!raw) return null;
     return buildConsensus(raw.daily, CONSENSUS_MODELS);
-  } catch {
+  } catch (e) {
+    console.error(`[consensus] ${city.slug}: ${(e as Error).message}`);
     return null;
   }
 });

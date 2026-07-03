@@ -23,8 +23,8 @@ function load(): CacheStore {
     if (existsSync(CACHE_FILE)) {
       cache = JSON.parse(readFileSync(CACHE_FILE, "utf-8"));
     }
-  } catch {
-    /* битый файл — стартуем с пустого */
+  } catch (e) {
+    console.warn(`[summary-cache] load: ${(e as Error).message} — стартуем с пустого`);
   }
   cache ??= {};
   return cache;
@@ -33,7 +33,7 @@ function load(): CacheStore {
 function persist(): void {
   const dir = join(process.cwd(), "data");
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-  writeFileSync(CACHE_FILE, JSON.stringify(cache ?? {}), "utf-8");
+  writeFileSync(CACHE_FILE, JSON.stringify(cache), "utf-8");
 }
 
 export function cacheKey(slug: string): string {

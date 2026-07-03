@@ -39,6 +39,7 @@ export function tempColor(temp: number): string {
       return rgb([lerp(c0[0], c1[0], f), lerp(c0[1], c1[1], f), lerp(c0[2], c1[2], f)]);
     }
   }
+  /* недостижимо: покрыто́ границами STOPS сверху, но TS не видит этого */
   return rgb(last[1]);
 }
 

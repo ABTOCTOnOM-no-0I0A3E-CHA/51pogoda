@@ -251,8 +251,3 @@ export function getCapital(): City {
 export function getRegionCities(): City[] {
   return CITIES.filter((c) => c.slug !== CAPITAL_SLUG && c.kind === "город");
 }
-
-/* Все точки, кроме столицы — для каталога и поиска */
-export function getAllExceptCapital(): City[] {
-  return CITIES.filter((c) => c.slug !== CAPITAL_SLUG);
-}

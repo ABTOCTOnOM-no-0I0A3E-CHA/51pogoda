@@ -49,10 +49,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     const translated = translateMeteogramSvg(svg, cityName);
 
     /* сохраняем в файловый кэш на 1 час */
-    setCache(id, translated);
+    await setCache(id, translated);
 
     return cachedResponse(translated);
-  } catch {
+  } catch (e) {
+    console.error(`[meteogram] ${id}: ${(e as Error).message}`);
     return new NextResponse("Fetch failed", { status: 502 });
   }
 }
