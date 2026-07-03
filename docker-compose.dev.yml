@@ -1,0 +1,22 @@
+services:
+  web:
+    build: .
+    image: 51pogoda:dev
+    restart: unless-stopped
+    env_file: .env
+    # dev: хост 5101 → контейнер 3000
+    ports:
+      - "5101:3000"
+    # данные dev-среды изолированы от прода (отдельный том)
+    volumes:
+      - app-data-dev:/app/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    # те же ограничения, что в проде: ровно один инстанс
+
+volumes:
+  app-data-dev:
