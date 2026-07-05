@@ -34,6 +34,7 @@ jobs:
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
             cd ~/51pogoda
+            find . -mindepth 1 -maxdepth 1 ! -name '.env' ! -name 'data' -exec rm -rf {} +
             tar xzf deploy.tar.gz
             rm deploy.tar.gz
             docker compose up -d --build
