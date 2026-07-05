@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE } from "@/shared/config/site";
 
-/* Страница не индексируется: содержит реквизиты оператора, не должна попадать в выдачу. */
+/* Страница не индексируется: содержит реквизиты оператора, не должна попадать в выдачу.
+   force-dynamic: реквизиты берутся из runtime env (.env контейнера), при сборке
+   они недоступны — пререндеринг запёк бы плейсхолдеры в HTML. */
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Политика конфиденциальности",
   description: "Политика конфиденциальности сайта Норметео (51pogoda.ru).",
