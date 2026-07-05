@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SITE } from "@/shared/config/site";
 import { hhmm } from "@/shared/lib/format";
 
@@ -26,8 +27,12 @@ export function SiteFooter({ marginTop = 40 }: { marginTop?: number }) {
         атмосферное давление, осадки. Метеограмма на 2 суток и прогноз на 10 дней
         от норвежского метеорологического института.
       </p>
-      <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-        <span>{SITE.name} · © {SITE.copyrightYear}</span>
+      <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          <span>{SITE.name} · © {SITE.copyrightYear}</span>
+          <a href="mailto:contact@51pogoda.ru" style={{ color: "#6d7f8e", fontWeight: 600 }}>contact@51pogoda.ru</a>
+          <Link href="/politika" style={{ color: "#6d7f8e" }}>Политика конфиденциальности</Link>
+        </div>
         <span>обновлено {updated}</span>
       </div>
     </footer>
