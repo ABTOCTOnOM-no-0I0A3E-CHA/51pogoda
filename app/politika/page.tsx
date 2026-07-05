@@ -30,8 +30,8 @@ export default function PrivacyPage() {
           «О персональных данных».
         </p>
         <p style={pStyle}>
-          Оператор персональных данных — владелец сайта {SITE.name}. Контактный адрес для вопросов по обработке
-          персональных данных: <a href="mailto:contact@51pogoda.ru" style={linkStyle}>contact@51pogoda.ru</a>.
+          Оператор персональных данных — владелец сайта (физическое лицо). Контактный адрес для вопросов
+          по обработке персональных данных: <a href="mailto:contact@51pogoda.ru" style={linkStyle}>contact@51pogoda.ru</a>.
         </p>
         <p style={pStyle}>
           Используя сайт, пользователь соглашается с настоящей Политикой. Если пользователь не согласен с условиями,

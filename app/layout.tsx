@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { SiteHeader } from "@/widgets/site-header";
+import { CookieNotice } from "@/shared/ui";
 import { SITE, NOINDEX } from "@/shared/config/site";
 import "@/app/styles/globals.css";
 
@@ -69,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <SiteHeader />
         <main>{children}</main>
+        <CookieNotice />
 
         <Script id="yandex-metrika" strategy="afterInteractive">
           {`
