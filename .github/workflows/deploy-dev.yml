@@ -34,7 +34,7 @@ jobs:
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
             cd ~/51pogoda-dev
-            find . -mindepth 1 -maxdepth 1 ! -name '.env' ! -name 'data' -exec rm -rf {} +
+            find . -mindepth 1 -maxdepth 1 ! -name '.env' ! -name 'data' ! -name 'deploy.tar.gz' -exec rm -rf {} +
             tar xzf deploy.tar.gz
             rm deploy.tar.gz
             docker compose -f docker-compose.dev.yml up -d --build
