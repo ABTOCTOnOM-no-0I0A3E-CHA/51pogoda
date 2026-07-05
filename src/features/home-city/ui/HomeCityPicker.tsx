@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { CITIES, type City } from "@/entities/city";
 import { COOKIE_PINNED, COOKIE_MAX_AGE } from "@/shared/lib/visit-cookie";
 
@@ -24,7 +23,6 @@ function writePinnedCookie(slug: string): void {
   ручной выбор (логика в getPreferredSlug). extra — кастомные точки из админки.
 */
 export function HomeCityPicker({ extra = [] }: { extra?: City[] }) {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const blurTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -40,7 +38,10 @@ export function HomeCityPicker({ extra = [] }: { extra?: City[] }) {
     writePinnedCookie(slug);
     setOpen(false);
     setQuery("");
-    router.refresh();
+    /* router.refresh() на force-dynamic странице не всегда перечитывает cookie.
+       Полная перезагрузка гарантирует, что сервер увидит новый pc и срендерит
+       героя с выбранным городом. */
+    window.location.reload();
   };
 
   return (
