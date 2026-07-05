@@ -25,6 +25,16 @@ async function generateWithLLM(
 }
 
 /*
+  Быстрая проверка кэша без фетча погоды/консенсуса. Используется в API-роуте
+  /api/ai-summary/[slug] чтобы отдавать готовую сводку мгновенно, не дожидаясь
+  MET/Open-Meteo. Если сводки за сегодня нет — роут фетчит данные и вызывает
+  getAiSummary.
+*/
+export function getCachedAiSummary(slug: string): WeatherSummary | null {
+  return getCachedSummary(cacheKey(slug));
+}
+
+/*
   ИИ-сводка с ежедневным файловым кэшем.
   - При наличии OPENROUTER_API_KEY генерирует через OpenRouter (DeepSeek).
   - Результат кэшируется на день: первый запрос каждого дня генерирует,

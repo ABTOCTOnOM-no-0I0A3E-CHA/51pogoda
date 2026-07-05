@@ -16,15 +16,17 @@ export function buildDataBlock(
   const today = days[0];
   const lines: string[] = [];
 
-  lines.push(
-    `Сейчас ${current.temp} °C, ощущается как ${current.feels} °C, ${current.conditionLabel}, ветер ${current.wind} м/с, влажность ${current.humidity}%.`,
-  );
-
   if (today) {
     lines.push(
-      `Сегодня (${today.date}): ${today.tmin}…${today.tmax} °C, ${today.conditionLabel}, осадки ${today.precip} мм.`,
+      `Сегодня (${today.date}): температура ${today.tmin}…${today.tmax} °C, ${today.conditionLabel}, осадки ${today.precip} мм.`,
     );
   }
+
+  /* Текущие параметры — доп. контекст, но не главный акцент: сводка
+     описывает весь день, а не момент съёма данных. */
+  lines.push(
+    `На момент составления прогноза: ${current.temp} °C, ощущается как ${current.feels} °C, ветер ${current.wind} м/с, влажность ${current.humidity}%.`,
+  );
 
   const wet6h = hours.slice(0, 6).filter((h) => h.precip >= 0.2).length;
   if (wet6h > 0) lines.push("В ближайшие 6 часов ожидаются осадки.");

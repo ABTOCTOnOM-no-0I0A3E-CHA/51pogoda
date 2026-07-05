@@ -12,15 +12,13 @@ export function buildSummary(city: City, weather: CityWeather, daylight: Dayligh
   const { current, days } = weather;
   const today = days[0];
 
-  const tempStr = withSign(current.temp);
-  const condStr = current.conditionLabel.toLowerCase();
   const range = today ? `Днём воздух прогреется до ${withSign(today.tmax)} °C, к ночи похолодает до ${withSign(today.tmin)} °C.` : "";
   const precipChance = chanceOfPrecip(weather);
 
-  /* без «в <город>»: название уже над сводкой, а склонять 224 точки (базы, маяки) нечем */
+  /* Сводка описывает весь день, а не момент съёма — актуальна до вечера. */
   const accurate =
-    `Сейчас ${tempStr} °C, ${condStr}, ветер ${windWord(current.windDir)} ${current.wind} м/с. ` +
-    `${range} Вероятность осадков ${precipChance}.`;
+    `${range} ${today ? today.conditionLabel.toLowerCase() + ", " : ""}ветер до ${current.wind} м/с. ` +
+    `Вероятность осадков ${precipChance}.`;
 
   return { accurate, advice: buildAdvice(current.temp, weather, daylight) };
 }
@@ -57,18 +55,4 @@ function chanceOfPrecip(weather: CityWeather): string {
 
 function withSign(value: number): string {
   return value > 0 ? `+${value}` : value < 0 ? `−${Math.abs(value)}` : "0";
-}
-
-function windWord(dir: string): string {
-  const map: Record<string, string> = {
-    С: "северный",
-    СВ: "северо-восточный",
-    В: "восточный",
-    ЮВ: "юго-восточный",
-    Ю: "южный",
-    ЮЗ: "юго-западный",
-    З: "западный",
-    СЗ: "северо-западный",
-  };
-  return map[dir] ?? "переменный";
 }
