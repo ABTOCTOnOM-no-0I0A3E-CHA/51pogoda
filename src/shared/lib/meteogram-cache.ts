@@ -2,7 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 const CACHE_DIR = path.join(process.cwd(), ".cache", "meteogram");
-const CACHE_TTL_MS = 3_600_000;
+const CACHE_TTL_MS = 30 * 60_000;
 
 function cachePath(id: string): string {
   const safe = id.replace(/[^a-zA-Z0-9_-]/g, "_");

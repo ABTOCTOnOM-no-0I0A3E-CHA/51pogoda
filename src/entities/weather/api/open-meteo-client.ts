@@ -1,4 +1,4 @@
-import { FORECAST_REVALIDATE } from "@/shared/config/site";
+import { CONSENSUS_REVALIDATE } from "@/shared/config/site";
 import type { ForecastModel } from "../lib/consensus";
 import type { OpenMeteoForecast } from "./open-meteo-types";
 
@@ -51,7 +51,7 @@ export async function fetchOpenMeteo(
       response = await fetch(url, {
         headers: { Accept: "application/json" },
         signal: AbortSignal.timeout(10_000),
-        next: { revalidate: FORECAST_REVALIDATE, tags },
+        next: { revalidate: CONSENSUS_REVALIDATE, tags },
       });
     } catch (e) {
       lastErr = e as Error;
