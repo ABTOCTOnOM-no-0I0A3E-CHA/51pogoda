@@ -12,5 +12,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ slug: stri
   const consensus = await getCityConsensus(city);
   if (!consensus) return NextResponse.json({ error: "no data" }, { status: 502 });
 
-  return NextResponse.json(consensus);
+  return NextResponse.json(consensus, {
+    headers: { "Cache-Control": "public, s-maxage=21600, stale-while-revalidate=43200" },
+  });
 }
