@@ -4,7 +4,7 @@ import type { ForecastConsensus } from "../model/types";
 import { buildConsensus } from "../lib/consensus";
 import { CONSENSUS_MODELS, fetchOpenMeteo } from "./open-meteo-client";
 
-const CONSENSUS_TIMEOUT = 3_000;
+const CONSENSUS_TIMEOUT = 8_000;
 
 /*
   Свод прогноза по нескольким моделям для одного города. Доп. сигнал поверх

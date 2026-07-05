@@ -10,11 +10,12 @@ export async function GET(_: Request, { params }: { params: Promise<{ slug: stri
   const city = getCityMerged(slug);
   if (!city) return NextResponse.json({ error: "not found" }, { status: 404 });
 
-  /* Fast-fail: прокси отвечает за ~3с (параллельный запрос ко всем прокси).
-     Если не успел за 4с — отдаём 502, виджет мгновенно скрывается. */
+  /* Fast-fail: SOCKS-хендшейк + запрос могут занять до 10с. Если не успел
+     за 9с — отдаём 502, виджет скрывается. in-memory кэш прокси ускоряет
+     повторные запросы до мгновенного. */
   const result = await Promise.race([
     getCityConsensus(city),
-    new Promise<null>((resolve) => setTimeout(() => resolve(null), 4_000)),
+    new Promise<null>((resolve) => setTimeout(() => resolve(null), 9_000)),
   ]);
 
   if (!result) return NextResponse.json({ error: "no data" }, { status: 502 });
