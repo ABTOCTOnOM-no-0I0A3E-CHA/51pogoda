@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import type { City } from "@/entities/city";
 import { getRegionCities } from "@/entities/city";
+import { prepName } from "@/entities/city/lib/declension";
 import { getCityWeather, type CityWeather } from "@/entities/weather";
 import { type ForecastConsensus } from "@/entities/weather";
 import { getCityConsensusTimed } from "@/entities/weather/api/get-consensus";
@@ -78,12 +79,13 @@ async function SummaryBlock({ city, weatherPromise, daylight, consensusPromise }
 
 async function WeatherBlocks({ city, weatherPromise, daylight }: { city: City; weatherPromise: Promise<CityWeather>; daylight: DaylightInfo }) {
   const weather = await weatherPromise;
+  const dailyHeading = city.kind === "город" ? `Погода в ${prepName(city)} на 10 дней` : "Прогноз на 10 дней";
   return (
     <>
       <CurrentParams current={weather.current} />
       <SunCard city={city} daylight={daylight} />
       <HourlyTable hours={weather.hours} />
-      <DailyForecast days={weather.days} />
+      <DailyForecast days={weather.days} heading={dailyHeading} />
     </>
   );
 }
@@ -115,6 +117,15 @@ function CityCrossLinks({ city }: { city: City }) {
 /* Уникальный SEO-текст для каждой точки */
 function SeoBlock({ city }: { city: City }) {
   const polar = city.lat > 66.5 ? "за Полярным кругом" : "в Мурманской области";
+  if (city.kind === "город") {
+    return (
+      <p style={{ margin: "18px 0 0", lineHeight: 1.6, fontSize: 13, color: "#6d7f8e" }}>
+        Норвежский сайт погоды {SITE.name}: точный прогноз погоды в {prepName(city)} — город {city.name} {polar}.
+        Данные норвежского метеорологического института MET Norway (yr.no): температура воздуха,
+        скорость ветра, атмосферное давление, осадки, метеограмма на 2 суток и прогноз на 10 дней.
+      </p>
+    );
+  }
   const prep = city.kind === "маяк" || city.kind === "КПП" || city.kind === "станция" || city.kind === "турбаза" || city.kind === "база отдыха" ? "на" : "в";
   return (
     <p style={{ margin: "18px 0 0", lineHeight: 1.6, fontSize: 13, color: "#6d7f8e" }}>

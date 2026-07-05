@@ -41,8 +41,8 @@ export function HomeHero({ city, weather, daylight, pinned = false, pickerExtra 
               </span>
               <HomeCityPicker extra={pickerExtra} />
             </div>
-            <h1 className="hero-title" style={{ margin: 0, fontSize: 30, fontWeight: 800, letterSpacing: "-.02em", marginTop: 2 }}>{city.name} — погода сегодня</h1>
-            <div style={{ fontSize: 13, color: "#5a6b7b", fontWeight: 500, marginTop: 1 }}>Мурманская область · обновлено {weather.updatedAt}</div>
+            <h1 className="hero-title" style={{ margin: 0, fontSize: 30, fontWeight: 800, letterSpacing: "-.02em", marginTop: 2 }}>Погода в Мурманской области — сегодня</h1>
+            <div style={{ fontSize: 13, color: "#5a6b7b", fontWeight: 500, marginTop: 1 }}>{city.name} · обновлено {weather.updatedAt}</div>
           </div>
           {polar && <PolarBadge label={polar} className="hero-polar-badge" />}
         </div>

@@ -3,10 +3,10 @@ import { WeatherIcon } from "@/entities/weather";
 import { precipLabel, signedTemp } from "@/shared/lib/format";
 import { tempColor } from "@/shared/lib/temp-color";
 
-export function DailyForecast({ days }: { days: DayPoint[] }) {
+export function DailyForecast({ days, heading = "Прогноз на 10 дней" }: { days: DayPoint[]; heading?: string }) {
   return (
     <div style={{ marginTop: 24 }}>
-      <h2 style={{ margin: "0 0 12px", fontSize: 18, fontWeight: 800, letterSpacing: "-.01em" }}>Прогноз на 10 дней</h2>
+      <h2 style={{ margin: "0 0 12px", fontSize: 18, fontWeight: 800, letterSpacing: "-.01em" }}>{heading}</h2>
       <div style={{ border: "1px solid #d4dce5", boxShadow: "0 2px 12px rgba(20,33,43,.05)", borderRadius: 16, overflow: "hidden", background: "#fff" }}>
         {days.map((d, i) => (
           <div

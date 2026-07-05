@@ -1,4 +1,5 @@
 import type { City } from "@/entities/city";
+import { prepName } from "@/entities/city/lib/declension";
 import type { CityWeather } from "@/entities/weather";
 import { WeatherIcon } from "@/entities/weather";
 import { PolarBadge } from "@/shared/ui";
@@ -33,7 +34,7 @@ export function CityHero({ city, weather, daylight }: CityHeroProps) {
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.name} — погода на сегодня</h1>
+          <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{city.kind === "город" ? `Погода в ${prepName(city)} — сегодня` : `${city.name} — погода на сегодня`}</h1>
           <div style={{ fontSize: 13, color: "#5a6b7b", fontWeight: 500, marginTop: 2 }}>
             Мурманская область · {coords} · обновлено {weather.updatedAt}
           </div>

@@ -15,7 +15,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `Норвежский сайт погоды — ${SITE.name}: погода в Мурманске и области`,
+    default: `${SITE.name} — погода Мурманской области · норвежский сайт MET Norway`,
     template: `%s · ${SITE.name}`,
   },
   description: SITE.description,
@@ -26,21 +26,21 @@ export const metadata: Metadata = {
   },
   authors: [{ name: SITE.name }],
   alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    locale: SITE.locale,
-    siteName: SITE.name,
-    title: `Норвежский сайт погоды — ${SITE.name}: погода в Мурманске и области`,
-    description: SITE.description,
-    url: SITE.url,
-    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `Норвежский сайт погоды — ${SITE.name}: погода в Мурманске и области`,
-    description: SITE.description,
-    images: ["/opengraph-image"],
-  },
+    openGraph: {
+      type: "website",
+      locale: SITE.locale,
+      siteName: SITE.name,
+      title: `${SITE.name} — погода Мурманской области · норвежский сайт MET Norway`,
+      description: SITE.description,
+      url: SITE.url,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${SITE.name} — погода Мурманской области · норвежский сайт MET Norway`,
+      description: SITE.description,
+      images: ["/opengraph-image"],
+    },
   robots: NOINDEX
     ? { index: false, follow: false }
     : {

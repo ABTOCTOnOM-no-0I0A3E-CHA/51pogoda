@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CITIES, type City } from "@/entities/city";
 import { getCityMerged } from "@/entities/city/lib/registry";
+import { prepName } from "@/entities/city/lib/declension";
 import { CityPage } from "@/views/city";
 import { JsonLd } from "@/shared/ui";
 import { SITE } from "@/shared/config/site";
@@ -34,17 +35,18 @@ const KIND_LABEL: Record<string, string> = {
 };
 
 function metaTitle(city: City): string {
-  const base = city.kind === "город"
-    ? `Погода в ${city.name}`
-    : `Погода ${KIND_LABEL[city.kind] ?? "в"} ${city.name}`;
-  return `${base} — норвежский сайт погоды, MET Norway`;
+  if (city.kind === "город") {
+    return `Погода в ${prepName(city)} — сегодня и на неделю, норвежский сайт MET Norway`;
+  }
+  return `Погода ${KIND_LABEL[city.kind] ?? "в"} ${city.name} — норвежский сайт погоды, MET Norway`;
 }
 
 function metaDescription(city: City): string {
+  if (city.kind === "город") {
+    return `Погода в ${prepName(city)} сегодня и на неделю — норвежский сайт MET Norway (yr.no). Точная температура, ветер, осадки, давление, метеограмма на 2 суток и прогноз на 10 дней.`;
+  }
   const label = KIND_LABEL[city.kind] ?? "в";
-  const polar = city.lat > 66.5
-    ? "за Полярным кругом. "
-    : "в Мурманской области. ";
+  const polar = city.lat > 66.5 ? "за Полярным кругом. " : "в Мурманской области. ";
   return `Прогноз погоды ${label} ${city.name}, ${polar}Температура, ветер, осадки, давление. Данные норвежского сайта MET Norway (yr.no), метеограмма на 2 суток и прогноз на 10 дней.`;
 }
 
