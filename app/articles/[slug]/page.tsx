@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getArticle } from "@/entities/article/article-store";
+import { renderMarkdown } from "@/shared/lib/markdown";
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -42,12 +43,10 @@ export default async function ArticlePage({ params }: PageProps) {
 
       <article>
         <h1 style={{ margin: 0, fontSize: 30, fontWeight: 800, letterSpacing: "-.02em" }}>{article.title}</h1>
-        <time style={{ display: "block", fontSize: 13, color: "#8a98a6", marginTop: 8 }}>
+        <time style={{ display: "block", fontSize: 13, color: "#8a98a6", marginTop: 8, marginBottom: 24 }}>
           {new Date(article.createdAt).toLocaleDateString("ru-RU")}
         </time>
-        {article.body.split("\n\n").map((p, i) => (
-          <p key={i} style={{ margin: "16px 0", fontSize: 15, lineHeight: 1.7, color: "#3a4a58" }}>{p}</p>
-        ))}
+        {renderMarkdown(article.body)}
       </article>
     </div>
   );
