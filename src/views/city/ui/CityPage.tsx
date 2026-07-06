@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { City } from "@/entities/city";
 import { getRegionCities } from "@/entities/city";
 import { prepName } from "@/entities/city/lib/declension";
+import { getDescription } from "@/entities/city/lib/city-descriptions";
 import { getCityWeather, type CityWeather } from "@/entities/weather";
 import { type ForecastConsensus } from "@/entities/weather";
 import { getCityConsensusTimed } from "@/entities/weather/api/get-consensus";
@@ -114,8 +115,15 @@ function CityCrossLinks({ city }: { city: City }) {
   );
 }
 
-/* Уникальный SEO-текст для каждой точки */
+/* Уникальный SEO-текст для каждой точки: авторское описание из админки, иначе генерический текст. */
 function SeoBlock({ city }: { city: City }) {
+  const custom = getDescription(city.slug);
+  if (custom) {
+    return (
+      <p style={{ margin: "18px 0 0", lineHeight: 1.6, fontSize: 13, color: "#6d7f8e" }}>{custom.description}</p>
+    );
+  }
+
   const polar = city.lat > 66.5 ? "за Полярным кругом" : "в Мурманской области";
   if (city.kind === "город") {
     return (

@@ -24,8 +24,14 @@ export default function AdminDashLayout({ children }: { children: React.ReactNod
         <Link className={styles.navLink} href="/admin/prompts">
           Промпты
         </Link>
+        <Link className={styles.navLink} href="/admin/articles">
+          Статьи
+        </Link>
         <Link className={styles.navLink} href="/admin/cities">
           Точки
+        </Link>
+        <Link className={styles.navLink} href="/admin/descriptions">
+          Описания
         </Link>
         <span className={styles.spacer} />
         <form action={logoutAction}>

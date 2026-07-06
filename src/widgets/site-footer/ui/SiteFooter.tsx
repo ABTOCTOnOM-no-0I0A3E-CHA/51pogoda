@@ -32,6 +32,7 @@ export function SiteFooter({ marginTop = 40 }: { marginTop?: number }) {
           <span>{SITE.name} · © {SITE.copyrightYear}</span>
           <a href="mailto:contact@51pogoda.ru" style={{ color: "#6d7f8e", fontWeight: 600 }}>contact@51pogoda.ru</a>
           <Link href="/about" style={{ color: "#6d7f8e" }}>О проекте</Link>
+          <Link href="/contacts" style={{ color: "#6d7f8e" }}>Контакты</Link>
           <Link href="/politika" style={{ color: "#6d7f8e" }}>Политика конфиденциальности</Link>
         </div>
         <span>обновлено {updated}</span>
