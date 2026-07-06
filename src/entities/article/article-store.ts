@@ -2,11 +2,12 @@ import "server-only";
 import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { slugify } from "./slugify";
+import { DEFAULT_ARTICLES } from "./default-articles";
 
 /*
   Статьи о погоде Заполярья. Хранятся в data/articles.json, редактируются
-  из админки. Если файла нет — работаем с пустым списком, поэтому свежий
-  деплой сразу функционален.
+  из админки. Если файла нет — seed из default-articles.ts: при первом
+  запуске статьи создаются автоматически, после чего файл имеет приоритет.
 */
 
 const DATA_DIR = join(process.cwd(), "data");
@@ -59,6 +60,10 @@ function load(): Article[] {
     if (mtime !== 0) {
       const parsed = JSON.parse(readFileSync(ARTICLES_FILE, "utf-8")) as unknown;
       if (Array.isArray(parsed)) data = parsed.filter(isArticle);
+    } else {
+      /* Файла нет — seed дефолтных статей и запись на диск */
+      data = DEFAULT_ARTICLES;
+      persist(data);
     }
   } catch (e) {
     console.warn(`[article-store] load: ${(e as Error).message} — деградация на пустой список`);

@@ -1,11 +1,12 @@
 import "server-only";
 import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { DEFAULT_DESCRIPTIONS } from "./default-descriptions";
 
 /*
   Авторские описания точек для SEO-блока на странице города. Хранятся в
   data/city-descriptions.json, редактируются из админки. Если файла нет —
-  SeoBlock откатывается на генерик-текст, поэтому свежий деплой сразу функционален.
+  seed из default-descriptions.ts, после чего файл имеет приоритет.
 */
 
 const DATA_DIR = join(process.cwd(), "data");
@@ -57,6 +58,14 @@ function load(): DescriptionsMap {
         }
         data = out;
       }
+    } else {
+      /* Файла нет — seed дефолтных описаний и запись на диск */
+      const seeded: DescriptionsMap = {};
+      for (const d of DEFAULT_DESCRIPTIONS) {
+        seeded[d.slug] = d;
+      }
+      data = seeded;
+      persist(data);
     }
   } catch (e) {
     console.warn(`[city-descriptions] load: ${(e as Error).message} — деградация на пустой список`);
