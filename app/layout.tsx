@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { SiteHeader } from "@/widgets/site-header";
-import { CookieNotice } from "@/shared/ui";
+import { CookieNotice, DevNotice } from "@/shared/ui";
 import { SITE, NOINDEX } from "@/shared/config/site";
 import "@/app/styles/globals.css";
 
@@ -68,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://www.windy.com" />
       </head>
       <body>
+        <DevNotice />
         <SiteHeader />
         <main>{children}</main>
         <CookieNotice />
