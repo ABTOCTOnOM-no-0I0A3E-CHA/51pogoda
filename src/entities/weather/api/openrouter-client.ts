@@ -1,6 +1,7 @@
 import "server-only";
 import https from "node:https";
 import { SocksProxyAgent } from "socks-proxy-agent";
+import { HttpsProxyAgent } from "https-proxy-agent";
 import { SITE } from "@/shared/config/site";
 import type { WeatherSummary } from "../lib/summary";
 
@@ -16,13 +17,20 @@ function getProxies(): string[] {
     .filter(Boolean);
 }
 
-function fetchViaSocks(
+function createAgent(proxyUrl: string) {
+  if (proxyUrl.startsWith("socks")) {
+    return new SocksProxyAgent(proxyUrl, { timeout: 12_000 });
+  }
+  return new HttpsProxyAgent(proxyUrl, { timeout: 12_000 });
+}
+
+function fetchViaProxy(
   url: string,
   headers: Record<string, string>,
   body: string,
   proxyUrl: string,
 ): Promise<Response> {
-  const agent = new SocksProxyAgent(proxyUrl, { timeout: 12_000 });
+  const agent = createAgent(proxyUrl);
   const { hostname, pathname } = new URL(url);
 
   return new Promise((resolve, reject) => {
@@ -77,7 +85,7 @@ export async function callOpenRouter(
 
   for (const proxy of proxies) {
     try {
-      const r = await fetchViaSocks(OPENROUTER_URL, headers, body, proxy);
+      const r = await fetchViaProxy(OPENROUTER_URL, headers, body, proxy);
       if (r.ok) {
         res = r;
         break;
