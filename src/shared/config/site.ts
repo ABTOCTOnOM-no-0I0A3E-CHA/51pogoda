@@ -23,6 +23,10 @@ export const FORECAST_REVALIDATE = 3600;
    это вспомогательный сигнал надёжности. Уменьшает обращения к прокси и SSR-латентность. */
 export const CONSENSUS_REVALIDATE = 6 * 3600;
 
+/* Блок РСЯ на страницах точек — между главным блоком и метеограммой.
+   Пустая строка отключает рекламу, не трогая разметку страницы. */
+export const YANDEX_RTB_CITY_BLOCK: string = "R-A-19535428-1";
+
 /* Флаг dev-среда: запрещает индексацию (X-Robots-Tag, robots.txt Disallow, meta noindex).
    Задаётся ТОЛЬКО в .env dev-сервера (gitignored). На проде флаг не установлен →
    случайный merge dev→main не может сделать прод неиндексируемым. */

@@ -9,7 +9,8 @@ import { type ForecastConsensus } from "@/entities/weather";
 import { getCityConsensusTimed } from "@/entities/weather/api/get-consensus";
 import { getAiSummary } from "@/entities/weather/api/ai-summary";
 import { getDaylight, type DaylightInfo } from "@/shared/lib/daylight";
-import { SITE } from "@/shared/config/site";
+import { SITE, YANDEX_RTB_CITY_BLOCK } from "@/shared/config/site";
+import { YandexRtb } from "@/shared/ui";
 import { CityHero } from "@/widgets/city-hero";
 import { AiSummary, AiSummarySkeleton, AiSummaryStream } from "@/widgets/ai-summary";
 import { ConsensusClient } from "@/widgets/consensus";
@@ -49,6 +50,12 @@ export function CityPage({ city }: { city: City }) {
           <AiSummaryStream slug={city.slug} />
         )}
       </div>
+
+      {YANDEX_RTB_CITY_BLOCK && (
+        <div style={{ marginTop: 22 }}>
+          <YandexRtb blockId={YANDEX_RTB_CITY_BLOCK} />
+        </div>
+      )}
 
       <CityMeteogram city={city} />
 
