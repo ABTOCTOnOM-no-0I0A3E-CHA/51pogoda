@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { SITE } from "@/shared/config/site";
 import { hhmm } from "@/shared/lib/format";
+import { YandexRtbFeed } from "@/shared/ui";
 
 export function SiteFooter({ marginTop = 40 }: { marginTop?: number }) {
   const updated = hhmm(new Date());
 
   return (
+    <>
+    {/* Лента РСЯ идёт под контентом, но над подвалом — там её видно */}
+    <YandexRtbFeed />
     <footer
       style={{
         marginTop,
@@ -38,5 +42,6 @@ export function SiteFooter({ marginTop = 40 }: { marginTop?: number }) {
         <span>обновлено {updated}</span>
       </div>
     </footer>
+    </>
   );
 }

@@ -9,7 +9,7 @@ declare global {
     Ya?: {
       Context?: {
         AdvManager?: {
-          render: (params: { blockId: string; renderTo: string }) => void;
+          render: (params: { blockId: string; renderTo: string; type?: string }) => void;
         };
       };
     };
@@ -27,15 +27,15 @@ declare global {
   на каждый монтаж. yaContextCb — очередь колбэков, context.js разбирает её при
   загрузке, поэтому пуш до готовности скрипта безопасен.
 */
-export function YandexRtb({ blockId }: { blockId: string }) {
+export function YandexRtb({ blockId, type }: { blockId: string; type?: "feed" }) {
   const renderTo = `yandex_rtb_${blockId}`;
 
   useEffect(() => {
     window.yaContextCb = window.yaContextCb ?? [];
     window.yaContextCb.push(() => {
-      window.Ya?.Context?.AdvManager?.render({ blockId, renderTo });
+      window.Ya?.Context?.AdvManager?.render({ blockId, renderTo, ...(type && { type }) });
     });
-  }, [blockId, renderTo]);
+  }, [blockId, renderTo, type]);
 
   return (
     <>

@@ -27,6 +27,10 @@ export const CONSENSUS_REVALIDATE = 6 * 3600;
    Пустая строка отключает рекламу, не трогая разметку страницы. */
 export const YANDEX_RTB_CITY_BLOCK: string = "R-A-19535428-1";
 
+/* Лента РСЯ в конце страницы — на всех публичных страницах (кроме админки).
+   Пустая строка отключает блок. */
+export const YANDEX_RTB_FEED_BLOCK: string = "R-A-19535428-2";
+
 /* Флаг dev-среда: запрещает индексацию (X-Robots-Tag, robots.txt Disallow, meta noindex).
    Задаётся ТОЛЬКО в .env dev-сервера (gitignored). На проде флаг не установлен →
    случайный merge dev→main не может сделать прод неиндексируемым. */
